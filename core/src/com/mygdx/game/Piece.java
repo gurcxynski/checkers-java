@@ -32,14 +32,16 @@ public class Piece {
         isKing = true;
     }
 
-    public void move(int x, int y) {
+    public void moveTo(int x, int y) {
         if (x < 0 || x > 7 || y < 0 || y > 7) {
             return;
         }
         this.x = x;
         this.y = y;
     }
-
+    public void moveBy(int x, int y) {
+        moveTo(this.x + x, this.y + y);
+    }
     public void remove() {
         x = -1;
         y = -1;
