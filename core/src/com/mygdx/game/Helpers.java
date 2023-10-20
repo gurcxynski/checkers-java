@@ -9,6 +9,8 @@ public abstract class Helpers {
         if (Globals.board.getField(move.from) == null) return false; // from field is empty
         if (Globals.board.getField(move.from).isWhite() != move.ofWhite) return false; //not your piece
         if (Globals.board.getField(move.to) != null && Globals.board.getField(move.to).isWhite() == move.ofWhite) return false; // field is occupied by own piece
+        if (Math.abs(move.from[0] - move.to[0]) != 1 || Math.abs(move.from[1] - move.to[1]) != 1) return false;
+
         return true;
     }
     public static boolean inBoard(int[] field) {

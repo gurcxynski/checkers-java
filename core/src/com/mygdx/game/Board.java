@@ -17,7 +17,7 @@ public class Board {
         getField(move.getFrom()).moveTo(move.to[0], move.to[1]);
         return true;
     } 
-    public Board() {
+    public void Initialize() {
         pieces = new ArrayList<Piece>();
 		// fill the starting board with pieces
         pieces.add(new Piece(0, 0, true, false));

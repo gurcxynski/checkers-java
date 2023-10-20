@@ -15,21 +15,34 @@ public class MyGdxGame extends ApplicationAdapter {
 	StateMachine machine;
 	final boolean whitePlayer = true;
 
-	int done = 0;
-	String[] moves = {"a1a2", "b8b7", "a2a3", "b7b6", "a3a4", "b6b5"};
+	//int done = 0;
+	//String[] moves = {"a1b2", "b8c7", "b2a3", "c7b6", "a3b4", "b6c5"};
+	String curW = "a1";
+	String curB = "b8";
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		red = new Texture("red.png");
 		white = new Texture("white.png");
 		boardTexture = new Texture("board.png");
-		Globals.board = new Board();
 		machine = new StateMachine();
+		machine.NewGame();
 	}
 
 	@Override
 	public void render () {
-		if (Gdx.input.justTouched()) machine.ExecuteMove(new Move(moves[done++], machine.WhiteToMove));
+		if (Gdx.input.justTouched()) {
+			int x = Gdx.input.getX() / 30;
+			int y = 7 - Gdx.input.getY() / 30;
+			System.out.println(x + " " + y);
+			String to = Helpers.convertCords(x, y);
+			if (machine.WhiteToMove) {
+				if (machine.ExecuteMove(new Move(curW + to, machine.WhiteToMove))) curW = to;
+			}
+			else {
+				if (machine.ExecuteMove(new Move(curB + to, machine.WhiteToMove))) curB = to;
+			}
+		}
 
 		batch.begin();
 
