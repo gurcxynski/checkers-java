@@ -7,11 +7,20 @@ public abstract class Helpers {
 
         if (!inBoard(move.from) || !inBoard(move.to)) return false;
         if (Globals.board.getField(move.from) == null) return false; // from field is empty
-        if (Globals.board.getField(move.from).isWhite() != move.ofWhite) return false; //not your piece
-        if (Globals.board.getField(move.to) != null && Globals.board.getField(move.to).isWhite() == move.ofWhite) return false; // field is occupied by own piece
-        if (Math.abs(move.from[0] - move.to[0]) != 1 || Math.abs(move.from[1] - move.to[1]) != 1) return false;
+        if (Globals.board.getField(move.from).isWhite() != move.ofWhite) return false; // not your piece
+        if (Globals.board.getField(move.to) != null) return false; // field is occupied
+        if ((Math.abs(move.from[0] - move.to[0]) != 1 || Math.abs(move.from[1] - move.to[1]) != 1) && !isCapture(move)) return false;
 
         return true;
+    }
+    public static boolean isCapture (Move move) {
+        if (Math.abs(move.from[0] - move.to[0]) == 2 || Math.abs(move.from[1] - move.to[1]) == 2) {
+            int[] field = new int[]{(move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2};
+            if (Globals.board.getField(field) == null) return false;
+            if (Globals.board.getField(field).isWhite() == move.ofWhite) return false;
+            return true;
+        }
+        return false;
     }
     public static boolean inBoard(int[] field) {
         return field[0] >= 0 && field[0] <= 7 && field[1] >= 0 && field[1] <= 7;

@@ -34,7 +34,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (Gdx.input.justTouched()) {
 			int x = Gdx.input.getX() / 30;
 			int y = 7 - Gdx.input.getY() / 30;
-			System.out.println(x + " " + y);
 			String to = Helpers.convertCords(x, y);
 			if (machine.WhiteToMove) {
 				if (machine.ExecuteMove(new Move(curW + to, machine.WhiteToMove))) curW = to;

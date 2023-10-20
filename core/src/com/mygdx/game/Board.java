@@ -13,7 +13,11 @@ public class Board {
     }
     public boolean ExecuteMove(Move move) {
         if (!Helpers.isValid(move)) return false;
-        if (Globals.board.getField(move.getTo()) != null) getField(move.getTo()).remove();
+        // remove captured piece if its a capture
+        if (Helpers.isCapture(move)) {
+            int[] field = new int[]{(move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2};
+            pieces.remove(getField(field));
+        }
         getField(move.getFrom()).moveTo(move.to[0], move.to[1]);
         return true;
     } 
