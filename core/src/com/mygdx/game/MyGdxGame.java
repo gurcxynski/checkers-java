@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,7 +12,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	Texture red;
 	Texture white;
 	Texture boardTexture;
+	Piece held;
+	boolean whiteTurn = true;
 
+	int done = 0;
+	String[] moves = {"a1a2", "b8b7", "a2a3", "b7b6", "a3a4", "b6b5"};
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -25,17 +28,18 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-
-		if(Gdx.input.isKeyJustPressed(Keys.A)) {
-			Globals.board.ExecuteMove(new Move("a3b4", true));
+		if (Gdx.input.justTouched()){
+			Move move = new Move(moves[done++], whiteTurn);
+			Globals.board.ExecuteMove(move);
+			whiteTurn = !whiteTurn;
 		}
 
 		batch.begin();
 
 		ScreenUtils.clear(Color.SKY);
-		batch.draw(boardTexture, 0, 0, 240, 240);
+		batch.draw(boardTexture, 0, 0, 0, 0, 240, 240, 1, 1, 0, 0, 0, 240, 240, false, whiteTurn);
 		for (Piece piece : Globals.board.pieces) {
-			batch.draw(piece.isRed() ? red : white, piece.getX() * 30, piece.getY() * 30, 30, 30);
+			batch.draw(piece.isWhite() ? white : red, piece.getX() * 30, !whiteTurn ? piece.getY() * 30 : 210 - piece.getY() * 30, 30, 30);
 		}
 		batch.end();
 	}

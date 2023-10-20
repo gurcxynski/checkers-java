@@ -1,13 +1,13 @@
 package com.mygdx.game;
 public class Piece {
     private boolean isKing;
-    private boolean isRed;
+    private boolean white;
     private int x;
     private int y;
 
-    public Piece(boolean isKing, boolean isRed, int x, int y) {
+    public Piece(int x, int y, boolean white, boolean isKing) {
         this.isKing = isKing;
-        this.isRed = isRed;
+        this.white = white;
         this.x = x;
         this.y = y;
     }
@@ -16,8 +16,8 @@ public class Piece {
         return isKing;
     }
 
-    public boolean isRed() {
-        return isRed;
+    public boolean isWhite() {
+        return white;
     }
 
     public int getX() {

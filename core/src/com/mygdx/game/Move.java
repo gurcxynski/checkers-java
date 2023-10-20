@@ -1,27 +1,22 @@
 package com.mygdx.game;
 
 public class Move {
-    String from;
-    String to;
+    int[] from;
+    int[] to;
     boolean ofWhite;
-    public Move(String from, String to, boolean white) {
-        if (!Helpers.isValid(from + to, white)) return;
-        this.from = from;
-        this.to = to;
-        ofWhite = white;
-    }
     public Move(String text, boolean white) {
-        if (!Helpers.isValid(text, white)) {
-            return;
-        }
-        from = text.substring(0, 2);
-        to = text.substring(2, 4);
+        int[] conv = Helpers.convertMove(text);
+        System.out.println(conv[0] + " " + conv[1] + " " + conv[2] + " " + conv[3]);
+        
+        from = new int[]{conv[0], conv[1]};
+        to = new int[]{conv[2], conv[3]};
+
         ofWhite = white;
     }
-    public String getFrom(){
+    public int[] getFrom(){
         return from;
     }
-    public String getTo(){
+    public int[] getTo(){
         return to;
     }
 }
