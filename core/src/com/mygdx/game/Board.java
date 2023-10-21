@@ -11,6 +11,9 @@ public class Board {
         }
         return null;
     }
+    public Piece getField(int x, int y) {
+        return getField(new int[]{x, y});
+    }
     public boolean ExecuteMove(Move move) {
         if (!Helpers.isValid(move)) return false;
         // remove captured piece if its a capture
@@ -23,8 +26,14 @@ public class Board {
     } 
     public void Initialize() {
         pieces = new ArrayList<Piece>();
-		// fill the starting board with pieces
-        pieces.add(new Piece(0, 0, true, false));
-        pieces.add(new Piece(1, 7, false, false));
+        for (int i = 0; i < 4; i++) {
+            pieces.add(new Piece(i * 2, 0, true, false));
+            pieces.add(new Piece(i * 2 + 1, 1, true, false));
+            pieces.add(new Piece(i * 2, 2, true, false));
+
+            pieces.add(new Piece(i * 2 + 1, 7, false, false));
+            pieces.add(new Piece(i * 2, 6, false, false));
+            pieces.add(new Piece(i * 2 + 1, 5, false, false));
+        }
     }
 }

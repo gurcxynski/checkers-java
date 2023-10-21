@@ -14,11 +14,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	Texture boardTexture;
 	StateMachine machine;
 	final boolean whitePlayer = true;
+	Piece held;
+	int cellX;
+	int cellY;
 
-	//int done = 0;
-	//String[] moves = {"a1b2", "b8c7", "b2a3", "c7b6", "a3b4", "b6c5"};
-	String curW = "a1";
-	String curB = "b8";
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -31,24 +30,24 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+
 		if (Gdx.input.justTouched()) {
-			int x = Gdx.input.getX() / 30;
-			int y = 7 - Gdx.input.getY() / 30;
+			int x = Gdx.input.getX() / 60;
+			int y = 7 - Gdx.input.getY() / 60;
 			String to = Helpers.convertCords(x, y);
-			if (machine.WhiteToMove) {
-				if (machine.ExecuteMove(new Move(curW + to, machine.WhiteToMove))) curW = to;
+			if (Globals.board.getField(x, y) != null) { 
+				held = Globals.board.getField(x, y);
+				System.out.println("Held " + held.getX() + " " + held.getY());
 			}
-			else {
-				if (machine.ExecuteMove(new Move(curB + to, machine.WhiteToMove))) curB = to;
-			}
+			else if (held != null) machine.ExecuteMove(new Move(Helpers.convertCords(held.getX(), held.getY()) + to, machine.WhiteToMove));
 		}
 
 		batch.begin();
 
 		ScreenUtils.clear(Color.SKY);
-		batch.draw(boardTexture, 0, 0, 0, 0, 240, 240, 1, 1, 0, 0, 0, 240, 240, false, !whitePlayer);
+		batch.draw(boardTexture, 0, 0, 0, 0, 480, 480, 1, 1, 0, 0, 0, 240, 240, false, !whitePlayer);
 		for (Piece piece : Globals.board.pieces) {
-			batch.draw(piece.isWhite() ? white : red, piece.getX() * 30, whitePlayer ? piece.getY() * 30 : 210 - piece.getY() * 30, 30, 30);
+			batch.draw(piece.isWhite() ? white : red, piece.getX() * 60, whitePlayer ? piece.getY() * 60 : 420 - piece.getY() * 60, 60, 60);
 		}
 		batch.end();
 	}
