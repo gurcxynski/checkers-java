@@ -20,6 +20,9 @@ public class StateMachine {
     }
     public boolean ExecuteMove(Move move) {
         if (Globals.board.ExecuteMove(move)) {
+            if ((WhiteToMove && move.to[1] == 7) || (!WhiteToMove && move.to[1] == 0)) {
+                Globals.board.getField(move.to).kingMe();
+            }
             WhiteToMove = !WhiteToMove;
             moveList.add(move);
             return true;

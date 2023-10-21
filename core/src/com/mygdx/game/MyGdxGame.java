@@ -11,6 +11,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture red;
 	Texture white;
+	Texture redKing;
+	Texture whiteKing;
 	Texture boardTexture;
 	StateMachine machine;
 	final boolean whitePlayer = true;
@@ -23,6 +25,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		red = new Texture("red.png");
 		white = new Texture("white.png");
+		redKing = new Texture("redKing.png");
+		whiteKing = new Texture("whiteKing.png");
 		boardTexture = new Texture("board.png");
 		machine = new StateMachine();
 		machine.NewGame();
@@ -47,7 +51,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScreenUtils.clear(Color.SKY);
 		batch.draw(boardTexture, 0, 0, 0, 0, 480, 480, 1, 1, 0, 0, 0, 240, 240, false, !whitePlayer);
 		for (Piece piece : Globals.board.pieces) {
-			batch.draw(piece.isWhite() ? white : red, piece.getX() * 60, whitePlayer ? piece.getY() * 60 : 420 - piece.getY() * 60, 60, 60);
+			batch.draw(piece.isWhite() ? (piece.isKing() ? whiteKing : white) : (piece.isKing() ? redKing : red), piece.getX() * 60, whitePlayer ? piece.getY() * 60 : 420 - piece.getY() * 60, 60, 60);
 		}
 		batch.end();
 	}
