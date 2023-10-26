@@ -4,40 +4,30 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	StateMachine machine;
-	HashMap<String, Texture> textures;
+
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
+		Globals.textures = new HashMap<String, Texture>();
+		Globals.textures.put("red", new Texture("red.png"));
+		Globals.textures.put("white", new Texture("white.png"));
+		Globals.textures.put("rking", new Texture("redKing.png"));
+		Globals.textures.put("wking", new Texture("whiteKing.png"));
+		Globals.textures.put("board", new Texture("board.png"));
+		Globals.textures.put("menu", new Texture("board.png"));
 
-		textures = new HashMap<String, Texture>();
-		textures.put("red", new Texture("red.png"));
-		textures.put("white", new Texture("white.png"));
-		textures.put("rking", new Texture("redKing.png"));
-		textures.put("wking", new Texture("whiteKing.png"));
-		textures.put("board", new Texture("board.png"));
-
-		machine = new StateMachine();
-		machine.NewGame(true);
+		Globals.machine = new StateMachine();
+		Globals.machine.newGame(false);
 	}
 
 	@Override
 	public void render () {
-
-		batch.begin();
-
-		machine.Update();
-		machine.Draw(batch, textures);
-		
-		batch.end();
+		Globals.machine.update();
+		Globals.machine.draw();
 	}
-	
 	@Override
 	public void dispose () {
-		batch.dispose();
+		Globals.machine.dispose();
 	}
 }

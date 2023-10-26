@@ -2,19 +2,27 @@ package com.mygdx.game;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class Board {
+
+public class Board extends Group {
     ArrayList<Piece> pieces;
+    boolean playingWhite;
+    public Board(boolean white) {
+        playingWhite = white;
+        initialize();
+    }
     public Piece getField(int[] field) {
         for (Piece piece : pieces) {
-            if (piece.getX() == field[0] && piece.getY() == field[1]) return piece;
+            if (piece.GridX() == field[0] && piece.GridY() == field[1]) return piece;
         }
         return null;
     }
     public Piece getField(int x, int y) {
         return getField(new int[]{x, y});
     }
-    public boolean ExecuteMove(Move move) {
+    public boolean executeMove(Move move) {
         if (!Helpers.isValid(move)) return false;
         // remove captured piece if its a capture
         if (Helpers.isCapture(move)) {
@@ -24,7 +32,7 @@ public class Board {
         getField(move.getFrom()).moveTo(move.to[0], move.to[1]);
         return true;
     } 
-    public void Initialize() {
+    public void initialize() {
         pieces = new ArrayList<Piece>();
         for (int i = 0; i < 4; i++) {
             pieces.add(new Piece(i * 2, 0, true, false));
@@ -35,5 +43,9 @@ public class Board {
             pieces.add(new Piece(i * 2, 6, false, false));
             pieces.add(new Piece(i * 2 + 1, 5, false, false));
         }
+    }
+    @Override
+    public void draw(Batch batch, float p_alpha) {
+        batch.draw(Globals.textures.get("board"), 0, 0, 480, 480, 0, 0, 240, 240, false, playingWhite);
     }
 }
