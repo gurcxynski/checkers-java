@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 public class Menu {
     ArrayList<Button> buttons = new ArrayList<Button>();
     public Menu() {
-        buttons.add(new Button(100, 50, Globals.textures.get("play")));
+        buttons.add(new Button(100, 150, Globals.textures.get("play")));
         buttons.add(new Button(100, 350, Globals.textures.get("quit")));
     }
     public void draw(Batch batch) {
