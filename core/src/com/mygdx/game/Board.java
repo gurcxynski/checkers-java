@@ -23,13 +23,18 @@ public class Board extends Group {
         return getField(new int[]{x, y});
     }
     public boolean executeMove(Move move) {
+        System.out.println(Helpers.mustCapture(playingWhite));
         if (!Helpers.isValid(move)) return false;
+        if (Helpers.mustCapture(move.ofWhite) && !Helpers.isCapture(move)) return false;
         // remove captured piece if its a capture
         if (Helpers.isCapture(move)) {
             int[] field = new int[]{(move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2};
-            pieces.remove(getField(field));
+            getField(field).hide();
         }
         getField(move.getFrom()).moveTo(move.to[0], move.to[1]);
+        if ((move.ofWhite && move.to[1] == 7) || (!move.ofWhite && move.to[1] == 0)) {
+            Globals.board.getField(move.to).kingMe();
+        }
         return true;
     } 
     public void initialize() {

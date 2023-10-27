@@ -12,10 +12,19 @@ public class Move {
 
         ofWhite = white;
     }
+    public Move(int[] from, int[] to, boolean white) {
+        this.from = from;
+        this.to = to;
+        ofWhite = white;
+    }
     public int[] getFrom(){
         return from;
     }
     public int[] getTo(){
         return to;
+    }
+    @Override 
+    public String toString(){
+        return "Move from " + from[0] + ", " + from[1] + " to " + to[0] + ", " + to[1] + " of " + ofWhite;
     }
 }

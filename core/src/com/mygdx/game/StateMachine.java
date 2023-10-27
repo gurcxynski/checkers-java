@@ -15,16 +15,18 @@ public class StateMachine {
         BLACK_WON,
         DRAW
     }
-    GameState state = GameState.MOVING;
+    GameState state = GameState.MENU;
     
     boolean playingWhite;
+    boolean turnWhite;
 
-	private Stage stage;
-    Menu menu = new Menu();
+	Stage stage;
+    Menu menu;
     Piece held;
 
     public StateMachine() {
 		stage = new Stage(new ScreenViewport());
+        menu = new Menu();
 		Gdx.input.setInputProcessor(stage);	
     }
 
@@ -40,28 +42,32 @@ public class StateMachine {
                 String to = Helpers.convertCords(x, y);
                 Piece field = Globals.board.getField(x, y);
                 
-                if (field != null && field.isWhite() == playingWhite) { 
+                if (field != null /*&& field.isWhite() == playingWhite*/) { 
                     held = Globals.board.getField(x, y);
                 }
-                else if (held != null) executeMove(new Move(Helpers.convertCords(held.GridX(), held.GridY()) + to, playingWhite));
+                else if (held != null) {
+                    executeMove(new Move(Helpers.convertCords(held.GridX(), held.GridY()) + to, /*playingWhite*/turnWhite));
+                    held = null;
+                    return;
+                }
             }
             return;
          }
-        if (menu.update()) {
-            state = GameState.MOVING;
-            newGame(true);
-        }
+        menu.update();
     }
     public void draw() {
         if (state != GameState.MENU) {
             stage.draw();
             return;
         }
+        menu.draw(stage.getBatch());
     }
     public void newGame(boolean white) {
+        state = GameState.MOVING;
         Globals.board = new Board(white);
         stage.addActor(Globals.board);
         playingWhite = white;
+        turnWhite = true;
         for (Piece piece : Globals.board.pieces) {
             stage.addActor(piece);
         }
@@ -69,15 +75,12 @@ public class StateMachine {
     }
     public boolean executeMove(Move move) {
         if (Globals.board.executeMove(move)) {
-            if ((playingWhite && move.to[1] == 7) || (!playingWhite && move.to[1] == 0)) {
-                Globals.board.getField(move.to).kingMe();
-            }
             moveList.add(move);
+            turnWhite = !turnWhite;
             return true;
         }
         return false;
     }
-
 	public void dispose () {
 		stage.dispose();
 	}

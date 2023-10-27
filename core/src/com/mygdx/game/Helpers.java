@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+
 public abstract class Helpers {
     public static boolean isValid(Move move) {
         if (move.from == null || move.to == null) return false;
@@ -13,10 +14,9 @@ public abstract class Helpers {
 
         if (from.isWhite() != move.ofWhite) return false; // not your piece
         if (to != null) return false; // field is occupied
-        if ((Math.abs(move.from[0] - move.to[0]) != 1 || Math.abs(move.from[1] - move.to[1]) != 1) && !isCapture(move) && !from.isKing()) return false;
+        if ((Math.abs(move.from[0] - move.to[0]) != 1 || Math.abs(move.from[1] - move.to[1]) != 1) && !isCapture(move)) return false;
         // disallow moves backwards
         if (((from.isWhite() && move.from[1] > move.to[1]) || (!from.isWhite() && move.from[1] < move.to[1])) && !from.isKing()) return false;
-
         return true;
     }
     public static boolean isCapture (Move move) {
@@ -25,6 +25,19 @@ public abstract class Helpers {
             if (Globals.board.getField(field) == null) return false;
             if (Globals.board.getField(field).isWhite() == move.ofWhite) return false;
             return true;
+        }
+        return false;
+    }
+    public static boolean mustCapture(boolean white) {
+        for (Piece piece : Globals.board.pieces) {
+            if (piece.isWhite() != white) continue;
+            Move[] moves = { 
+                new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() + 2}, white),
+                new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() - 2}, white),
+                new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() - 2}, white),
+                new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() + 2}, white)
+            };
+            for (Move move : moves) if (isValid(move) && isCapture(move)) return true;
         }
         return false;
     }
