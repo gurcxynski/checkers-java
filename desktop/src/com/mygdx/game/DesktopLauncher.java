@@ -10,7 +10,8 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Checkers");
 		config.setWindowedMode(480, 480);
-
+		config.setResizable(false);
+		
 		new Lwjgl3Application(new MyGdxGame(), config);
 	}
 }

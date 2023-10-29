@@ -30,10 +30,14 @@ public class StateMachine {
         menu = new Menu();
         Gdx.input.setInputProcessor(stage);
     }
-
+    
     ArrayList<Move> moveList;
 
     public void update() {
+        if (state == GameState.MOVING && Globals.board.isDraw()) {
+            state = GameState.DRAW;
+        }
+        
         if (state != GameState.MENU) {
             if (Gdx.input.justTouched()) {
                 int x = Gdx.input.getX() / 60;
@@ -68,8 +72,8 @@ public class StateMachine {
         }
         menu.draw(stage.getBatch());
     }
-
-    public void newGame(boolean white, boolean isServer) {
+    public void newGame(boolean white, boolean online, boolean isServer) {
+        if (online) return;
         Globals.network = new Network(isServer);
         state = GameState.MOVING;
         Globals.board = new Board(white);
@@ -86,7 +90,7 @@ public class StateMachine {
         if (Globals.board.executeMove(move)) {
             moveList.add(move);
             Globals.network.sendMove(move, changeActivePlayer);
-            turnWhite = !turnWhite;
+            if (!Helpers.mustCapture(turnWhite)) turnWhite = !turnWhite;
             return true;
         }
         return false;
