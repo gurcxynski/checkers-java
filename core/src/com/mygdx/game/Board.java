@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
@@ -23,7 +24,6 @@ public class Board extends Group {
         return getField(new int[]{x, y});
     }
     public boolean executeMove(Move move) {
-        System.out.println(Helpers.mustCapture(playingWhite));
         if (!Helpers.isValid(move)) return false;
         if (Helpers.mustCapture(move.ofWhite) && !Helpers.isCapture(move)) return false;
         // remove captured piece if its a capture
@@ -51,6 +51,9 @@ public class Board extends Group {
     }
     @Override
     public void draw(Batch batch, float p_alpha) {
-        batch.draw(Globals.textures.get("board"), 0, 0, 480, 480, 0, 0, 240, 240, false, playingWhite);
+        batch.draw(Globals.textures.get("board"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 240, 240, false, playingWhite);
+    }
+    public boolean isDraw() {
+        return false;
     }
 }
