@@ -61,7 +61,7 @@ public class Board extends Group {
 
     @Override
     public void draw(Batch batch, float p_alpha) {
-        batch.draw(Globals.textures.get("board"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 240, 240, false, playingWhite);
+        batch.draw(Globals.textures.get("board"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 240, 240, Helpers.drawRedDown(), Helpers.drawRedDown());
     }
     public boolean isDraw() {
         return false;

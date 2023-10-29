@@ -17,26 +17,29 @@ public class StateMachine {
         DRAW
     }
 
-    GameState state = GameState.START_MENU;
+    GameState state;
 
     boolean playingWhiteOnline;
-    boolean turnWhiteLocal;
     boolean onlineGame;
+
+    boolean turnWhiteLocal;
 
     Stage stage;
     StartMenu start;
     OnlineMenu online;
+
     Piece held;
+
+    ArrayList<Move> moveList;
 
     public StateMachine() {
         stage = new Stage(new ScreenViewport());
         start = new StartMenu();
         online = new OnlineMenu();
+        state = GameState.START_MENU;
         Gdx.input.setInputProcessor(stage);
     }
     
-    ArrayList<Move> moveList;
-
     public void update() {
         switch (state) {
             case START_MENU:
@@ -46,10 +49,11 @@ public class StateMachine {
                 online.update();
                 break;
             case MOVING:
-                if (!onlineGame && Gdx.input.justTouched()) {
+                if (Gdx.input.justTouched()) {
                     int x = Gdx.input.getX() / 60;
                     int y = 7 - Gdx.input.getY() / 60;
-                    if (!playingWhiteOnline) {
+
+                    if (Helpers.drawRedDown()) {
                         y = 7 - y;
                         x = 7 - x;
                     }
@@ -57,39 +61,27 @@ public class StateMachine {
                     String to = Helpers.convertCords(x, y);
                     Piece field = Globals.board.getField(x, y);
                 
-                    if (field != null && field.isWhite() == turnWhiteLocal) {
+                    if (field != null && (!onlineGame || field.isWhite() == playingWhiteOnline) && (onlineGame || field.isWhite() == turnWhiteLocal)) {
                         held = Globals.board.getField(x, y);
                     } else if (held != null) {
-                        executeMove(new Move(Helpers.convertCords(held.GridX(), held.GridY()) + to, turnWhiteLocal));
+                        if (!executeMove(new Move(Helpers.convertCords(held.GridX(), held.GridY()) + to, onlineGame ? playingWhiteOnline : turnWhiteLocal))) return;
                         held = null;
-                    }
-                }
-                if (onlineGame && Gdx.input.justTouched()) {
-                    int x = Gdx.input.getX() / 60;
-                    int y = 7 - Gdx.input.getY() / 60;
-                    if (!playingWhiteOnline) {
-                        y = 7 - y;
-                        x = 7 - x;
-                    }
-                
-                    String to = Helpers.convertCords(x, y);
-                    Piece field = Globals.board.getField(x, y);
-                
-                    if (field != null && field.isWhite() == turnWhiteLocal) {
-                        held = Globals.board.getField(x, y);
-                    } else if (held != null) {
-                        Move move = new Move(Helpers.convertCords(held.GridX(), held.GridY()) + to, playingWhiteOnline);
-                        executeMove(move);
-                        Globals.network.sendMove(move);
-                        held = null;
+                        if (onlineGame) state = GameState.AWATING_ENEMY_MOVE;
+                        System.out.println("executed move, setting AWATING_ENEMY_MOVE");
                     }
                 }
                 break;
             case AWATING_ENEMY_MOVE:
                 if (Globals.network.connectedSocket != null) {
-                    Globals.network.recieveMove();
-                    state = GameState.MOVING;
-                }
+                        Move enemyMove = Globals.network.recieveMove();
+                        if (enemyMove.ofWhite == playingWhiteOnline) {
+                            System.out.println("DOSTALES SWOJ RUCH DEBILU");
+                            return;
+                        }
+                        Globals.machine.executeMove(enemyMove);
+                        state = GameState.MOVING;
+                        System.out.println("recieved and executed move, setting MOVING");
+                    }
                 break;
             default:
                 break;
@@ -138,8 +130,10 @@ public class StateMachine {
     public boolean executeMove(Move move) {
         if (Globals.board.executeMove(move)) {
             moveList.add(move);
-            if (onlineGame) Globals.network.sendMove(move);
-            if (!Helpers.mustCapture(turnWhiteLocal)) turnWhiteLocal = !turnWhiteLocal;
+            if (onlineGame && move.ofWhite == playingWhiteOnline) {
+                Globals.network.sendMove(move);
+            }
+            // if (!(Helpers.isCapture(move) && Helpers.mustCapture(turnWhiteLocal))) turnWhiteLocal = !turnWhiteLocal;
             return true;
         }
         return false;

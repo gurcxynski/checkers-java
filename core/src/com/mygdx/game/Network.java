@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 public class Network {
     Socket connectedSocket;
 
-    private boolean isServer;
+    public boolean isServer;
 
     public Network(boolean isServer) {
         this.isServer = isServer;
@@ -46,26 +46,22 @@ public class Network {
     public void sendMove(Move move) {
         try {
             ObjectOutputStream out = new ObjectOutputStream(this.connectedSocket.getOutputStream());
-            out.writeObject(new Packet(move));
+            out.writeObject(move);
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void recieveMove() {
-        if (Globals.machine.state == StateMachine.GameState.AWATING_ENEMY_MOVE) {
-            try {
-                ObjectInputStream in = new ObjectInputStream(this.connectedSocket.getInputStream());
-                Move move = null;
-
-                Packet packet = (Packet) in.readObject();
-                move = packet.move;
-
-                Globals.machine.executeMove(move);// is server
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+    public Move recieveMove() {
+        Move move = null;
+        try {
+            ObjectInputStream in = new ObjectInputStream(this.connectedSocket.getInputStream());
+            move = (Move)in.readObject();
+            System.out.println("Move gotten: " + move);
+        } catch (IOException | ClassNotFoundException e) { 
+            e.printStackTrace();
         }
+        return move;
     }
 }

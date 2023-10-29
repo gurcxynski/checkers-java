@@ -35,6 +35,12 @@ public class Button {
             if (texture == Globals.textures.get("quit")) {
                 Gdx.app.exit();
             }
+            if (texture == Globals.textures.get("join")) {
+                Globals.machine.newOnlineGame(false, false);
+            }
+            if (texture == Globals.textures.get("host")) {
+                Globals.machine.newOnlineGame(true, true);
+            }
         }
     }
 }
