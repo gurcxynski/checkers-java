@@ -20,6 +20,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		Globals.textures.put("play_multi", new Texture("playonline.png"));
 		Globals.textures.put("quit", new Texture("quit.png"));
 		Globals.textures.put("join", new Texture("join.png"));
+		Globals.textures.put("host", new Texture("host.png"));
 
 		Globals.machine = new StateMachine();
 	}

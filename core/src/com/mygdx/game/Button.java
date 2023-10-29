@@ -30,7 +30,7 @@ public class Button {
                 Globals.machine.newLocalGame();
             }
             if (texture == Globals.textures.get("play_multi")) {
-                Globals.machine.newOnlineGame(true, true);
+                Globals.machine.toOnlineMenu();
             }
             if (texture == Globals.textures.get("quit")) {
                 Gdx.app.exit();

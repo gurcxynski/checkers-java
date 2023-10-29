@@ -20,7 +20,7 @@ public class Piece extends Actor {
     @Override
     public void draw(Batch batch, float p_alpha) {
         Texture texture = Globals.textures.get(isKing ? (white ? "wking" : "rking") : (white ? "white" : "red"));
-        batch.draw(texture, (!Globals.machine.playingWhite ? 420 -  x * 60 : x * 60), (!Globals.machine.playingWhite ? 420 - y * 60 : y * 60), 60, 60);
+        batch.draw(texture, (!Globals.machine.playingWhiteOnline ? 420 -  x * 60 : x * 60), (!Globals.machine.playingWhiteOnline ? 420 - y * 60 : y * 60), 60, 60);
     }
 
     public boolean isKing() {
