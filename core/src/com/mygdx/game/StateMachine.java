@@ -74,6 +74,7 @@ public class StateMachine {
             case AWATING_ENEMY_MOVE:
                 if (Globals.network.connectedSocket != null) {
                         Move enemyMove = Globals.network.recieveMove();
+                        if (enemyMove == null) return;
                         if (enemyMove.ofWhite == playingWhiteOnline) {
                             System.out.println("DOSTALES SWOJ RUCH DEBILU");
                             return;

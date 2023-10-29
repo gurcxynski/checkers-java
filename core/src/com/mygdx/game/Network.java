@@ -56,9 +56,10 @@ public class Network {
     public Move recieveMove() {
         Move move = null;
         try {
+            if(this.connectedSocket.getInputStream().available()>0) {
             ObjectInputStream in = new ObjectInputStream(this.connectedSocket.getInputStream());
             move = (Move)in.readObject();
-            System.out.println("Move gotten: " + move);
+            }
         } catch (IOException | ClassNotFoundException e) { 
             e.printStackTrace();
         }
