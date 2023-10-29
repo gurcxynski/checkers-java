@@ -27,10 +27,10 @@ public class Button {
     public void update() {
         if (hovered() && Gdx.input.justTouched()) {
             if (texture == Globals.textures.get("play_solo")) {
-                Globals.machine.newGame(true, false);
+                Globals.machine.newLocalGame();
             }
             if (texture == Globals.textures.get("play_multi")) {
-                Globals.machine.newGame(false, true);
+                Globals.machine.newOnlineGame(true, true);
             }
             if (texture == Globals.textures.get("quit")) {
                 Gdx.app.exit();

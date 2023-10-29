@@ -20,6 +20,7 @@ public class StateMachine {
 
     boolean playingWhite;
     boolean turnWhite;
+    boolean onlineGame;
 
     Stage stage;
     Menu menu;
@@ -54,7 +55,7 @@ public class StateMachine {
                     held = Globals.board.getField(x, y);
                 } else if (held != null) {
                     executeMove(new Move(Helpers.convertCords(held.GridX(), held.GridY()) + to,
-                            /* playingWhite */turnWhite), true);
+                            /* playingWhite */turnWhite));
                     held = null;
                     return;
                 }
@@ -72,10 +73,21 @@ public class StateMachine {
         }
         menu.draw(stage.getBatch());
     }
-    public void newGame(boolean white, boolean online, boolean isServer) {
-        if (online) return;
-        Globals.network = new Network(isServer);
+    public void newLocalGame() {
         state = GameState.MOVING;
+        onlineGame = false;
+        Globals.board = new Board();
+        stage.addActor(Globals.board);
+        turnWhite = true;
+        for (Piece piece : Globals.board.pieces) {
+            stage.addActor(piece);
+        }
+        moveList = new ArrayList<Move>();
+    }
+    public void newOnlineGame(boolean white, boolean isServer) {
+        Globals.network = new Network(isServer);
+        state = white ? GameState.MOVING : GameState.AWATING_ENEMY_MOVE;
+        onlineGame = true;
         Globals.board = new Board(white);
         stage.addActor(Globals.board);
         playingWhite = white;
@@ -86,10 +98,10 @@ public class StateMachine {
         moveList = new ArrayList<Move>();
     }
 
-    public boolean executeMove(Move move, boolean changeActivePlayer) {
+    public boolean executeMove(Move move) {
         if (Globals.board.executeMove(move)) {
             moveList.add(move);
-            Globals.network.sendMove(move, changeActivePlayer);
+            if (onlineGame) Globals.network.sendMove(move);
             if (!Helpers.mustCapture(turnWhite)) turnWhite = !turnWhite;
             return true;
         }

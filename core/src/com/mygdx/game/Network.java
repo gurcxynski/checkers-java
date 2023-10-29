@@ -12,7 +12,6 @@ public class Network {
     Socket connectedSocket;
 
     private boolean isServer;
-    private boolean isYourTurn;
 
     public Network(boolean isServer) {
         this.isServer = isServer;
@@ -26,7 +25,6 @@ public class Network {
     public void initialize(int port, InetAddress ip) {
         if (isServer)
             try {
-                isYourTurn = true;
                 ServerSocket serverSocket = new ServerSocket(port);
                 System.out.println("Server waiting for clients at port " + port);
 
@@ -37,7 +35,6 @@ public class Network {
             }
         else {
             try {
-                isYourTurn = false;
                 connectedSocket = new Socket(ip, port);
                 System.out.println("connnected");
             } catch (IOException e) {
@@ -46,31 +43,26 @@ public class Network {
         }
     }
 
-    public void sendMove(Move move, boolean changeActivePlayer) {
+    public void sendMove(Move move) {
         try {
             ObjectOutputStream out = new ObjectOutputStream(this.connectedSocket.getOutputStream());
-            out.writeObject(new Packet(move, changeActivePlayer));
+            out.writeObject(new Packet(move));
             out.flush();
-            if (changeActivePlayer) {
-                this.isYourTurn = !this.isYourTurn;
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void recieveMove() {
-        if (!this.isYourTurn) {
+        if (Globals.machine.state == StateMachine.GameState.AWATING_ENEMY_MOVE) {
             try {
                 ObjectInputStream in = new ObjectInputStream(this.connectedSocket.getInputStream());
                 Move move = null;
-                boolean changeActivePlayer = false;
 
                 Packet packet = (Packet) in.readObject();
                 move = packet.move;
-                changeActivePlayer = packet.changeActivePlayer;
 
-                Globals.machine.executeMove(move, changeActivePlayer);// is server
+                Globals.machine.executeMove(move);// is server
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }

@@ -14,6 +14,10 @@ public class Board extends Group {
         playingWhite = white;
         initialize();
     }
+    public Board() {
+        playingWhite = true;
+        initialize();
+    }
 
     public Piece getField(int[] field) {
         for (Piece piece : pieces) {
