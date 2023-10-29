@@ -50,7 +50,7 @@ public class StateMachine {
                     held = Globals.board.getField(x, y);
                 } else if (held != null) {
                     executeMove(new Move(Helpers.convertCords(held.GridX(), held.GridY()) + to,
-                            /* playingWhite */turnWhite));
+                            /* playingWhite */turnWhite), true);
                     held = null;
                     return;
                 }
@@ -82,12 +82,10 @@ public class StateMachine {
         moveList = new ArrayList<Move>();
     }
 
-    public boolean executeMove(Move move) {
-        System.out.println("test");
-        System.out.println(move);
+    public boolean executeMove(Move move, boolean changeActivePlayer) {
         if (Globals.board.executeMove(move)) {
             moveList.add(move);
-            Globals.network.sendMove(move.getMoveString(), true);
+            Globals.network.sendMove(move, changeActivePlayer);
             turnWhite = !turnWhite;
             return true;
         }

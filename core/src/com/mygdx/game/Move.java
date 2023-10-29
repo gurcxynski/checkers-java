@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
-public class Move {
+import java.io.Serializable;
+
+public class Move implements Serializable {
     int[] from;
     int[] to;
     boolean ofWhite;
@@ -26,10 +28,6 @@ public class Move {
 
     public int[] getTo() {
         return to;
-    }
-
-    public String getMoveString() {
-        return from[0] + "" + from[1] + "" + to[0] + "" + to[1];
     }
 
     @Override

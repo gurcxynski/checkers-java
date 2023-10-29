@@ -26,7 +26,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void render() {
 		if (Globals.network != null) {
-			// System.out.println("recievingMove");
 			Globals.network.recieveMove();
 		}
 		Globals.machine.update();
