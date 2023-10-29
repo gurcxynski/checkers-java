@@ -27,7 +27,6 @@ public class Board extends Group {
     }
 
     public boolean executeMove(Move move) {
-        System.out.println(Helpers.mustCapture(playingWhite));
         if (!Helpers.isValid(move))
             return false;
         if (Helpers.mustCapture(move.ofWhite) && !Helpers.isCapture(move))

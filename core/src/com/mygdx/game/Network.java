@@ -51,24 +51,28 @@ public class Network {
 
     }
 
-    public boolean recieveMove() {
-        String move = "";
-        boolean changeActivePlayer = false;
-        if (move != "") {
-            try {
-                String[] line = in.readLine().split(" ", 2);
-                move = line[0];
-                changeActivePlayer = Boolean.parseBoolean(line[1]);
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void recieveMove() {
+        if ((!isServer && isServerTurn) || (isServer && !isServerTurn)) {
+            while (true) {
+                String move = "";
+                boolean changeActivePlayer = false;
+                try {
+                    String[] line = in.readLine().split(" ", 2);
+                    move = line[0];
+                    changeActivePlayer = Boolean.parseBoolean(line[1]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(move);
+                Globals.machine.executeMove(new Move(move, true));// is server
+
+                if (changeActivePlayer)
+                    this.isServerTurn = !this.isServerTurn;
+
+                if (move != "")
+                    break;
+
             }
-            Globals.machine.executeMove(new Move(move, isServer));
-
-            if (changeActivePlayer)
-                this.isServerTurn = !this.isServerTurn;
-
-            return true;
         }
-        return false;
     }
 }

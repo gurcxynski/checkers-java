@@ -58,6 +58,7 @@ public class StateMachine {
             return;
         }
         menu.update();
+        return;
     }
 
     public void draw() {
@@ -82,9 +83,11 @@ public class StateMachine {
     }
 
     public boolean executeMove(Move move) {
+        System.out.println("test");
+        System.out.println(move);
         if (Globals.board.executeMove(move)) {
             moveList.add(move);
-            Globals.network.sendMove(move.getMoveString(), true);
+            Globals.network.sendMove(move, true);
             turnWhite = !turnWhite;
             return true;
         }
