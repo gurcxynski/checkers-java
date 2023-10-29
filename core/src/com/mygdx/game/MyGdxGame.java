@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
-	public void create () {
+	public void create() {
 		Globals.textures = new HashMap<String, Texture>();
 		Globals.textures.put("red", new Texture("red.png"));
 		Globals.textures.put("white", new Texture("white.png"));
@@ -19,17 +19,22 @@ public class MyGdxGame extends ApplicationAdapter {
 		Globals.textures.put("play_solo", new Texture("playsolo.png"));
 		Globals.textures.put("play_multi", new Texture("playonline.png"));
 		Globals.textures.put("quit", new Texture("quit.png"));
+		Globals.textures.put("join", new Texture("join.png"));
 
 		Globals.machine = new StateMachine();
 	}
 
 	@Override
-	public void render () {
+	public void render() {
+		if (Globals.network != null) {
+			Globals.network.recieveMove();
+		}
 		Globals.machine.update();
 		Globals.machine.draw();
 	}
+
 	@Override
-	public void dispose () {
+	public void dispose() {
 		Globals.machine.dispose();
 	}
 }
