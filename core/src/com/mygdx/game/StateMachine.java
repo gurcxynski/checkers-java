@@ -87,7 +87,7 @@ public class StateMachine {
         System.out.println(move);
         if (Globals.board.executeMove(move)) {
             moveList.add(move);
-            Globals.network.sendMove(move, true);
+            Globals.network.sendMove(move.getMoveString(), true);
             turnWhite = !turnWhite;
             return true;
         }
