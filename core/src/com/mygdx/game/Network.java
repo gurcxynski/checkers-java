@@ -3,8 +3,10 @@ package com.mygdx.game;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Network {
     Socket connectedSocket;
@@ -14,10 +16,14 @@ public class Network {
 
     public Network(boolean isServer) {
         this.isServer = isServer;
-        initialize(12345, "localhost");
+        try {
+            initialize(12345, InetAddress.getByName("127.0.0.1"));
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void initialize(int port, String ip) {
+    public void initialize(int port, InetAddress ip) {
         if (isServer)
             try {
                 isYourTurn = true;
