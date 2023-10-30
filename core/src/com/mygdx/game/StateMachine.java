@@ -26,10 +26,9 @@ public class StateMachine {
     boolean turnWhiteLocal;
 
     Stage stage;
+
     StartMenu start;
     OnlineMenu online;
-
-    
 
     ArrayList<Move> moveList;
 
@@ -48,7 +47,7 @@ public class StateMachine {
         }
 
         if (!Gdx.input.isTouched()) return;
-        
+
         int x = Gdx.input.getX() / 100;
         int y = 7 - Gdx.input.getY() / 100;
         if (Helpers.drawRedDown()) {
@@ -78,7 +77,7 @@ public class StateMachine {
                 if (Globals.network.connectedSocket == null) break;
 
                 Move enemyMove = Globals.network.recieveMove();
-                if (enemyMove == null) return;
+                if (enemyMove == null) break;
 
                 Globals.board.executeMove(enemyMove);
 
