@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 public abstract class Menu {
@@ -10,7 +9,7 @@ public abstract class Menu {
 
     public void draw(Batch batch) {
         batch.begin();
-        batch.draw(Globals.textures.get("menu"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(Globals.textures.get("light_tile"), 0, 0, 800, 800);
         for(Button button : buttons) {
             button.draw(batch);
         }
