@@ -42,7 +42,7 @@ public class StateMachine {
     }
     
     public void update() {
-        if (Globals.board != null && Globals.board.isGameOver()) {
+        if ((state == GameState.MOVING || state == GameState.AWATING_ENEMY_MOVE) && Globals.board.isGameOver()) {
             state = Globals.board.getWinner() ? GameState.WHITE_WON : GameState.BLACK_WON;
             System.out.println("GAME ENDED, " + state.toString());
         }
@@ -167,9 +167,9 @@ public class StateMachine {
         state = GameState.ONLINE_MENU;
     }
     public void toStartMenu() {
+        System.out.println("exiting game");
         state = GameState.START_MENU;
         held = null;
-        stage.dispose();
     }
     public void dispose() {
         stage.dispose();

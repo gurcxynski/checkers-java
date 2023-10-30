@@ -10,9 +10,9 @@ public class Piece extends Actor {
     private int x;
     private int y;
 
-    public Piece(int x, int y, boolean white, boolean isKing)  {
-        this.isKing = isKing;
+    public Piece(int x, int y, boolean white)  {
         this.white = white;
+        isKing = false;
         this.x = x;
         this.y = y;
     }
