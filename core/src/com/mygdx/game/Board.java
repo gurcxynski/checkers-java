@@ -62,7 +62,12 @@ public class Board extends Group {
 
     @Override
     public void draw(Batch batch, float p_alpha) {
-        batch.draw(Globals.textures.get("board"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 240, 240, Helpers.drawRedDown(), Helpers.drawRedDown());
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                    String text = (((i + j) % 2 == 0) == Helpers.drawRedDown() ? "light" : "dark") + "_tile";
+                    batch.draw(Globals.textures.get(text), i * 100, j * 100, 100, 100);
+            }
+        }
     }
     public boolean isDraw() {
         return false;

@@ -10,11 +10,10 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		Globals.textures = new HashMap<String, Texture>();
-		Globals.textures.put("red", new Texture("red.png"));
+		Globals.textures.put("black", new Texture("red.png"));
 		Globals.textures.put("white", new Texture("white.png"));
-		Globals.textures.put("rking", new Texture("redKing.png"));
+		Globals.textures.put("bking", new Texture("redKing.png"));
 		Globals.textures.put("wking", new Texture("whiteKing.png"));
-		Globals.textures.put("board", new Texture("board.png"));
 		Globals.textures.put("menu", new Texture("menu.png"));
 		Globals.textures.put("play_solo", new Texture("playsolo.png"));
 		Globals.textures.put("play_multi", new Texture("playonline.png"));
@@ -22,7 +21,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		Globals.textures.put("join", new Texture("join.png"));
 		Globals.textures.put("host", new Texture("host.png"));
 		Globals.textures.put("button_white", new Texture("wbutton.png"));
-		Globals.textures.put("button_red", new Texture("bbutton.png"));
+		Globals.textures.put("button_black", new Texture("bbutton.png"));
+		Globals.textures.put("dark_tile", new Texture("dark_tile.png"));
+		Globals.textures.put("light_tile", new Texture("light_tile.png"));
 
 		Globals.machine = new StateMachine();
 	}

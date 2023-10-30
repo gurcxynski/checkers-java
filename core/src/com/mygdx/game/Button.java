@@ -16,7 +16,7 @@ public class Button {
     }
 
     public void draw(Batch batch) {
-        batch.draw(texture, X, 480 - texture.getHeight() - Y);
+        batch.draw(texture, X, 800 - texture.getHeight() - Y);
     }
 
     boolean hovered() {
@@ -41,7 +41,7 @@ public class Button {
             if (texture == Globals.textures.get("button_white")) {
                 Globals.machine.newOnlineGame(true, true);
             }
-            if (texture == Globals.textures.get("button_red")) {
+            if (texture == Globals.textures.get("button_black")) {
                 Globals.machine.newOnlineGame(false, true);
             }
         }

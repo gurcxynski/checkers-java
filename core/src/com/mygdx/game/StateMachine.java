@@ -50,8 +50,8 @@ public class StateMachine {
                 break;
             case MOVING:
                 if (Gdx.input.justTouched()) {
-                    int x = Gdx.input.getX() / 60;
-                    int y = 7 - Gdx.input.getY() / 60;
+                    int x = Gdx.input.getX() / 100;
+                    int y = 7 - Gdx.input.getY() / 100;
 
                     if (Helpers.drawRedDown()) {
                         y = 7 - y;
