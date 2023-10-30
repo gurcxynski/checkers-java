@@ -30,6 +30,7 @@ public class Network {
 
                 connectedSocket = serverSocket.accept();
                 System.out.println("Client connected.");
+                serverSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
