@@ -21,6 +21,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		Globals.textures.put("quit", new Texture("quit.png"));
 		Globals.textures.put("join", new Texture("join.png"));
 		Globals.textures.put("host", new Texture("host.png"));
+		Globals.textures.put("button_white", new Texture("wbutton.png"));
+		Globals.textures.put("button_red", new Texture("bbutton.png"));
 
 		Globals.machine = new StateMachine();
 	}

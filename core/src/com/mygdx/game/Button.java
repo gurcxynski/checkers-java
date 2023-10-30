@@ -38,8 +38,11 @@ public class Button {
             if (texture == Globals.textures.get("join")) {
                 Globals.machine.newOnlineGame(false, false);
             }
-            if (texture == Globals.textures.get("host")) {
+            if (texture == Globals.textures.get("button_white")) {
                 Globals.machine.newOnlineGame(true, true);
+            }
+            if (texture == Globals.textures.get("button_red")) {
+                Globals.machine.newOnlineGame(false, true);
             }
         }
     }
