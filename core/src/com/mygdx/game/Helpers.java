@@ -3,44 +3,44 @@ package com.mygdx.game;
 
 public abstract class Helpers {
     public static boolean isValid(Move move) {
-        if (move.from == null || move.to == null) return false;
-        if (move.from.length != 2 || move.to.length != 2) return false;
-
-        if (!inBoard(move.from) || !inBoard(move.to)) return false;
-        Piece from = Globals.board.getField(move.from);
-        Piece to = Globals.board.getField(move.to);
-
-        if (from == null) return false; // from field is empty
-
-        if (from.isWhite() != move.ofWhite) return false; // not your piece
-        if (to != null) return false; // field is occupied
-        if ((Math.abs(move.from[0] - move.to[0]) != 1 || Math.abs(move.from[1] - move.to[1]) != 1) && !isCapture(move)) return false;
-        // disallow moves backwards
-        if (((from.isWhite() && move.from[1] > move.to[1]) || (!from.isWhite() && move.from[1] < move.to[1])) && !from.isKing()) return false;
+        //if (move.from == null || move.to == null) return false;
+        //if (move.from.length != 2 || move.to.length != 2) return false;
+//
+        //if (!inBoard(move.from) || !inBoard(move.to)) return false;
+        //Piece from = Globals.board.getField(move.from);
+        //Piece to = Globals.board.getField(move.to);
+//
+        //if (from == null) return false; // from field is empty
+//
+        //if (from.isWhite() != move.ofWhite) return false; // not your piece
+        //if (to != null) return false; // field is occupied
+        //if ((Math.abs(move.from[0] - move.to[0]) != 1 || Math.abs(move.from[1] - move.to[1]) != 1) && !isCapture(move)) return false;
+        //// disallow moves backwards
+        //if (((from.isWhite() && move.from[1] > move.to[1]) || (!from.isWhite() && move.from[1] < move.to[1])) && !from.isKing()) return false;
         return true;
     }
     public static boolean isCapture (Move move) {
-        if (!(Math.abs(move.from[0] - move.to[0]) == 2 && Math.abs(move.from[1] - move.to[1]) == 2)) return false;
-        int[] field = new int[]{(move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2};
-        if (Globals.board.getField(field) == null) return false;
-        if (Globals.board.getField(field).isWhite() == move.ofWhite) return false;
+        //if (!(Math.abs(move.from[0] - move.to[0]) == 2 && Math.abs(move.from[1] - move.to[1]) == 2)) return false;
+        //int[] field = new int[]{(move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2};
+        //if (Globals.board.getField(field) == null) return false;
+        //if (Globals.board.getField(field).isWhite() == move.ofWhite) return false;
         return true;
     }
     public static boolean mustCapture(boolean white) {
-        for (Piece piece : Globals.board.pieces) {
-            if (piece.isWhite() == white && mustCaptureWith(new int[] {piece.GridX(), piece.GridY()})) return true;
-        }
+        //for (Piece piece : Globals.board.pieces) {
+        //    if (piece.isWhite() == white && mustCaptureWith(new int[] {piece.GridX(), piece.GridY()})) return true;
+        //}
         return false;
     }
     public static boolean mustCaptureWith(int[] field) {
-        Piece piece = Globals.board.getField(field);
-        Move[] moves = { 
-            new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() + 2}, piece.isWhite()),
-            new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() - 2}, piece.isWhite()),
-            new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() - 2}, piece.isWhite()),
-            new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() + 2}, piece.isWhite())
-        };
-        for (Move move : moves) if (isValid(move) && isCapture(move)) return true;
+        //Piece piece = Globals.board.getField(field);
+        //Move[] moves = { 
+        //    new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() + 2}, piece.isWhite()),
+        //    new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() - 2}, piece.isWhite()),
+        //    new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() - 2}, piece.isWhite()),
+        //    new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() + 2}, piece.isWhite())
+        //};
+        //for (Move move : moves) if (isValid(move) && isCapture(move)) return true;
         return false;
     }
     public static boolean inBoard(int[] field) {

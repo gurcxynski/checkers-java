@@ -49,6 +49,9 @@ public class Piece extends Actor {
         this.x = x;
         this.y = y;
     }
+    public void moveTo(int[] field) {
+        moveTo(field[0], field[1]);
+    }
     public void moveBy(int x, int y) {
         moveTo(this.x + x, this.y + y);
     }
@@ -56,5 +59,8 @@ public class Piece extends Actor {
     public void hide() {
         x = -1;
         y = -1;
+    }
+    public String getFieldString() {
+        return "" + (char)(x + 97) + (char)(y + 49);
     }
 }
