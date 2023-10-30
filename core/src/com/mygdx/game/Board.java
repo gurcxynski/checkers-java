@@ -38,6 +38,7 @@ public class Board extends Group {
         if (Helpers.isCapture(move)) {
             int[] field = new int[] { (move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2 };
             getField(field).hide();
+            move.captured = true;
         }
         getField(move.getFrom()).moveTo(move.to[0], move.to[1]);
         if ((move.ofWhite && move.to[1] == 7) || (!move.ofWhite && move.to[1] == 0)) {

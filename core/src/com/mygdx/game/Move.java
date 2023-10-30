@@ -6,6 +6,7 @@ public class Move implements Serializable {
     int[] from;
     int[] to;
     boolean ofWhite;
+    boolean captured;
 
     public Move(String text, boolean white) {
         int[] conv = Helpers.convertMove(text);
@@ -14,12 +15,14 @@ public class Move implements Serializable {
         to = new int[] { conv[2], conv[3] };
 
         ofWhite = white;
+        captured = false;
     }
 
     public Move(int[] from, int[] to, boolean white) {
         this.from = from;
         this.to = to;
         ofWhite = white;
+        captured = false;
     }
 
     public int[] getFrom() {

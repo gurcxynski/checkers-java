@@ -64,10 +64,17 @@ public class StateMachine {
                     if (field != null && (!onlineGame || field.isWhite() == playingWhiteOnline) && (onlineGame || field.isWhite() == turnWhiteLocal)) {
                         held = Globals.board.getField(x, y);
                     } else if (held != null) {
-                        if (!executeMove(new Move(Helpers.convertCords(held.GridX(), held.GridY()) + to, onlineGame ? playingWhiteOnline : turnWhiteLocal))) return;
+                        Move move = new Move(Helpers.convertCords(held.GridX(), held.GridY()) + to, onlineGame ? playingWhiteOnline : turnWhiteLocal);
+                        if (!executeMove(move)) return;
                         held = null;
-                        if (onlineGame) state = GameState.AWATING_ENEMY_MOVE;
-                        System.out.println("executed move, setting AWATING_ENEMY_MOVE");
+                        if (onlineGame) System.out.println((Globals.network.isServer ? "host " : "client ") + "executed move, ");
+                        System.out.println("move " + move.toString() + (move.captured ? " is " : " is not ") + "a capture");
+                        System.out.println((Helpers.mustCapture(playingWhiteOnline) ? "you can" : "you cant") + " capture more");
+                        if (onlineGame && !(move.captured && Helpers.mustCapture(playingWhiteOnline)))
+                        {
+                            state = GameState.AWATING_ENEMY_MOVE;
+                            System.out.println("setting AWATING_ENEMY_MOVE");
+                        }
                     }
                 }
                 break;
@@ -75,13 +82,13 @@ public class StateMachine {
                 if (Globals.network.connectedSocket != null) {
                         Move enemyMove = Globals.network.recieveMove();
                         if (enemyMove == null) return;
-                        if (enemyMove.ofWhite == playingWhiteOnline) {
-                            System.out.println("DOSTALES SWOJ RUCH DEBILU");
-                            return;
-                        }
                         Globals.machine.executeMove(enemyMove);
-                        state = GameState.MOVING;
-                        System.out.println("recieved and executed move, setting MOVING");
+                        System.out.println((Globals.network.isServer ? "host " : "client ") + "recieved and executed move,");
+                        if (!(enemyMove.captured && Helpers.mustCapture(!playingWhiteOnline)))
+                        {
+                            state = GameState.MOVING;
+                            System.out.println("setting MOVING");
+                        } 
                     }
                 break;
             default:
@@ -134,7 +141,7 @@ public class StateMachine {
             if (onlineGame && move.ofWhite == playingWhiteOnline) {
                 Globals.network.sendMove(move);
             }
-            // if (!(Helpers.isCapture(move) && Helpers.mustCapture(turnWhiteLocal))) turnWhiteLocal = !turnWhiteLocal;
+            if (!onlineGame && !(move.captured && Helpers.mustCapture(turnWhiteLocal))) turnWhiteLocal = !turnWhiteLocal;
             return true;
         }
         return false;
