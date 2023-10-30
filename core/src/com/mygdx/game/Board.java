@@ -36,7 +36,9 @@ public class Board extends Group {
         // remove captured piece if its a capture
         if (Helpers.isCapture(move)) {
             int[] field = new int[] { (move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2 };
-            getField(field).hide();
+            Piece captured = getField(field);
+            captured.hide();
+            pieces.remove(captured);
             move.captured = true;
         }
         getField(move.getFrom()).moveTo(move.to[0], move.to[1]);
@@ -70,5 +72,15 @@ public class Board extends Group {
     }
     public boolean isDraw() {
         return false;
+    }
+    public boolean isGameOver() {
+        boolean color = pieces.get(0).isWhite();
+        for (Piece piece : pieces) {
+            if (piece.isWhite() != color) return false;
+        }
+        return true;
+    }
+    public boolean getWinner() {
+        return pieces.get(0).isWhite();
     }
 }

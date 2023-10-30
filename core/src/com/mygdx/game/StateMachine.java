@@ -3,6 +3,7 @@ package com.mygdx.game;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -41,6 +42,10 @@ public class StateMachine {
     }
     
     public void update() {
+        if (Globals.board != null && Globals.board.isGameOver()) {
+            state = Globals.board.getWinner() ? GameState.WHITE_WON : GameState.BLACK_WON;
+            System.out.println("GAME ENDED, " + state.toString());
+        }
         switch (state) {
             case START_MENU:
                 start.update();
@@ -91,6 +96,12 @@ public class StateMachine {
                         } 
                     }
                 break;
+            case WHITE_WON:
+                if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) toStartMenu();
+                break;
+            case BLACK_WON:
+                if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) toStartMenu();
+                break;
             default:
                 break;
         }
@@ -104,6 +115,12 @@ public class StateMachine {
                 break;
             case ONLINE_MENU:
                 online.draw(stage.getBatch());
+                break;
+            case WHITE_WON:
+                stage.draw();
+                break;
+            case BLACK_WON:
+                stage.draw();
                 break;
             default:
                 stage.draw();
@@ -148,6 +165,11 @@ public class StateMachine {
     }
     public void toOnlineMenu() {
         state = GameState.ONLINE_MENU;
+    }
+    public void toStartMenu() {
+        state = GameState.START_MENU;
+        held = null;
+        stage.dispose();
     }
     public void dispose() {
         stage.dispose();
