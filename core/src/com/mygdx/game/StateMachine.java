@@ -74,8 +74,8 @@ public class StateMachine {
                         held = null;
                         if (onlineGame) System.out.println((Globals.network.isServer ? "host " : "client ") + "executed move, ");
                         System.out.println("move " + move.toString() + (move.captured ? " is " : " is not ") + "a capture");
-                        System.out.println((Helpers.mustCapture(playingWhiteOnline) ? "you can" : "you cant") + " capture more");
-                        if (onlineGame && !(move.captured && Helpers.mustCapture(playingWhiteOnline)))
+                        System.out.println((Helpers.mustCaptureWith(move.to) ? "you can" : "you cant") + " capture more");
+                        if (onlineGame && !(move.captured && Helpers.mustCaptureWith(move.to)))
                         {
                             state = GameState.AWATING_ENEMY_MOVE;
                             System.out.println("setting AWATING_ENEMY_MOVE");
@@ -89,7 +89,7 @@ public class StateMachine {
                         if (enemyMove == null) return;
                         Globals.machine.executeMove(enemyMove);
                         System.out.println((Globals.network.isServer ? "host " : "client ") + "recieved and executed move,");
-                        if (!(enemyMove.captured && Helpers.mustCapture(!playingWhiteOnline)))
+                        if (!(enemyMove.captured && Helpers.mustCaptureWith(enemyMove.to)))
                         {
                             state = GameState.MOVING;
                             System.out.println("setting MOVING");
@@ -158,7 +158,7 @@ public class StateMachine {
             if (onlineGame && move.ofWhite == playingWhiteOnline) {
                 Globals.network.sendMove(move);
             }
-            if (!onlineGame && !(move.captured && Helpers.mustCapture(turnWhiteLocal))) turnWhiteLocal = !turnWhiteLocal;
+            if (!onlineGame && !(move.captured && Helpers.mustCaptureWith(move.to))) turnWhiteLocal = !turnWhiteLocal;
             return true;
         }
         return false;
@@ -170,6 +170,7 @@ public class StateMachine {
         System.out.println("exiting game");
         state = GameState.START_MENU;
         held = null;
+        Globals.network = null;
     }
     public void dispose() {
         stage.dispose();

@@ -28,15 +28,19 @@ public abstract class Helpers {
     }
     public static boolean mustCapture(boolean white) {
         for (Piece piece : Globals.board.pieces) {
-            if (piece.isWhite() != white) continue;
-            Move[] moves = { 
-                new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() + 2}, white),
-                new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() - 2}, white),
-                new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() - 2}, white),
-                new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() + 2}, white)
-            };
-            for (Move move : moves) if (isValid(move) && isCapture(move)) return true;
+            if (piece.isWhite() == white && mustCaptureWith(new int[] {piece.GridX(), piece.GridY()})) return true;
         }
+        return false;
+    }
+    public static boolean mustCaptureWith(int[] field) {
+        Piece piece = Globals.board.getField(field);
+        Move[] moves = { 
+            new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() + 2}, piece.isWhite()),
+            new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() + 2, piece.GridY() - 2}, piece.isWhite()),
+            new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() - 2}, piece.isWhite()),
+            new Move(new int[]{piece.GridX(), piece.GridY()}, new int[]{piece.GridX() - 2, piece.GridY() + 2}, piece.isWhite())
+        };
+        for (Move move : moves) if (isValid(move) && isCapture(move)) return true;
         return false;
     }
     public static boolean inBoard(int[] field) {

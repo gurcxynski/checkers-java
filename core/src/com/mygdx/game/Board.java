@@ -32,7 +32,7 @@ public class Board extends Group {
 
     public boolean executeMove(Move move) {
         if (!Helpers.isValid(move)) return false;
-        if (Helpers.mustCapture(move.ofWhite) && !Helpers.isCapture(move)) return false;
+        if (Helpers.mustCaptureWith(move.from) && !Helpers.isCapture(move)) return false;
         // remove captured piece if its a capture
         if (Helpers.isCapture(move)) {
             int[] field = new int[] { (move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2 };
@@ -65,7 +65,7 @@ public class Board extends Group {
     public void draw(Batch batch, float p_alpha) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                    String text = (((i + j) % 2 == 0) == Helpers.drawRedDown() ? "light" : "dark") + "_tile";
+                    String text = ((i + j) % 2 != 0 ? "light" : "dark") + "_tile";
                     batch.draw(Globals.textures.get(text), i * 100, j * 100, 100, 100);
             }
         }
