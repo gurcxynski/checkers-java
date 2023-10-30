@@ -26,29 +26,16 @@ public class Board extends Actor {
     }
 
     public boolean executeMove(Move move) {
-        //if (!Helpers.isValid(move)) return false;
-        //if (Helpers.mustCapture(move.ofWhite) && !Helpers.isCapture(move)) return false;
-        //if (Globals.machine.moveList.size() > 1)
-        //{
-        //    Move lastMove = Globals.machine.moveList.get(Globals.machine.moveList.size() - 1);
-        //    if (lastMove.ofWhite == move.ofWhite && move.from != lastMove.to) { System.out.println("you have to capture with" + 
-        //    Helpers.convertCords(lastMove.to[0], lastMove.to[1])); return false; }
-        //} 
-        //// remove captured piece if its a capture
-        //if (Helpers.isCapture(move)) {
-        //    int[] field = new int[] { (move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2 };
-        //    Piece captured = getField(field);
-        //    captured.hide();
-        //    pieces.remove(captured);
-        //    move.captured = true;
-        //}
-        //getField(move.getFrom()).moveTo(move.to[0], move.to[1]);
-        //if ((move.ofWhite && move.to[1] == 7) || (!move.ofWhite && move.to[1] == 0)) {
-        //    Globals.board.getField(move.to).kingMe();
-        //}
-
+        // move the piece
         getField(move.from).moveTo(move.to);
+
         capture(move.captured); // does nothing if not a capture (captured is null)
+
+        // king the piece if it reached the end
+        if ((move.ofWhite && move.to[1] == 7) || (!move.ofWhite && move.to[1] == 0)) {
+            getField(move.to).kingMe();
+        }
+
         return true;
     }
 
@@ -89,25 +76,61 @@ public class Board extends Actor {
     public boolean getWinner() {
         return pieces.get(0).isWhite();
     }
+    boolean hasToCapture(boolean white) {
+        for (Piece piece : pieces) {
+            if (white == piece.isWhite() && hasToCapture(piece)) return true;
+        }
+        return false;
+    }
+    boolean hasToCapture(Piece piece) {
+        Move[] moves = {
+            new Move(piece.getField(), new int[] { piece.GridX() + 2, piece.GridY() + 2 }, piece.isWhite()),
+            new Move(piece.getField(), new int[] { piece.GridX() + 2, piece.GridY() - 2 }, piece.isWhite()),
+            new Move(piece.getField(), new int[] { piece.GridX() - 2, piece.GridY() - 2 }, piece.isWhite()),
+            new Move(piece.getField(), new int[] { piece.GridX() - 2, piece.GridY() + 2 }, piece.isWhite())
+        };
+        for (Move move : moves) {
+            if (isValid(move) && move.isCapture()) return true;
+        }
+        return false;
+    }
     public boolean handleClick(int x, int y) {
         // return true if executed move
         String clickedField = Helpers.convertCords(x, y);
         Piece clickedPiece = Globals.board.getField(x, y);
 
+        // pick up a piece
         if (clickedPiece != null && clickedPiece.isWhite() == Globals.machine.isTurnOf()) 
         {
             held = Globals.board.getField(x, y);
             System.out.println("holding " + clickedField);
             return false;
         } 
+        // execute a move
         if (held != null && clickedPiece == null)
         {
             Move move = new Move(held.getFieldString() + clickedField, Globals.machine.isTurnOf());
             System.out.println("trying to move " + held.getFieldString() + " to " + clickedField);
+
             if (!isValid(move)) return false;
             System.out.println("valid move");
+
+            // force captures
+            Move last = Globals.machine.lastMove();
+            if (last != null && last.ofWhite == Globals.machine.isTurnOf() && !(sameField(move.from, last.to) && move.isCapture())) {
+                System.out.println("move is from " + move.from[0] + " " + move.from[1] + " last move was to " + last.to[0] + " " + last.to[1]);
+                System.out.println("move is " + move.isCapture() + " capture, there is a forced one");
+                return false;
+            }
+            else if (hasToCapture(Globals.machine.isTurnOf()) && !move.isCapture()) return false;
+
+            System.out.println("no capture/forced capture");
+            
             executeMove(move);
+
+            Globals.machine.moveList.add(move);
             held = null;
+
             return true;
         }
         return false;
@@ -117,23 +140,18 @@ public class Board extends Actor {
         // move object internally invalid
         if (move.from == null || move.to == null) return false;
         if (move.from.length != 2 || move.to.length != 2) return false;
-        System.out.println("proper move object");
 
         // move to a field outside the board
         if (!Helpers.inBoard(move.from) || !Helpers.inBoard(move.to)) return false;
-        System.out.println("in board");
 
         // move length not proper
         if (!isProperLength(move)) return false;
-        System.out.println("proper length");
 
         // move backwards as not-king
         if (!isProperDirection(move)) return false;
-        System.out.println("proper direction");
 
         // move to an occupied field
         if (getField(move.to) != null) return false;
-        System.out.println("destination is empty");
 
         return true;
     }
@@ -149,5 +167,8 @@ public class Board extends Actor {
         if (captured == null) return;
         captured.hide();
         pieces.remove(captured);
+    }
+    boolean sameField(int[] field1, int[]field2) {
+        return (field1[0] == field2[0] && field1[1] == field2[1]);
     }
 }
