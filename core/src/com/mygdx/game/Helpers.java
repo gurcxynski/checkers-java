@@ -20,13 +20,11 @@ public abstract class Helpers {
         return true;
     }
     public static boolean isCapture (Move move) {
-        if (Math.abs(move.from[0] - move.to[0]) == 2 || Math.abs(move.from[1] - move.to[1]) == 2) {
-            int[] field = new int[]{(move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2};
-            if (Globals.board.getField(field) == null) return false;
-            if (Globals.board.getField(field).isWhite() == move.ofWhite) return false;
-            return true;
-        }
-        return false;
+        if (!(Math.abs(move.from[0] - move.to[0]) == 2 && Math.abs(move.from[1] - move.to[1]) == 2)) return false;
+        int[] field = new int[]{(move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2};
+        if (Globals.board.getField(field) == null) return false;
+        if (Globals.board.getField(field).isWhite() == move.ofWhite) return false;
+        return true;
     }
     public static boolean mustCapture(boolean white) {
         for (Piece piece : Globals.board.pieces) {
