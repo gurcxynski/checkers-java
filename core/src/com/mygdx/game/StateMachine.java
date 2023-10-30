@@ -46,6 +46,9 @@ public class StateMachine {
             state = Globals.board.getWinner() ? GameState.WHITE_WON : GameState.BLACK_WON;
             System.out.println("GAME ENDED, " + state.toString());
         }
+
+        if (!Gdx.input.isTouched()) return;
+        
         int x = Gdx.input.getX() / 100;
         int y = 7 - Gdx.input.getY() / 100;
         if (Helpers.drawRedDown()) {
@@ -61,46 +64,33 @@ public class StateMachine {
                 online.update();
                 break;
             case MOVING:
-                if (Gdx.input.justTouched()) {
-                    if (!Globals.board.handleClick(x, y)) break;
+                if (!Globals.board.handleClick(x, y)) break;
 
-                    if (onlineGame) { Globals.network.sendMove(lastMove()); 
-                        System.out.println((Globals.network.isServer ? "host " : "client ") + "executed move, "); }
-                    System.out.println("executed move, " + lastMove().toString());
+                if (onlineGame) Globals.network.sendMove(lastMove()); 
+                
+                if (isForcedCapture()) break;
 
-                    if (lastMove() != null && Globals.board.hasToCapture(Globals.board.getField(lastMove().to)) && lastMove().isCapture()) break;
+                if (onlineGame) Globals.machine.state = GameState.AWATING_ENEMY_MOVE;
+                else turnWhiteLocal = !turnWhiteLocal;
 
-                    if (onlineGame) {
-                        Globals.machine.state = GameState.AWATING_ENEMY_MOVE;
-                        System.out.println("setting AWATING_ENEMY_MOVE");
-                        System.out.println("turn: " + (isTurnOf() ? "white" : "black"));
-                    }
-                    else {
-                        turnWhiteLocal = !turnWhiteLocal;
-                        System.out.println("turn: " + (isTurnOf() ? "white" : "black"));
-                    }
-                }   
                 break;
             case AWATING_ENEMY_MOVE:
-                if (Globals.network.connectedSocket != null) {
-                    Move enemyMove = Globals.network.recieveMove();
-                    if (enemyMove == null)
-                        return;
-                    executeMove(enemyMove);
-                    System.out.println((Globals.network.isServer ? "host " : "client ") + "recieved and executed move,");
+                if (Globals.network.connectedSocket == null) break;
 
-                    if (lastMove() != null && Globals.board.hasToCapture(Globals.board.getField(lastMove().to)) && lastMove().isCapture()) break;
+                Move enemyMove = Globals.network.recieveMove();
+                if (enemyMove == null) return;
 
-                    Globals.machine.state = GameState.MOVING;
-                    System.out.println("setting MOVING");
-                }
+                Globals.board.executeMove(enemyMove);
+
+                if (isForcedCapture()) break;
+
+                Globals.machine.state = GameState.MOVING;
+
                 break;
             case WHITE_WON:
-                if (Gdx.input.isKeyJustPressed(Keys.ESCAPE))
                     toStartMenu();
                 break;
             case BLACK_WON:
-                if (Gdx.input.isKeyJustPressed(Keys.ESCAPE))
                     toStartMenu();
                 break;
             default:
@@ -161,19 +151,6 @@ public class StateMachine {
         initializeGame(playingWhiteOnline);
     }
 
-    public boolean executeMove(Move move) {
-        //if (Globals.board.executeMove(move)) {
-        //    moveList.add(move);
-        //    if (onlineGame && move.ofWhite == playingWhiteOnline) {
-        //        Globals.network.sendMove(move);
-        //    }
-        //    if (!onlineGame && !(move.captured && Helpers.mustCaptureWith(move.to)))
-        //        turnWhiteLocal = !turnWhiteLocal;
-        //    return true;
-        //}
-        return false;
-    }
-
     public void toOnlineMenu() {
         state = GameState.ONLINE_MENU;
     }
@@ -187,5 +164,8 @@ public class StateMachine {
 
     public void dispose() {
         stage.dispose();
+    }
+    boolean isForcedCapture() {
+        return lastMove().isCapture() && Globals.board.hasToCapture(Globals.board.getField(lastMove().to));
     }
 }
