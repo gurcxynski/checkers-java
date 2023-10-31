@@ -66,11 +66,11 @@ public class Piece extends Actor {
         y = -1;
     }
 
-    public String getPieceString() {
+    public String getFieldString() {
         return "" + (char) (x + 97) + (char) (y + 49);
     }
 
-    public int[] getPiece() {
+    public int[] getField() {
         return new int[] { x, y };
     }
 }

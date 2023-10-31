@@ -91,10 +91,10 @@ public class Board extends Actor {
 
     boolean hasToCapture(Piece piece) {
         Move[] moves = {
-                new Move(piece.getPiece(), new int[] { piece.GridX() + 2, piece.GridY() + 2 }, piece.isWhite()),
-                new Move(piece.getPiece(), new int[] { piece.GridX() + 2, piece.GridY() - 2 }, piece.isWhite()),
-                new Move(piece.getPiece(), new int[] { piece.GridX() - 2, piece.GridY() - 2 }, piece.isWhite()),
-                new Move(piece.getPiece(), new int[] { piece.GridX() - 2, piece.GridY() + 2 }, piece.isWhite())
+                new Move(piece.getField(), new int[] { piece.GridX() + 2, piece.GridY() + 2 }, piece.isWhite()),
+                new Move(piece.getField(), new int[] { piece.GridX() + 2, piece.GridY() - 2 }, piece.isWhite()),
+                new Move(piece.getField(), new int[] { piece.GridX() - 2, piece.GridY() - 2 }, piece.isWhite()),
+                new Move(piece.getField(), new int[] { piece.GridX() - 2, piece.GridY() + 2 }, piece.isWhite())
         };
         for (Move move : moves) {
             if (isValid(move) && move.isCapture())
@@ -116,8 +116,8 @@ public class Board extends Actor {
         }
         // execute a move
         if (held != null && clickedPiece == null) {
-            Move move = new Move(held.getPieceString() + clickedField, Globals.machine.isTurnOf());
-            System.out.println("trying to move " + held.getPieceString() + " to " + clickedField);
+            Move move = new Move(held.getFieldString() + clickedField, Globals.machine.isTurnOf());
+            System.out.println("trying to move " + held.getFieldString() + " to " + clickedField);
 
             if (!isValid(move))
                 return false;
