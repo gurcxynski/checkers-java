@@ -45,16 +45,6 @@ public class StateMachine {
             System.out.println("GAME ENDED, " + state.toString());
         }
 
-        if (!Gdx.input.isTouched())
-            return;
-
-        int x = Gdx.input.getX() / 100;
-        int y = 7 - Gdx.input.getY() / 100;
-        if (Helpers.drawRedDown()) {
-            y = 7 - y;
-            x = 7 - x;
-        }
-
         switch (state) {
             case START_MENU:
                 start.update();
@@ -63,6 +53,16 @@ public class StateMachine {
                 online.update();
                 break;
             case MOVING:
+                if (!Gdx.input.isTouched())
+                    return;
+
+                int x = Gdx.input.getX() / 100;
+                int y = 7 - Gdx.input.getY() / 100;
+                if (Helpers.drawRedDown()) {
+                    y = 7 - y;
+                    x = 7 - x;
+                }
+
                 if (!Globals.board.handleClick(x, y))
                     break;
 
