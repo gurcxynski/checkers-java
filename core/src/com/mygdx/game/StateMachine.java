@@ -3,7 +3,6 @@ package com.mygdx.game;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -46,7 +45,8 @@ public class StateMachine {
             System.out.println("GAME ENDED, " + state.toString());
         }
 
-        if (!Gdx.input.isTouched()) return;
+        if (!Gdx.input.isTouched())
+            return;
 
         int x = Gdx.input.getX() / 100;
         int y = 7 - Gdx.input.getY() / 100;
@@ -63,34 +63,42 @@ public class StateMachine {
                 online.update();
                 break;
             case MOVING:
-                if (!Globals.board.handleClick(x, y)) break;
+                if (!Globals.board.handleClick(x, y))
+                    break;
 
-                if (onlineGame) Globals.network.sendMove(lastMove()); 
-                
-                if (isForcedCapture()) break;
+                if (onlineGame)
+                    Globals.network.sendMove(lastMove());
 
-                if (onlineGame) Globals.machine.state = GameState.AWATING_ENEMY_MOVE;
-                else turnWhiteLocal = !turnWhiteLocal;
+                if (isForcedCapture())
+                    break;
+
+                if (onlineGame)
+                    Globals.machine.state = GameState.AWATING_ENEMY_MOVE;
+                else
+                    turnWhiteLocal = !turnWhiteLocal;
 
                 break;
             case AWATING_ENEMY_MOVE:
-                if (Globals.network.connectedSocket == null) break;
+                if (Globals.network.connectedSocket == null)
+                    break;
 
                 Move enemyMove = Globals.network.recieveMove();
-                if (enemyMove == null) break;
+                if (enemyMove == null)
+                    break;
 
                 Globals.board.executeMove(enemyMove);
 
-                if (isForcedCapture()) break;
+                if (isForcedCapture())
+                    break;
 
                 Globals.machine.state = GameState.MOVING;
 
                 break;
             case WHITE_WON:
-                    toStartMenu();
+                toStartMenu();
                 break;
             case BLACK_WON:
-                    toStartMenu();
+                toStartMenu();
                 break;
             default:
                 break;
@@ -117,14 +125,19 @@ public class StateMachine {
                 break;
         }
     }
+
     Move lastMove() {
-        if (moveList.size() == 0) return null;
+        if (moveList.size() == 0)
+            return null;
         return moveList.get(moveList.size() - 1);
     }
+
     public boolean isTurnOf() {
-        if (onlineGame) return playingWhiteOnline;
+        if (onlineGame)
+            return playingWhiteOnline;
         return turnWhiteLocal;
     }
+
     private void initializeGame(boolean white) {
         Globals.board = new Board();
         state = white ? GameState.MOVING : GameState.AWATING_ENEMY_MOVE;
@@ -164,7 +177,12 @@ public class StateMachine {
     public void dispose() {
         stage.dispose();
     }
+
     boolean isForcedCapture() {
-        return lastMove().isCapture() && Globals.board.hasToCapture(Globals.board.getField(lastMove().to));
+        if (lastMove() == null)
+            return false;
+        if (lastMove().hasKinged)
+            return false;
+        return lastMove().isCapture() && Globals.board.hasToCapture(Globals.board.getPiece(lastMove().to));
     }
 }

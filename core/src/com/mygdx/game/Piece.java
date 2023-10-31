@@ -10,17 +10,19 @@ public class Piece extends Actor {
     private int x;
     private int y;
 
-    public Piece(int x, int y, boolean white)  {
+    public Piece(int x, int y, boolean white) {
         this.white = white;
         isKing = false;
         this.x = x;
         this.y = y;
     }
-    
+
     @Override
     public void draw(Batch batch, float p_alpha) {
-        Texture texture = Globals.textures.get(isKing ? (white ? "white_king" : "black_king") : (white ? "white" : "black"));
-        batch.draw(texture, (Helpers.drawRedDown() ? 700 - (x * 100) : x * 100), (Helpers.drawRedDown() ? 700 - (y * 100) : y * 100), 100, 100);
+        Texture texture = Globals.textures
+                .get(isKing ? (white ? "white_king" : "black_king") : (white ? "white" : "black"));
+        batch.draw(texture, (Helpers.drawRedDown() ? 700 - (x * 100) : x * 100),
+                (Helpers.drawRedDown() ? 700 - (y * 100) : y * 100), 100, 100);
     }
 
     public boolean isKing() {
@@ -34,6 +36,7 @@ public class Piece extends Actor {
     public int GridX() {
         return x;
     }
+
     public int GridY() {
         return y;
     }
@@ -49,22 +52,25 @@ public class Piece extends Actor {
         this.x = x;
         this.y = y;
     }
+
     public void moveTo(int[] field) {
         moveTo(field[0], field[1]);
     }
+
     public void moveBy(int x, int y) {
         moveTo(this.x + x, this.y + y);
     }
-    
+
     public void hide() {
         x = -1;
         y = -1;
     }
-    public String getFieldString() {
-        return "" + (char)(x + 97) + (char)(y + 49);
+
+    public String getPieceString() {
+        return "" + (char) (x + 97) + (char) (y + 49);
     }
 
-    public int[] getField() {
+    public int[] getPiece() {
         return new int[] { x, y };
     }
 }
