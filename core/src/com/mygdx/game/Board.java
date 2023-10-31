@@ -38,6 +38,8 @@ public class Board extends Actor {
             move.hasKinged = true;
         }
 
+        Globals.machine.moveList.add(move);
+        
         return true;
     }
 
@@ -138,7 +140,6 @@ public class Board extends Actor {
 
             executeMove(move);
 
-            Globals.machine.moveList.add(move);
             held = null;
 
             return true;
