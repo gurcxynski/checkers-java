@@ -10,18 +10,23 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		Globals.textures = new HashMap<String, Texture>();
-		Globals.textures.put("black", new Texture("red.png"));
-		Globals.textures.put("white", new Texture("white.png"));
-		Globals.textures.put("black_king", new Texture("blackKing.png"));
-		Globals.textures.put("white_king", new Texture("whiteKing.png"));
-		Globals.textures.put("play_solo", new Texture("playsolo.png"));
-		Globals.textures.put("play_multi", new Texture("playonline.png"));
-		Globals.textures.put("quit", new Texture("quit.png"));
-		Globals.textures.put("join", new Texture("join.png"));
-		Globals.textures.put("button_white", new Texture("white_button.png"));
-		Globals.textures.put("button_black", new Texture("black_button.png"));
-		Globals.textures.put("dark_tile", new Texture("dark_tile.png"));
-		Globals.textures.put("light_tile", new Texture("light_tile.png"));
+
+		loadTexture("black");
+		loadTexture("white");
+		loadTexture("blackking");
+		loadTexture("whiteking");
+		loadTexture("playsolo");
+		loadTexture("playonline");
+		loadTexture("quit");
+		loadTexture("join");
+		loadTexture("white_button");
+		loadTexture("black_button");
+		loadTexture("dark_tile");
+		loadTexture("light_tile");
+		loadTexture("youwon");
+		loadTexture("youlost");
+		loadTexture("whitewon");
+		loadTexture("blackwon");
 
 		Globals.machine = new StateMachine();
 	}
@@ -35,5 +40,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		Globals.machine.dispose();
+	}
+
+	void loadTexture(String name) {
+		Globals.textures.put(name, new Texture(name + ".png"));
 	}
 }

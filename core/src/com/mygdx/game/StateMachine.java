@@ -43,6 +43,12 @@ public class StateMachine {
         if ((state == GameState.MOVING || state == GameState.AWATING_ENEMY_MOVE) && Globals.board.isGameOver()) {
             state = Globals.board.getWinner() ? GameState.WHITE_WON : GameState.BLACK_WON;
             System.out.println("GAME ENDED, " + state.toString());
+            return;
+        }
+        if ((state == GameState.MOVING || state == GameState.AWATING_ENEMY_MOVE) && Globals.board.isDraw()) {
+            state = GameState.DRAW;
+            System.out.println("GAME ENDED WITH A DRAW");
+            return;
         }
 
         switch (state) {
@@ -54,11 +60,11 @@ public class StateMachine {
                 break;
             case MOVING:
                 if (!Gdx.input.isTouched())
-                    return;
+                    break;
 
                 int x = Gdx.input.getX() / 100;
                 int y = 7 - Gdx.input.getY() / 100;
-                
+
                 if (drawBlackDown()) {
                     y = 7 - y;
                     x = 7 - x;
@@ -99,6 +105,9 @@ public class StateMachine {
                 toStartMenu();
                 break;
             case BLACK_WON:
+                toStartMenu();
+                break;
+            case DRAW:
                 toStartMenu();
                 break;
             default:

@@ -26,10 +26,10 @@ public class Button {
 
     public void update() {
         if (hovered() && Gdx.input.justTouched()) {
-            if (texture == Globals.textures.get("play_solo")) {
+            if (texture == Globals.textures.get("playsolo")) {
                 Globals.machine.newLocalGame(true);
             }
-            if (texture == Globals.textures.get("play_multi")) {
+            if (texture == Globals.textures.get("playonline")) {
                 Globals.machine.toOnlineMenu();
             }
             if (texture == Globals.textures.get("quit")) {
@@ -38,10 +38,10 @@ public class Button {
             if (texture == Globals.textures.get("join")) {
                 Globals.machine.newOnlineGame(false, false);
             }
-            if (texture == Globals.textures.get("button_white")) {
+            if (texture == Globals.textures.get("white_button")) {
                 Globals.machine.newOnlineGame(true, true);
             }
-            if (texture == Globals.textures.get("button_black")) {
+            if (texture == Globals.textures.get("black_button")) {
                 Globals.machine.newOnlineGame(false, true);
             }
         }
