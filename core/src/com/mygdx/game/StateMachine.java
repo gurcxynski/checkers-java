@@ -58,7 +58,8 @@ public class StateMachine {
 
                 int x = Gdx.input.getX() / 100;
                 int y = 7 - Gdx.input.getY() / 100;
-                if (Helpers.drawRedDown()) {
+                
+                if (drawBlackDown()) {
                     y = 7 - y;
                     x = 7 - x;
                 }
@@ -184,5 +185,10 @@ public class StateMachine {
         if (lastMove().hasKinged)
             return false;
         return lastMove().isCapture() && Globals.board.hasToCapture(Globals.board.getPiece(lastMove().to));
+    }
+    public boolean drawBlackDown() {
+        if (onlineGame && !playingWhiteOnline) return true;
+        if (!turnWhiteLocal) return true;
+        return false;
     }
 }

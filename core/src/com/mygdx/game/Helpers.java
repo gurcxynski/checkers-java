@@ -22,9 +22,4 @@ public abstract class Helpers {
     public static String convertCords(int x, int y) {
         return "" + (char)(x + 97) + (char)(y + 49);
     }
-    public static boolean drawRedDown() {
-        if (!Globals.machine.onlineGame) return false;
-        if (Globals.machine.playingWhiteOnline) return false;
-        return true;
-    }
 }
