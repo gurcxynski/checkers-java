@@ -3,6 +3,7 @@ package com.mygdx.game;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -27,13 +28,17 @@ public class StateMachine {
     Stage stage;
 
     StartMenu start;
+    EndGameScreen end;
+
     OnlineMenu online;
+
 
     ArrayList<Move> moveList;
 
     public StateMachine() {
         stage = new Stage(new ScreenViewport());
         start = new StartMenu();
+        end = new EndGameScreen();
         online = new OnlineMenu();
         state = GameState.START_MENU;
         Gdx.input.setInputProcessor(stage);
@@ -102,13 +107,13 @@ public class StateMachine {
 
                 break;
             case WHITE_WON:
-                toStartMenu();
+                end.update();
                 break;
             case BLACK_WON:
-                toStartMenu();
+                end.update();
                 break;
             case DRAW:
-                toStartMenu();
+                end.update();
                 break;
             default:
                 break;
@@ -117,18 +122,25 @@ public class StateMachine {
     }
 
     public void draw() {
+        Batch batch = stage.getBatch();
         switch (state) {
             case START_MENU:
-                start.draw(stage.getBatch());
+                start.draw(batch);
                 break;
             case ONLINE_MENU:
-                online.draw(stage.getBatch());
+                online.draw(batch);
                 break;
             case WHITE_WON:
                 stage.draw();
+                end.draw(batch);
                 break;
             case BLACK_WON:
                 stage.draw();
+                end.draw(batch);
+                break;
+            case DRAW:
+                stage.draw();
+                end.draw(batch);
                 break;
             default:
                 stage.draw();
