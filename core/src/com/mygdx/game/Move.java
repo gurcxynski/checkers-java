@@ -7,7 +7,7 @@ public class Move implements Serializable {
     int[] to;
     boolean ofWhite;
     boolean hasKinged;
-    Piece captured;
+    boolean captured;
 
     public Move(String text, boolean white) {
         int[] conv = Helpers.convertMove(text);
@@ -60,7 +60,7 @@ public class Move implements Serializable {
         if (captured.isWhite() == ofWhite)
             return;
 
-        this.captured = captured;
+        this.captured = true;
     }
 
     @Override
@@ -69,6 +69,6 @@ public class Move implements Serializable {
     }
 
     public boolean isCapture() {
-        return captured != null;
+        return captured;
     }
 }

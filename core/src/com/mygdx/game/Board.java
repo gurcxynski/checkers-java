@@ -30,7 +30,9 @@ public class Board extends Actor {
 
         getPiece(move.from).moveTo(move.to);
 
-        capture(move.captured); // does nothing if not a capture (captured is null)
+        if (move.captured) {
+            capture(getPiece(new int[] { (move.from[0] + move.to[0]) / 2, (move.from[1] + move.to[1]) / 2 }));
+        }
 
         // king the piece if it reached the end and is not king
         if (!getPiece(move.to).isKing() && (move.ofWhite && move.to[1] == 7) || (!move.ofWhite && move.to[1] == 0)) {
