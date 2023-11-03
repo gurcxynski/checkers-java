@@ -19,16 +19,25 @@ public class Network {
     public boolean isWhite;
     public boolean isServer;
 
-    public Network(boolean isServer, boolean isWhite) {
-        this.isServer = isServer;
+    public void connect(String ip, boolean isWhite) {
+        isServer = true;
+        this.isWhite = isWhite;
         try {
-            initialize(12345, InetAddress.getByName("127.0.0.1"), isWhite);
+            initialize(12345, InetAddress.getByName(ip));
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+    public void connect(String ip) {
+        isServer = false;
+        try {
+            initialize(12345, InetAddress.getByName(ip));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
     }
 
-    public void initialize(int port, InetAddress ip, boolean isWhite) {
+    public void initialize(int port, InetAddress ip) {
         if (isServer)
             try {
                 ServerSocket serverSocket = new ServerSocket(port);
@@ -37,7 +46,6 @@ public class Network {
                 connectedSocket = serverSocket.accept();
                 System.out.println("Client connected.");
 
-                this.isWhite = isWhite;
 
                 OutputStream outputStream = connectedSocket.getOutputStream();
                 PrintWriter out = new PrintWriter(outputStream, true);

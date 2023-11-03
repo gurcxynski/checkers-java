@@ -36,13 +36,13 @@ public class Button {
                 Gdx.app.exit();
             }
             if (texture == Globals.textures.get("join")) {
-                Globals.machine.newOnlineGame(false, false);
+                Globals.machine.joinOnlineGame();
             }
             if (texture == Globals.textures.get("white_button")) {
-                Globals.machine.newOnlineGame(true, true);
+                Globals.machine.hostOnlineGame(true);
             }
             if (texture == Globals.textures.get("black_button")) {
-                Globals.machine.newOnlineGame(false, true);
+                Globals.machine.hostOnlineGame(false);
             }
         }
     }

@@ -37,10 +37,15 @@ public class StateMachine {
 
     public StateMachine() {
         stage = new Stage(new ScreenViewport());
+
         start = new StartMenu();
         end = new EndGameScreen();
         online = new OnlineMenu();
+
+        Globals.network = new Network();
+
         state = GameState.START_MENU;
+        
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -160,9 +165,9 @@ public class StateMachine {
         return turnWhiteLocal;
     }
 
-    private void initializeGame(boolean white) {
+    private void initializeGame() {
         Globals.board = new Board();
-        state = white ? GameState.MOVING : GameState.AWATING_ENEMY_MOVE;
+        state = (onlineGame ? playingWhiteOnline : true) ? GameState.MOVING : GameState.AWATING_ENEMY_MOVE;
         stage.addActor(Globals.board);
         for (Piece piece : Globals.board.pieces) {
             stage.addActor(piece);
@@ -174,17 +179,23 @@ public class StateMachine {
         onlineGame = false;
         turnWhiteLocal = true;
 
-        initializeGame(white);
+        initializeGame();
     }
 
-    public void newOnlineGame(boolean white, boolean isServer) {
+    public void hostOnlineGame(boolean white) {
         onlineGame = true;
-        Globals.network = new Network(isServer, white);
+        Globals.network.connect("127.0.0.1", white);
+        playingWhiteOnline = white;
+
+        initializeGame();
+    }
+    public void joinOnlineGame() {
+        onlineGame = true;
+        Globals.network.connect("127.0.0.1");
         playingWhiteOnline = Globals.network.isWhite;
 
-        initializeGame(playingWhiteOnline);
+        initializeGame();
     }
-
     public void toOnlineMenu() {
         state = GameState.ONLINE_MENU;
     }
@@ -209,7 +220,7 @@ public class StateMachine {
     }
     public boolean drawBlackDown() {
         if (onlineGame && !playingWhiteOnline) return true;
-        if (!turnWhiteLocal) return true;
+        if (!onlineGame && !turnWhiteLocal) return true;
         return false;
     }
 }

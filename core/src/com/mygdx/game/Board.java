@@ -45,18 +45,14 @@ public class Board extends Actor {
 
     public void initialize() {
         pieces = new ArrayList<Piece>();
-        //for (int i = 0; i < 4; i++) {
-        //    pieces.add(new Piece(i * 2, 0, true));
-        //    pieces.add(new Piece(i * 2 + 1, 1, true));
-        //    pieces.add(new Piece(i * 2, 2, true));
-//
-        //    pieces.add(new Piece(i * 2 + 1, 7, false));
-        //    pieces.add(new Piece(i * 2, 6, false));
-        //    pieces.add(new Piece(i * 2 + 1, 5, false));
-        //}
-        pieces.add(new Piece(0, 0, true));
-        pieces.add(new Piece(2, 0, true));
-        pieces.add(new Piece(4, 2, false));
+        for (int i = 0; i < 4; i++) {
+            pieces.add(new Piece(i * 2, 0, true));
+            pieces.add(new Piece(i * 2 + 1, 1, true));
+            pieces.add(new Piece(i * 2, 2, true));
+            pieces.add(new Piece(i * 2 + 1, 7, false));
+            pieces.add(new Piece(i * 2, 6, false));
+            pieces.add(new Piece(i * 2 + 1, 5, false));
+        }
     }
 
     @Override
