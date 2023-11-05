@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.game.StateMachine.GameState;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -35,7 +36,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		machine.update();
+		if (machine.state == GameState.AWATING_NETWORK) machine.check_for_incoming();
 		machine.draw();
 	}
 

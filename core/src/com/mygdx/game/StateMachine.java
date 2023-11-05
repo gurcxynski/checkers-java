@@ -3,22 +3,17 @@ package com.mygdx.game;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.mygdx.game.ui.Menu;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.OnlineMenu;
 import com.mygdx.game.ui.StartMenu;
 
 public class StateMachine {
     enum GameState {
-        START_MENU,
-        ONLINE_MENU,
-        MOVING,
-        AWATING_ENEMY_MOVE,
-        WHITE_WON,
-        BLACK_WON,
-        DRAW
+        MENU,
+        AWAITING_LOCAL,
+        AWATING_NETWORK
     }
 
-    Board board;
     Network network;
 
     GameState state;
@@ -28,101 +23,50 @@ public class StateMachine {
 
     boolean turnWhiteLocal;
 
-    Menu start;
-    Menu online;
+    Stage activeStage;
 
     ArrayList<Move> moveList;
 
     StateMachine() {
 
-        start = new StartMenu();
-        online = new OnlineMenu();
-
         network = new Network();
 
-        state = GameState.START_MENU;
+        activeStage = new StartMenu();
+
+        state = GameState.MENU;
         
-        Gdx.input.setInputProcessor(start);
+        Gdx.input.setInputProcessor(activeStage);
     }
 
-    void update() {
-        if ((state == GameState.MOVING || state == GameState.AWATING_ENEMY_MOVE) && board.isGameOver()) {
-            state = board.getWinner() ? GameState.WHITE_WON : GameState.BLACK_WON;
-            System.out.println("GAME ENDED, " + state.toString());
-            return;
-        }
-        if ((state == GameState.MOVING || state == GameState.AWATING_ENEMY_MOVE) && board.isDraw()) {
-            state = GameState.DRAW;
-            System.out.println("GAME ENDED WITH A DRAW");
-            return;
-        }
+    void check_for_incoming() {
+        if (network.connectedSocket == null) return;
 
-        switch (state) {
-            case START_MENU:
-                break;
-            case ONLINE_MENU:
-                break;
-            case MOVING:
-              if (!Gdx.input.isTouched())
-                  break;
+        Move enemyMove = network.recieveMove();
+        if (enemyMove == null) return;
 
-              int x = Gdx.input.getX() / 100;
-              int y = 7 - Gdx.input.getY() / 100;
+        ((Board)activeStage).executeMove(enemyMove);
 
-              if (drawBlackDown()) {
-                  y = 7 - y;
-                  x = 7 - x;
-              }
-
-              if (!board.handleClick(x, y))
-                  break;
-
-                if (onlineGame)
-                    network.sendMove(lastMove());
-
-                if (isForcedCapture())
-                    break;
-
-                if (onlineGame)
-                    MyGdxGame.machine.state = GameState.AWATING_ENEMY_MOVE;
-                else
-                    turnWhiteLocal = !turnWhiteLocal;
-
-                break;
-            case AWATING_ENEMY_MOVE:
-                if (network.connectedSocket == null)
-                    break;
-
-                Move enemyMove = network.recieveMove();
-                if (enemyMove == null)
-                    break;
-
-                board.executeMove(enemyMove);
-
-                if (isForcedCapture())
-                    break;
-
-                MyGdxGame.machine.state = GameState.MOVING;
-
-                break;
-            default:
-                break;
-        }
+        if (isForcedCapture()) return;
+        
+        MyGdxGame.machine.state = GameState.AWAITING_LOCAL;
         return;
     }
 
+    public void onMoveExecuted() {
+        if (onlineGame)
+            network.sendMove(lastMove());
+
+        if (isForcedCapture())
+            return;
+
+        if (onlineGame)
+            state = GameState.AWATING_NETWORK;
+        else
+            turnWhiteLocal = !turnWhiteLocal;
+    }
+
     void draw() {
-        switch (state) {
-            case START_MENU:
-                start.draw();
-                break;
-            case ONLINE_MENU:
-                online.draw();
-                break;
-            default:
-                board.draw();
-                break;
-        }
+        activeStage.draw();
     }
 
     Move lastMove() {
@@ -138,9 +82,9 @@ public class StateMachine {
     }
 
     private void initializeGame() {
-        board = new Board();
-        state = (onlineGame ? playingWhiteOnline : true) ? GameState.MOVING : GameState.AWATING_ENEMY_MOVE;
-        Gdx.input.setInputProcessor(board);
+        activeStage = new Board();
+        state = (onlineGame ? playingWhiteOnline : true) ? GameState.AWAITING_LOCAL : GameState.AWATING_NETWORK;
+        Gdx.input.setInputProcessor(activeStage);
         moveList = new ArrayList<Move>();
     }
 
@@ -166,15 +110,15 @@ public class StateMachine {
         initializeGame();
     }
     public void toOnlineMenu() {
-        state = GameState.ONLINE_MENU;
-        Gdx.input.setInputProcessor(online);
+        activeStage = new OnlineMenu();
+        state = GameState.MENU;
+        Gdx.input.setInputProcessor(activeStage);
     }
     public void toStartMenu() {
-        System.out.println("exiting game");
-        state = GameState.START_MENU;
-        Gdx.input.setInputProcessor(start);
+        activeStage = new StartMenu();
+        state = GameState.MENU;
+        Gdx.input.setInputProcessor(activeStage);
         network = null;
-        board = null;
     }
 
     boolean isForcedCapture() {
@@ -182,7 +126,7 @@ public class StateMachine {
             return false;
         if (lastMove().hasKinged)
             return false;
-        return lastMove().isCapture() && board.hasToCapture(board.getPiece(lastMove().to));
+        return lastMove().isCapture() && ((Board)activeStage).hasToCapture(((Board)activeStage).getPiece(lastMove().to));
     }
     boolean drawBlackDown() {
         if (onlineGame && !playingWhiteOnline) return true;

@@ -2,6 +2,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Board extends Stage {
@@ -9,6 +11,41 @@ public class Board extends Stage {
 
     public Board() {
         initialize();
+        addListener(new InputListener() {
+	        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                int gridX = (int) (x / 100);
+                int gridY = (int) (y / 100);
+
+                String clickedField = Helpers.convertCords(gridX, gridY);
+                Piece clickedPiece = getPiece(gridX, gridY);
+
+                // pick up a piece
+                if (clickedPiece != null && clickedPiece.isWhite() == MyGdxGame.machine.isTurnOf()) {
+                    held = getPiece(gridX, gridY);
+                    return true;
+                }
+                // execute a move
+                if (!(held != null && clickedPiece == null)) return true;
+                Move move = new Move(held.getFieldString() + clickedField, MyGdxGame.machine.isTurnOf());
+
+                if (!isValid(move))
+                    return true;
+
+                // force captures
+                Move last = MyGdxGame.machine.lastMove();
+                if (last != null && !last.hasKinged && last.ofWhite == MyGdxGame.machine.isTurnOf()
+                        && !(sameField(move.from, last.to) && move.isCapture())) {
+                    return true;
+                } else if (hasToCapture(MyGdxGame.machine.isTurnOf()) && !move.isCapture())
+                    return true;
+
+                executeMove(move);
+                
+                held = null;
+                MyGdxGame.machine.onMoveExecuted();
+                return true;
+            }
+        });
     }
 
     public Piece getPiece(int[] field) {
@@ -108,47 +145,7 @@ public class Board extends Stage {
     }
 
     // return true if executed move
-    public boolean handleClick(int x, int y) {
-        
-        String clickedField = Helpers.convertCords(x, y);
-        Piece clickedPiece = getPiece(x, y);
-
-        // pick up a piece
-        if (clickedPiece != null && clickedPiece.isWhite() == MyGdxGame.machine.isTurnOf()) {
-            held = getPiece(x, y);
-            System.out.println("holding " + clickedField);
-            return false;
-        }
-        // execute a move
-        if (held != null && clickedPiece == null) {
-            Move move = new Move(held.getFieldString() + clickedField, MyGdxGame.machine.isTurnOf());
-            System.out.println("trying to move " + held.getFieldString() + " to " + clickedField);
-
-            if (!isValid(move))
-                return false;
-            System.out.println("valid move");
-
-            // force captures
-            Move last = MyGdxGame.machine.lastMove();
-            if (last != null && !last.hasKinged && last.ofWhite == MyGdxGame.machine.isTurnOf()
-                    && !(sameField(move.from, last.to) && move.isCapture())) {
-                System.out.println("move is from " + move.from[0] + " " + move.from[1] + " last move was to "
-                        + last.to[0] + " " + last.to[1]);
-                System.out.println("move is " + move.isCapture() + " capture, there is a forced one");
-                return false;
-            } else if (hasToCapture(MyGdxGame.machine.isTurnOf()) && !move.isCapture())
-                return false;
-
-            System.out.println("no capture/forced capture");
-
-            executeMove(move);
-
-            held = null;
-
-            return true;
-        }
-        return false;
-    }
+    
 
     private boolean isValid(Move move) {
         // move object internally invalid
@@ -194,5 +191,9 @@ public class Board extends Stage {
 
     boolean sameField(int[] field1, int[] field2) {
         return (field1[0] == field2[0] && field1[1] == field2[1]);
+    }
+
+    public void pickUp(Piece piece) {
+        held = piece;
     }
 }

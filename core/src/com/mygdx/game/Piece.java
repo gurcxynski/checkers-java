@@ -25,7 +25,10 @@ public class Piece extends Actor {
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
-
+    public int[] getGrid() {
+        return new int[] { x, y };
+    }
+    
     public boolean isKing() {
         return isKing;
     }
