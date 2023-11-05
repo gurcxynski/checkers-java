@@ -1,12 +1,10 @@
 package com.mygdx.game;
 
-import java.util.ArrayList;
-
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
-public class Board extends Actor {
-    ArrayList<Piece> pieces;
+public class Board extends Stage {
     Piece held;
 
     public Board() {
@@ -14,7 +12,8 @@ public class Board extends Actor {
     }
 
     public Piece getPiece(int[] field) {
-        for (Piece piece : pieces) {
+        for (Actor actor : getActors()) {
+            Piece piece = (Piece) actor;
             if (piece.GridX() == field[0] && piece.GridY() == field[1])
                 return piece;
         }
@@ -40,31 +39,31 @@ public class Board extends Actor {
             move.hasKinged = true;
         }
 
-        Globals.machine.moveList.add(move);
+        MyGdxGame.machine.moveList.add(move);
         
         return true;
     }
 
     public void initialize() {
-        pieces = new ArrayList<Piece>();
         for (int i = 0; i < 4; i++) {
-            pieces.add(new Piece(i * 2, 0, true));
-            pieces.add(new Piece(i * 2 + 1, 1, true));
-            pieces.add(new Piece(i * 2, 2, true));
-            pieces.add(new Piece(i * 2 + 1, 7, false));
-            pieces.add(new Piece(i * 2, 6, false));
-            pieces.add(new Piece(i * 2 + 1, 5, false));
+            addActor(new Piece(i * 2, 0, true));
+            addActor(new Piece(i * 2 + 1, 1, true));
+            addActor(new Piece(i * 2, 2, true));
+            addActor(new Piece(i * 2 + 1, 7, false));
+            addActor(new Piece(i * 2, 6, false));
+            addActor(new Piece(i * 2 + 1, 5, false));
         }
     }
-
     @Override
-    public void draw(Batch batch, float p_alpha) {
+    public void draw() {
+        getBatch().begin();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                String text = ((i + j) % 2 != 0 ? "light" : "dark") + "_tile";
-                batch.draw(Globals.textures.get(text), i * 100, j * 100, 100, 100);
+                getBatch().draw(MyGdxGame.skin.get((i + j) % 2 == 0 ? "light_tile" : "dark_tile", Texture.class), i * 100, j * 100);
             }
         }
+        getBatch().end();
+        super.draw();
     }
 
     public boolean isDraw() {
@@ -72,8 +71,9 @@ public class Board extends Actor {
     }
 
     public boolean isGameOver() {
-        boolean color = pieces.get(0).isWhite();
-        for (Piece piece : pieces) {
+        boolean color = ((Piece)getActors().get(0)).isWhite();
+        for (Actor actor : getActors()) {
+            Piece piece = (Piece) actor;
             if (piece.isWhite() != color)
                 return false;
         }
@@ -81,11 +81,12 @@ public class Board extends Actor {
     }
 
     public boolean getWinner() {
-        return pieces.get(0).isWhite();
+        return ((Piece)getActors().get(0)).isWhite();
     }
 
     boolean hasToCapture(boolean white) {
-        for (Piece piece : pieces) {
+        for (int i = 0; i < getActors().size; i++) {
+            Piece piece = (Piece) getActors().get(i);
             if (white == piece.isWhite() && hasToCapture(piece))
                 return true;
         }
@@ -106,20 +107,21 @@ public class Board extends Actor {
         return false;
     }
 
+    // return true if executed move
     public boolean handleClick(int x, int y) {
-        // return true if executed move
+        
         String clickedField = Helpers.convertCords(x, y);
-        Piece clickedPiece = Globals.board.getPiece(x, y);
+        Piece clickedPiece = getPiece(x, y);
 
         // pick up a piece
-        if (clickedPiece != null && clickedPiece.isWhite() == Globals.machine.isTurnOf()) {
-            held = Globals.board.getPiece(x, y);
+        if (clickedPiece != null && clickedPiece.isWhite() == MyGdxGame.machine.isTurnOf()) {
+            held = getPiece(x, y);
             System.out.println("holding " + clickedField);
             return false;
         }
         // execute a move
         if (held != null && clickedPiece == null) {
-            Move move = new Move(held.getFieldString() + clickedField, Globals.machine.isTurnOf());
+            Move move = new Move(held.getFieldString() + clickedField, MyGdxGame.machine.isTurnOf());
             System.out.println("trying to move " + held.getFieldString() + " to " + clickedField);
 
             if (!isValid(move))
@@ -127,14 +129,14 @@ public class Board extends Actor {
             System.out.println("valid move");
 
             // force captures
-            Move last = Globals.machine.lastMove();
-            if (last != null && !last.hasKinged && last.ofWhite == Globals.machine.isTurnOf()
+            Move last = MyGdxGame.machine.lastMove();
+            if (last != null && !last.hasKinged && last.ofWhite == MyGdxGame.machine.isTurnOf()
                     && !(sameField(move.from, last.to) && move.isCapture())) {
                 System.out.println("move is from " + move.from[0] + " " + move.from[1] + " last move was to "
                         + last.to[0] + " " + last.to[1]);
                 System.out.println("move is " + move.isCapture() + " capture, there is a forced one");
                 return false;
-            } else if (hasToCapture(Globals.machine.isTurnOf()) && !move.isCapture())
+            } else if (hasToCapture(MyGdxGame.machine.isTurnOf()) && !move.isCapture())
                 return false;
 
             System.out.println("no capture/forced capture");
@@ -187,8 +189,7 @@ public class Board extends Actor {
     private void capture(Piece captured) {
         if (captured == null)
             return;
-        captured.hide();
-        pieces.remove(captured);
+        captured.remove();
     }
 
     boolean sameField(int[] field1, int[] field2) {

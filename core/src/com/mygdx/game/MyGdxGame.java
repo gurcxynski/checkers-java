@@ -1,16 +1,18 @@
 package com.mygdx.game;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class MyGdxGame extends ApplicationAdapter {
 
+    public static Skin skin;
+    public static StateMachine machine;
+
 	@Override
 	public void create() {
-		Globals.textures = new HashMap<String, Texture>();
 
+		skin = new Skin();
 		loadTexture("black");
 		loadTexture("white");
 		loadTexture("blackking");
@@ -28,21 +30,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		loadTexture("whitewon");
 		loadTexture("blackwon");
 
-		Globals.machine = new StateMachine();
+		machine = new StateMachine();
 	}
 
 	@Override
 	public void render() {
-		Globals.machine.update();
-		Globals.machine.draw();
-	}
-
-	@Override
-	public void dispose() {
-		Globals.machine.dispose();
+		machine.update();
+		machine.draw();
 	}
 
 	void loadTexture(String name) {
-		Globals.textures.put(name, new Texture(name + ".png"));
+		skin.add(name, new Texture(name + ".png"));
 	}
 }
