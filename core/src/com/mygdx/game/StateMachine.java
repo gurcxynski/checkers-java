@@ -34,20 +34,23 @@ public class StateMachine {
         activeStage = new StartMenu();
 
         state = GameState.MENU;
-        
+
         Gdx.input.setInputProcessor(activeStage);
     }
 
-    void check_for_incoming() {
-        if (network.connectedSocket == null) return;
+    void checkForIncoming() {
+        if (network.connectedSocket == null)
+            return;
 
         Move enemyMove = network.recieveMove();
-        if (enemyMove == null) return;
+        if (enemyMove == null)
+            return;
 
-        ((Board)activeStage).executeMove(enemyMove);
+        ((Board) activeStage).executeMove(enemyMove);
 
-        if (isForcedCapture()) return;
-        
+        if (isForcedCapture())
+            return;
+
         MyGdxGame.machine.state = GameState.AWAITING_LOCAL;
         return;
     }
@@ -102,6 +105,7 @@ public class StateMachine {
 
         initializeGame();
     }
+
     public void joinOnlineGame() {
         onlineGame = true;
         network.connect("127.0.0.1");
@@ -109,11 +113,13 @@ public class StateMachine {
 
         initializeGame();
     }
+
     public void toOnlineMenu() {
         activeStage = new OnlineMenu();
         state = GameState.MENU;
         Gdx.input.setInputProcessor(activeStage);
     }
+
     public void toStartMenu() {
         activeStage = new StartMenu();
         state = GameState.MENU;
@@ -126,10 +132,13 @@ public class StateMachine {
             return false;
         if (lastMove().hasKinged)
             return false;
-        return lastMove().isCapture() && ((Board)activeStage).hasToCapture(((Board)activeStage).getPiece(lastMove().to));
+        return lastMove().isCapture()
+                && ((Board) activeStage).hasToCapture(((Board) activeStage).getPiece(lastMove().to));
     }
+
     boolean drawBlackDown() {
-        if (onlineGame && !playingWhiteOnline) return true;
+        if (onlineGame && !playingWhiteOnline)
+            return true;
         return false;
     }
 }

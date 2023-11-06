@@ -22,7 +22,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void render() {
 		if (machine.state == GameState.AWATING_NETWORK)
-			machine.check_for_incoming();
+			machine.checkForIncoming();
 		machine.draw();
 	}
 
