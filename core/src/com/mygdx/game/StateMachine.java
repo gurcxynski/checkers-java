@@ -100,7 +100,7 @@ public class StateMachine {
 
     public void hostOnlineGame(boolean white) {
         onlineGame = true;
-        network.connect("127.0.0.1", white);
+        network.connect(white);
         playingWhiteOnline = white;
 
         initializeGame();

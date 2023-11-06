@@ -19,15 +19,14 @@ public class Network {
     public boolean isWhite;
     public boolean isServer;
 
-    public void connect(String ip, boolean isWhite) {
+    public void connect(boolean isWhite) {
         isServer = true;
         this.isWhite = isWhite;
-        try {
-            initialize(12345, InetAddress.getByName(ip));
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+
+        initialize(12345);
+
     }
+
     public void connect(String ip) {
         isServer = false;
         try {
@@ -38,32 +37,35 @@ public class Network {
     }
 
     public void initialize(int port, InetAddress ip) {
-        if (isServer)
-            try {
-                ServerSocket serverSocket = new ServerSocket(port);
-                System.out.println("Server waiting for clients at port " + port);
+        try {
+            connectedSocket = new Socket(ip, port);
+            System.out.println("connnected");
 
-                connectedSocket = serverSocket.accept();
-                System.out.println("Client connected.");
+            InputStream inputStream = connectedSocket.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
 
+            this.isWhite = Boolean.parseBoolean(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-                OutputStream outputStream = connectedSocket.getOutputStream();
-                PrintWriter out = new PrintWriter(outputStream, true);
-                out.println(!isWhite);
-                serverSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        else {
-            try {
-                connectedSocket = new Socket(ip, port);
-                System.out.println("connnected");
-                InputStream inputStream = connectedSocket.getInputStream();
-                BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-                this.isWhite = Boolean.parseBoolean(in.readLine());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void initialize(int port) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(port);
+            System.out.println("Server waiting for clients at port " + port);
+
+            connectedSocket = serverSocket.accept();
+            System.out.println("Client connected.");
+
+            OutputStream outputStream = connectedSocket.getOutputStream();
+            PrintWriter out = new PrintWriter(outputStream, true);
+
+            out.println(!isWhite);
+
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
