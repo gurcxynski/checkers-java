@@ -15,7 +15,8 @@ public class Piece extends Actor {
         isKing = false;
         this.x = x;
         this.y = y;
-        setBounds(MyGdxGame.machine.drawBlackDown() ? 700 - (x * 100) : x * 100, MyGdxGame.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
+        setBounds(MyGdxGame.machine.drawBlackDown() ? 700 - (x * 100) : x * 100,
+                MyGdxGame.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class Piece extends Actor {
     public int[] getGrid() {
         return new int[] { x, y };
     }
-    
+
     public boolean isKing() {
         return isKing;
     }
@@ -55,7 +56,8 @@ public class Piece extends Actor {
         }
         this.x = x;
         this.y = y;
-        setBounds(MyGdxGame.machine.drawBlackDown() ? 700 - (x * 100) : x * 100, MyGdxGame.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
+        setBounds(MyGdxGame.machine.drawBlackDown() ? 700 - (x * 100) : x * 100,
+                MyGdxGame.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
     }
 
     public void moveTo(int[] field) {

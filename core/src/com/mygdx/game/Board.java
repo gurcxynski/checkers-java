@@ -12,12 +12,14 @@ public class Board extends Stage {
     public Board() {
         initialize();
         addListener(new InputListener() {
-	        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                int gridX = (int) (x / 100);
-                int gridY = (int) (y / 100);
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                int gridX = (int) (MyGdxGame.machine.drawBlackDown() ? ((800 - x) / 100) : (x / 100));
+                int gridY = (int) (MyGdxGame.machine.drawBlackDown() ? ((800 - y) / 100) : (y / 100));
 
                 String clickedField = Helpers.convertCords(gridX, gridY);
                 Piece clickedPiece = getPiece(gridX, gridY);
+
+                System.out.println(clickedField);
 
                 // pick up a piece
                 if (clickedPiece != null && clickedPiece.isWhite() == MyGdxGame.machine.isTurnOf()) {
@@ -25,7 +27,8 @@ public class Board extends Stage {
                     return true;
                 }
                 // execute a move
-                if (!(held != null && clickedPiece == null)) return true;
+                if (!(held != null && clickedPiece == null))
+                    return true;
                 Move move = new Move(held.getFieldString() + clickedField, MyGdxGame.machine.isTurnOf());
 
                 if (!isValid(move))
@@ -40,7 +43,7 @@ public class Board extends Stage {
                     return true;
 
                 executeMove(move);
-                
+
                 held = null;
                 MyGdxGame.machine.onMoveExecuted();
                 return true;
@@ -77,7 +80,7 @@ public class Board extends Stage {
         }
 
         MyGdxGame.machine.moveList.add(move);
-        
+
         return true;
     }
 
@@ -91,12 +94,14 @@ public class Board extends Stage {
             addActor(new Piece(i * 2 + 1, 5, false));
         }
     }
+
     @Override
     public void draw() {
         getBatch().begin();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                getBatch().draw(MyGdxGame.skin.get((i + j) % 2 == 0 ? "light_tile" : "dark_tile", Texture.class), i * 100, j * 100);
+                getBatch().draw(MyGdxGame.skin.get((i + j) % 2 == 0 ? "light_tile" : "dark_tile", Texture.class),
+                        i * 100, j * 100);
             }
         }
         getBatch().end();
@@ -108,7 +113,7 @@ public class Board extends Stage {
     }
 
     public boolean isGameOver() {
-        boolean color = ((Piece)getActors().get(0)).isWhite();
+        boolean color = ((Piece) getActors().get(0)).isWhite();
         for (Actor actor : getActors()) {
             Piece piece = (Piece) actor;
             if (piece.isWhite() != color)
@@ -118,7 +123,7 @@ public class Board extends Stage {
     }
 
     public boolean getWinner() {
-        return ((Piece)getActors().get(0)).isWhite();
+        return ((Piece) getActors().get(0)).isWhite();
     }
 
     boolean hasToCapture(boolean white) {
@@ -145,7 +150,6 @@ public class Board extends Stage {
     }
 
     // return true if executed move
-    
 
     private boolean isValid(Move move) {
         // move object internally invalid
