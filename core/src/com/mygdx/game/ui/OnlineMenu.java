@@ -13,7 +13,7 @@ public class OnlineMenu extends Menu {
             
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
-                    Game.machine.toHostMenu();
+                    Game.machine.toMenu(new HostMenu());
                 }
             }
         }));
@@ -24,7 +24,7 @@ public class OnlineMenu extends Menu {
             
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
-                    Game.machine.joinOnlineGame();
+                    Game.machine.toMenu(new JoinMenu());
                 }
             }
         }));
@@ -35,7 +35,7 @@ public class OnlineMenu extends Menu {
             
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
-                    Game.machine.toStartMenu();
+                    Game.machine.toMenu(new StartMenu());
                 }
             }
         }));

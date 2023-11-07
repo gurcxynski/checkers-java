@@ -14,7 +14,7 @@ public class EndGameMenu extends Stage {
             
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
-                    Game.machine.toStartMenu();
+                    Game.machine.toMenu(new StartMenu());
                 }
             }
         }));

@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.EndGameMenu;
 import com.mygdx.game.ui.HostMenu;
+import com.mygdx.game.ui.JoinMenu;
+import com.mygdx.game.ui.Menu;
 import com.mygdx.game.ui.OnlineMenu;
 import com.mygdx.game.ui.StartMenu;
 
@@ -115,32 +117,43 @@ public class StateMachine {
         initializeGame();
     }
 
-    public void joinOnlineGame() {
+    public void joinOnlineGame(String ip) {
         onlineGame = true;
-        network.connect("127.0.0.1");
+        network.connect(ip);
         playingWhiteOnline = network.isWhite;
 
         initializeGame();
     }
 
-    public void toOnlineMenu() {
-        activeStage = new OnlineMenu();
+   // public void toOnlineMenu() {
+   //     activeStage = new OnlineMenu();
+   //     state = GameState.MENU;
+   //     Gdx.input.setInputProcessor(activeStage);
+   // }
+//
+   // public void toStartMenu() {
+   //     activeStage = new StartMenu();
+   //     state = GameState.MENU;
+   //     Gdx.input.setInputProcessor(activeStage);
+   // }
+//
+   // public void toHostMenu() {
+   //     activeStage = new HostMenu();
+   //     state = GameState.MENU;
+   //     Gdx.input.setInputProcessor(activeStage);
+   // }
+//
+   // public void toJoinMenu() {
+   //     activeStage = new JoinMenu();
+   //     state = GameState.MENU;
+   //     Gdx.input.setInputProcessor(activeStage);
+   // }
+
+    public void toMenu(Menu menu) {
+        activeStage = menu;
         state = GameState.MENU;
         Gdx.input.setInputProcessor(activeStage);
     }
-
-    public void toStartMenu() {
-        activeStage = new StartMenu();
-        state = GameState.MENU;
-        Gdx.input.setInputProcessor(activeStage);
-    }
-
-    public void toHostMenu() {
-        activeStage = new HostMenu();
-        state = GameState.MENU;
-        Gdx.input.setInputProcessor(activeStage);
-    }
-
     public void endGame() {
         activeStage.draw();
         activeStage = new EndGameMenu(((Board) activeStage).getWinner());
