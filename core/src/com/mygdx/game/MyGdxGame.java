@@ -27,7 +27,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	void loadTextures() {
-		FileHandle[] files = Gdx.files.internal("./").list();
+		FileHandle[] files = Gdx.files.internal("./assets/").list();
 
 		for (FileHandle file : files) {
 			String textureName = file.nameWithoutExtension();
