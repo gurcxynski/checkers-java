@@ -13,8 +13,8 @@ public class Board extends Stage {
         initialize();
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                int gridX = (int) (MyGdxGame.machine.drawBlackDown() ? ((800 - x) / 100) : (x / 100));
-                int gridY = (int) (MyGdxGame.machine.drawBlackDown() ? ((800 - y) / 100) : (y / 100));
+                int gridX = (int) (Game.machine.drawBlackDown() ? ((800 - x) / 100) : (x / 100));
+                int gridY = (int) (Game.machine.drawBlackDown() ? ((800 - y) / 100) : (y / 100));
 
                 String clickedField = Helpers.convertCords(gridX, gridY);
                 Piece clickedPiece = getPiece(gridX, gridY);
@@ -22,30 +22,30 @@ public class Board extends Stage {
                 System.out.println(clickedField);
 
                 // pick up a piece
-                if (clickedPiece != null && clickedPiece.isWhite() == MyGdxGame.machine.isTurnOf()) {
+                if (clickedPiece != null && clickedPiece.isWhite() == Game.machine.isTurnOf()) {
                     held = getPiece(gridX, gridY);
                     return true;
                 }
                 // execute a move
                 if (!(held != null && clickedPiece == null))
                     return true;
-                Move move = new Move(held.getFieldString() + clickedField, MyGdxGame.machine.isTurnOf());
+                Move move = new Move(held.getFieldString() + clickedField, Game.machine.isTurnOf());
 
                 if (!isValid(move))
                     return true;
 
                 // force captures
-                Move last = MyGdxGame.machine.lastMove();
-                if (last != null && !last.hasKinged && last.ofWhite == MyGdxGame.machine.isTurnOf()
+                Move last = Game.machine.lastMove();
+                if (last != null && !last.hasKinged && last.ofWhite == Game.machine.isTurnOf()
                         && !(sameField(move.from, last.to) && move.isCapture())) {
                     return true;
-                } else if (hasToCapture(MyGdxGame.machine.isTurnOf()) && !move.isCapture())
+                } else if (hasToCapture(Game.machine.isTurnOf()) && !move.isCapture())
                     return true;
 
                 executeMove(move);
 
                 held = null;
-                MyGdxGame.machine.onMoveExecuted();
+                Game.machine.onMoveExecuted();
                 return true;
             }
         });
@@ -79,7 +79,7 @@ public class Board extends Stage {
             move.hasKinged = true;
         }
 
-        MyGdxGame.machine.moveList.add(move);
+        Game.machine.moveList.add(move);
 
         return true;
     }
@@ -100,7 +100,7 @@ public class Board extends Stage {
         getBatch().begin();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                getBatch().draw(MyGdxGame.skin.get((i + j) % 2 == 0 ? "light_tile" : "dark_tile", Texture.class),
+                getBatch().draw(Game.skin.get((i + j) % 2 == 0 ? "light_tile" : "dark_tile", Texture.class),
                         i * 100, j * 100);
             }
         }

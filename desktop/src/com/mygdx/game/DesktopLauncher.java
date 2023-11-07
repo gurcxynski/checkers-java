@@ -9,10 +9,10 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Checkers");
-		config.setWindowedMode(800, 800);
+		config.setWindowedMode(800, 900);
 		config.setResizable(false);
 		config.setWindowIcon("assets/blackking.png");
 
-		new Lwjgl3Application(new MyGdxGame(), config);
+		new Lwjgl3Application(new Game(), config);
 	}
 }

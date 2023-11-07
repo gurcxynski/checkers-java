@@ -47,12 +47,12 @@ public class Move implements Serializable {
             return;
 
         // check if destination is empty
-        if (((Board)MyGdxGame.machine.activeStage).getPiece(to) != null)
+        if (((Board)Game.machine.activeStage).getPiece(to) != null)
             return;
 
         // get the jumped over field
         int[] field = new int[] { (from[0] + to[0]) / 2, (from[1] + to[1]) / 2 };
-        Piece captured = ((Board)MyGdxGame.machine.activeStage).getPiece(field);
+        Piece captured = ((Board)Game.machine.activeStage).getPiece(field);
 
         // check if captured piece exists and is of opposite color
         if (captured == null)

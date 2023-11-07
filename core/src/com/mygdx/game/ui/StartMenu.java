@@ -3,7 +3,7 @@ package com.mygdx.game.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Game;
 
 public class StartMenu extends Menu {
     
@@ -15,7 +15,7 @@ public class StartMenu extends Menu {
             
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
-                    MyGdxGame.machine.newLocalGame();
+                    Game.machine.newLocalGame();
                 }
             }
         }));
@@ -26,7 +26,7 @@ public class StartMenu extends Menu {
             
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
-                    MyGdxGame.machine.toOnlineMenu();
+                    Game.machine.toOnlineMenu();
                 }
             }
         }));

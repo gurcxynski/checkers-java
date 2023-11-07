@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.StateMachine.GameState;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class Game extends ApplicationAdapter {
 
 	public static Skin skin;
 	public static StateMachine machine;

@@ -15,13 +15,13 @@ public class Piece extends Actor {
         isKing = false;
         this.x = x;
         this.y = y;
-        setBounds(MyGdxGame.machine.drawBlackDown() ? 700 - (x * 100) : x * 100,
-                MyGdxGame.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
+        setBounds(Game.machine.drawBlackDown() ? 700 - (x * 100) : x * 100,
+                Game.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
     }
 
     @Override
     public void draw(Batch batch, float p_alpha) {
-        Texture texture = MyGdxGame.skin
+        Texture texture = Game.skin
                 .get(isKing ? (white ? "whiteking" : "blackking") : (white ? "white" : "black"), Texture.class);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
@@ -56,8 +56,8 @@ public class Piece extends Actor {
         }
         this.x = x;
         this.y = y;
-        setBounds(MyGdxGame.machine.drawBlackDown() ? 700 - (x * 100) : x * 100,
-                MyGdxGame.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
+        setBounds(Game.machine.drawBlackDown() ? 700 - (x * 100) : x * 100,
+                Game.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
     }
 
     public void moveTo(int[] field) {

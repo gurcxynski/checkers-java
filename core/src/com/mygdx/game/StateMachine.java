@@ -51,7 +51,7 @@ public class StateMachine {
         if (isForcedCapture())
             return;
 
-        MyGdxGame.machine.state = GameState.AWAITING_LOCAL;
+        Game.machine.state = GameState.AWAITING_LOCAL;
         return;
     }
 
