@@ -1,12 +1,17 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.ui.MyButton;
+import com.mygdx.game.ui.MyButtonCheck;
 
 public class Board extends Stage {
+    ArrayList<Piece> pieces;
     Piece held;
 
     public Board() {
@@ -15,6 +20,8 @@ public class Board extends Stage {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 int gridX = (int) (Game.machine.drawBlackDown() ? ((800 - x) / 100) : (x / 100));
                 int gridY = (int) (Game.machine.drawBlackDown() ? ((800 - y) / 100) : (y / 100));
+                
+                if (gridX < 0 || gridX > 7 || gridY < 0 || gridY > 7) return true;
 
                 String clickedField = Helpers.convertCords(gridX, gridY);
                 Piece clickedPiece = getPiece(gridX, gridY);
@@ -52,8 +59,7 @@ public class Board extends Stage {
     }
 
     public Piece getPiece(int[] field) {
-        for (Actor actor : getActors()) {
-            Piece piece = (Piece) actor;
+        for (Piece piece : pieces) {
             if (piece.GridX() == field[0] && piece.GridY() == field[1])
                 return piece;
         }
@@ -85,14 +91,29 @@ public class Board extends Stage {
     }
 
     public void initialize() {
+        pieces = new ArrayList<Piece>();
         for (int i = 0; i < 4; i++) {
-            addActor(new Piece(i * 2, 0, true));
-            addActor(new Piece(i * 2 + 1, 1, true));
-            addActor(new Piece(i * 2, 2, true));
-            addActor(new Piece(i * 2 + 1, 7, false));
-            addActor(new Piece(i * 2, 6, false));
-            addActor(new Piece(i * 2 + 1, 5, false));
+            pieces.add(new Piece(i * 2, 0, true));
+            pieces.add(new Piece(i * 2 + 1, 1, true));
+            pieces.add(new Piece(i * 2, 2, true));
+            pieces.add(new Piece(i * 2 + 1, 7, false));
+            pieces.add(new Piece(i * 2, 6, false));
+            pieces.add(new Piece(i * 2 + 1, 5, false));
         }
+        for (Actor piece : pieces) {
+            addActor(piece);
+        }
+        if (Game.machine.onlineGame) addActor(new MyButton(0, 800, "forfeit", "light_tile", new InputListener() {
+	        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
+                    Game.machine.toStartMenu();
+                }
+            }
+        }));
     }
 
     @Override
@@ -104,6 +125,7 @@ public class Board extends Stage {
                         i * 100, j * 100);
             }
         }
+        getBatch().draw(Game.skin.get("light_tile", Texture.class), 0, 800, 800, 100);
         getBatch().end();
         super.draw();
     }
@@ -113,9 +135,8 @@ public class Board extends Stage {
     }
 
     public boolean isGameOver() {
-        boolean color = ((Piece) getActors().get(0)).isWhite();
-        for (Actor actor : getActors()) {
-            Piece piece = (Piece) actor;
+        boolean color = ( pieces.get(0)).isWhite();
+        for (Piece piece : pieces) {
             if (piece.isWhite() != color)
                 return false;
         }
@@ -123,12 +144,12 @@ public class Board extends Stage {
     }
 
     public boolean getWinner() {
-        return ((Piece) getActors().get(0)).isWhite();
+        return ( pieces.get(0)).isWhite();
     }
 
     boolean hasToCapture(boolean white) {
-        for (int i = 0; i < getActors().size; i++) {
-            Piece piece = (Piece) getActors().get(i);
+        for (int i = 0; i < pieces.size(); i++) {
+            Piece piece =  pieces.get(i);
             if (white == piece.isWhite() && hasToCapture(piece))
                 return true;
         }
@@ -190,6 +211,7 @@ public class Board extends Stage {
     private void capture(Piece captured) {
         if (captured == null)
             return;
+        pieces.remove(captured);
         captured.remove();
     }
 

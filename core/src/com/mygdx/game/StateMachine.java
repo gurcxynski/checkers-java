@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.ui.EndGameMenu;
+import com.mygdx.game.ui.HostMenu;
 import com.mygdx.game.ui.OnlineMenu;
 import com.mygdx.game.ui.StartMenu;
 
@@ -23,7 +25,7 @@ public class StateMachine {
 
     boolean turnWhiteLocal;
 
-    Stage activeStage;
+    public Stage activeStage;
 
     ArrayList<Move> moveList;
 
@@ -41,7 +43,7 @@ public class StateMachine {
     void checkForIncoming() {
         if (network.connectedSocket == null)
             return;
-
+        
         Move enemyMove = network.recieveMove();
         if (enemyMove == null)
             return;
@@ -52,6 +54,10 @@ public class StateMachine {
             return;
 
         Game.machine.state = GameState.AWAITING_LOCAL;
+
+        if (((Board) activeStage).isGameOver())
+            endGame();
+
         return;
     }
 
@@ -66,6 +72,9 @@ public class StateMachine {
             state = GameState.AWATING_NETWORK;
         else
             turnWhiteLocal = !turnWhiteLocal;
+        
+        if (((Board) activeStage).isGameOver())
+            endGame();
     }
 
     void draw() {
@@ -124,7 +133,19 @@ public class StateMachine {
         activeStage = new StartMenu();
         state = GameState.MENU;
         Gdx.input.setInputProcessor(activeStage);
-        network = null;
+    }
+
+    public void toHostMenu() {
+        activeStage = new HostMenu();
+        state = GameState.MENU;
+        Gdx.input.setInputProcessor(activeStage);
+    }
+
+    public void endGame() {
+        activeStage.draw();
+        activeStage = new EndGameMenu(((Board) activeStage).getWinner());
+        state = GameState.MENU;
+        Gdx.input.setInputProcessor(activeStage);
     }
 
     boolean isForcedCapture() {
@@ -141,4 +162,5 @@ public class StateMachine {
             return true;
         return false;
     }
+
 }
