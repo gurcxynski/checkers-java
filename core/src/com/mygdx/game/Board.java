@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.MyButton;
-import com.mygdx.game.ui.MyButtonCheck;
+import com.mygdx.game.ui.MyListener;
 import com.mygdx.game.ui.StartMenu;
 
 public class Board extends Stage {
@@ -104,16 +104,8 @@ public class Board extends Stage {
         for (Actor piece : pieces) {
             addActor(piece);
         }
-        if (Game.machine.onlineGame) addActor(new MyButton(0, 800, "forfeit", "light_tile", new InputListener() {
-	        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
-                    Game.machine.toMenu(new StartMenu());
-                }
-            }
+        if (Game.machine.onlineGame) addActor(new MyButton(0, 800, "forfeit", "light_tile", new MyListener() {
+	       public void onClick() { Game.machine.toMenu(new StartMenu()); }
         }));
     }
 
