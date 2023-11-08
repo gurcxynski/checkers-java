@@ -105,7 +105,7 @@ public class Board extends Stage {
             addActor(piece);
         }
         if (Game.machine.onlineGame) addActor(new MyButton(0, 800, "forfeit", "light_tile", new MyListener() {
-	       public void onClick() { Game.machine.toMenu(new NewGameMenu()); }
+	       public void onClick() { Game.machine.toMenu(NewGameMenu.class); }
         }));
     }
 

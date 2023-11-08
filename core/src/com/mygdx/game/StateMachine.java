@@ -1,11 +1,11 @@
 package com.mygdx.game;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.EndGameMenu;
-import com.mygdx.game.ui.Menu;
 import com.mygdx.game.ui.StartMenu;
 
 public class StateMachine {
@@ -121,10 +121,14 @@ public class StateMachine {
 
         initializeGame();
     }
-    public void toMenu(Menu menu) {
-        activeStage = menu;
-        state = GameState.MENU;
-        Gdx.input.setInputProcessor(activeStage);
+    public <T extends Stage> void toMenu(Class<T> stageClass) {
+        try {
+            activeStage = stageClass.getDeclaredConstructor().newInstance();
+            state = GameState.MENU;
+            Gdx.input.setInputProcessor(activeStage);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
     public void endGame() {
         activeStage.draw();
