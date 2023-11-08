@@ -19,5 +19,8 @@ public class JoinMenu extends Menu {
         addActor(new MyButton(100, 350, "join", "light_tile", new MyListener() {
 	        public void onClick() { Game.machine.joinOnlineGame(field.getText()); }
         }));
+        addActor(new MyButton(100, 50, "back", "light_tile", new MyListener() {
+	        public void onClick() { Game.machine.toMenu(new OnlineMenu()); }
+        }));
     }
 }
