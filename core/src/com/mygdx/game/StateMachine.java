@@ -121,31 +121,6 @@ public class StateMachine {
 
         initializeGame();
     }
-
-   // public void toOnlineMenu() {
-   //     activeStage = new OnlineMenu();
-   //     state = GameState.MENU;
-   //     Gdx.input.setInputProcessor(activeStage);
-   // }
-//
-   // public void toStartMenu() {
-   //     activeStage = new StartMenu();
-   //     state = GameState.MENU;
-   //     Gdx.input.setInputProcessor(activeStage);
-   // }
-//
-   // public void toHostMenu() {
-   //     activeStage = new HostMenu();
-   //     state = GameState.MENU;
-   //     Gdx.input.setInputProcessor(activeStage);
-   // }
-//
-   // public void toJoinMenu() {
-   //     activeStage = new JoinMenu();
-   //     state = GameState.MENU;
-   //     Gdx.input.setInputProcessor(activeStage);
-   // }
-
     public void toMenu(Menu menu) {
         activeStage = menu;
         state = GameState.MENU;

@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.MyButton;
 import com.mygdx.game.ui.MyListener;
-import com.mygdx.game.ui.StartMenu;
+import com.mygdx.game.ui.NewGameMenu;
 
 public class Board extends Stage {
     ArrayList<Piece> pieces;
@@ -105,7 +105,7 @@ public class Board extends Stage {
             addActor(piece);
         }
         if (Game.machine.onlineGame) addActor(new MyButton(0, 800, "forfeit", "light_tile", new MyListener() {
-	       public void onClick() { Game.machine.toMenu(new StartMenu()); }
+	       public void onClick() { Game.machine.toMenu(new NewGameMenu()); }
         }));
     }
 
