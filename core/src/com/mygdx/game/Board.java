@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.MyButton;
 import com.mygdx.game.ui.MyListener;
 import com.mygdx.game.ui.NewGameMenu;
+import com.mygdx.game.ui.StartMenu;
 
 public class Board extends Stage {
     ArrayList<Piece> pieces;
@@ -107,15 +108,18 @@ public class Board extends Stage {
         if (Game.machine.onlineGame) addActor(new MyButton(0, 800, "forfeit", "light_tile", new MyListener() {
 	       public void onClick() { Game.machine.toMenu(NewGameMenu.class); }
         }));
+        addActor(new MyButton(300, 800, "menu", "light_tile", new MyListener() {
+            public void onClick() { Game.machine.toMenu(StartMenu.class); }
+        }));
     }
 
     @Override
     public void draw() {
         getBatch().begin();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                getBatch().draw(Game.skin.get((i + j) % 2 == 0 ? "light_tile" : "dark_tile", Texture.class),
-                        i * 100, j * 100);
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                getBatch().draw(Game.skin.get("chessboard" + Game.style, Texture.class),
+                        i * 200, j * 200, 200, 200);
             }
         }
         getBatch().draw(Game.skin.get("light_tile", Texture.class), 0, 800, 800, 100);

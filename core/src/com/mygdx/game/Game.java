@@ -11,6 +11,7 @@ public class Game extends ApplicationAdapter {
 
 	public static Skin skin;
 	public static StateMachine machine;
+	public static int style;
 
 	@Override
 	public void create() {
@@ -27,7 +28,7 @@ public class Game extends ApplicationAdapter {
 	}
 
 	void loadTextures() {
-		FileHandle[] files = Gdx.files.internal("./assets/").list();
+		FileHandle[] files = Gdx.files.local("./assets/").list();
 
 		for (FileHandle file : files) {
 			String textureName = file.nameWithoutExtension();

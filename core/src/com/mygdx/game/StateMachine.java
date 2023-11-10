@@ -121,9 +121,9 @@ public class StateMachine {
 
         initializeGame();
     }
-    public <T extends Stage> void toMenu(Class<T> stageClass) {
+    public <T extends Stage> void toMenu(Class<T> menuClass) {
         try {
-            activeStage = stageClass.getDeclaredConstructor().newInstance();
+            activeStage = menuClass.getDeclaredConstructor().newInstance();
             state = GameState.MENU;
             Gdx.input.setInputProcessor(activeStage);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {

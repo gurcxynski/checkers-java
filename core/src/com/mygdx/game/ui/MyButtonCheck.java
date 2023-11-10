@@ -1,7 +1,16 @@
 package com.mygdx.game.ui;
 
+import java.nio.ByteBuffer;
 import java.util.LinkedList;
 
+import org.w3c.dom.Text;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -12,6 +21,7 @@ public class MyButtonCheck extends Button {
     public MyButtonCheck(int x, int y, String texture_up, String texture_checked, boolean startChecked, final MyListener listener) {
         Drawable up = Game.skin.getDrawable(texture_up);
         Drawable checked = Game.skin.getDrawable(texture_checked);
+
         setBounds(x, y, up.getMinWidth(), up.getMinHeight());
         ButtonStyle style = new ButtonStyle();
         style.checked = checked;
