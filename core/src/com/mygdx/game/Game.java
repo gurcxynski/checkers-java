@@ -11,7 +11,7 @@ public class Game extends ApplicationAdapter {
 
 	public static Skin skin;
 	public static StateMachine machine;
-	public static int style;
+	public static int style = 1;
 
 	@Override
 	public void create() {
