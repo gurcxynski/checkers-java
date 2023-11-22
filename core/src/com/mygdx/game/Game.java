@@ -16,7 +16,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create() {
 		skin = new Skin();
-		loadTextures();
+		loadTextures("./assets/");
 		machine = new StateMachine();
 	}
 
@@ -27,12 +27,17 @@ public class Game extends ApplicationAdapter {
 		machine.draw();
 	}
 
-	void loadTextures() {
-		FileHandle[] files = Gdx.files.local("./assets/").list();
+	void loadTextures(String path) {
+		FileHandle[] files = Gdx.files.internal(path).list();
 
 		for (FileHandle file : files) {
-			String textureName = file.nameWithoutExtension();
-			skin.add(textureName, new Texture(file.name()));
+			if (file.isDirectory()) {
+				this.loadTextures(path + file.name());
+			} else {
+				System.out.println(file.name());
+				String textureName = file.nameWithoutExtension();
+				skin.add(textureName, new Texture(file.name()));
+			}
 		}
 
 	}
