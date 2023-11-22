@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		config.setTitle("Checkers");
 		config.setWindowedMode(800, 900);
 		config.setResizable(false);
-		config.setWindowIcon("blackking.png");
+		config.setWindowIcon("assets/blackking.png");
 
 		new Lwjgl3Application(new Game(), config);
 	}
