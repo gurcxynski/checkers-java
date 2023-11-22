@@ -34,7 +34,6 @@ public class Game extends ApplicationAdapter {
 			if (file.isDirectory()) {
 				this.loadTextures(path + file.name());
 			} else {
-				System.out.println(file.name());
 				String textureName = file.nameWithoutExtension();
 				skin.add(textureName, new Texture(file.name()));
 			}
