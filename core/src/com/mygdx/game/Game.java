@@ -16,7 +16,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create() {
 		skin = new Skin();
-		loadTextures("./assets/");
+		loadTextures("assets/");
 		machine = new StateMachine();
 	}
 
@@ -32,12 +32,11 @@ public class Game extends ApplicationAdapter {
 
 		for (FileHandle file : files) {
 			if (file.isDirectory()) {
-				this.loadTextures(path + file.name());
+				this.loadTextures(path + file.name() + "/");
 			} else {
 				String textureName = file.nameWithoutExtension();
-				skin.add(textureName, new Texture(file.name()));
+				skin.add(textureName, new Texture(path + file.name()));
 			}
 		}
-
 	}
 }
