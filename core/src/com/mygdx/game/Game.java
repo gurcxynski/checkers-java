@@ -20,7 +20,7 @@ public class Game extends ApplicationAdapter {
 		skin = new Skin();
 		loadTextures("assets/");
 
-		skin.add("default", new TextButtonStyle(skin.getDrawable("buttonblank"), skin.getDrawable("buttonblank"), skin.getDrawable("buttonblank"), new BitmapFont()));
+		skin.add("default", new TextButtonStyle(skin.getDrawable("buttonblank"), skin.getDrawable("buttonblankdown"), skin.getDrawable("buttonblank"), new BitmapFont()));
 
 		machine = new StateMachine();
 	}
