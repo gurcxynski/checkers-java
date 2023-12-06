@@ -4,13 +4,13 @@ import com.mygdx.game.Game;
 
 public class OnlineMenu extends Menu {    
     public OnlineMenu() {
-        addActor(new MyButton(100, 550, "host", "light_tile", new MyListener() {
+        addActor(new MyTextButton(100, 550, "HOST", new MyListener() {
 	        public void onClick() { Game.machine.toMenu(HostMenu.class);}
         }));
-        addActor(new MyButton(100, 300, "join", "light_tile", new MyListener() {
+        addActor(new MyTextButton(100, 300, "JOIN", new MyListener() {
 	        public void onClick() { Game.machine.toMenu(JoinMenu.class); }
         }));
-        addActor(new MyButton(100, 50, "back", "light_tile", new MyListener() {
+        addActor(new MyTextButton(100, 50, "BACK", new MyListener() {
 	        public void onClick() { Game.machine.toMenu(NewGameMenu.class); }
         }));
     }

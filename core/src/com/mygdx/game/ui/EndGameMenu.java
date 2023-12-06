@@ -5,7 +5,7 @@ import com.mygdx.game.Game;
 
 public class EndGameMenu extends Stage {
     public EndGameMenu(boolean winner) {
-        addActor(new MyButton(250, 350, (winner ? "white" : "black") + "_won", "light_tile", new MyListener() {
+        addActor(new MyTextButton(250, 350, (winner ? "WHITE" : "BLACK") + " WON", new MyListener() {
 	        public void onClick() { Game.machine.toMenu(StartMenu.class); }
         }));
     }

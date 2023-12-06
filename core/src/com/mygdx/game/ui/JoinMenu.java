@@ -16,10 +16,10 @@ public class JoinMenu extends Menu {
         field = new TextField("127.0.0.1", style);
         field.setBounds(200, 600, 100, 50);
         addActor(field);
-        addActor(new MyButton(100, 350, "join", "light_tile", new MyListener() {
+        addActor(new MyTextButton(100, 350, "JOIN", new MyListener() {
 	        public void onClick() { Game.machine.joinOnlineGame(field.getText()); }
         }));
-        addActor(new MyButton(100, 50, "back", "light_tile", new MyListener() {
+        addActor(new MyTextButton(100, 50, "BACK", new MyListener() {
 	        public void onClick() { Game.machine.toMenu(OnlineMenu.class); }
         }));
     }

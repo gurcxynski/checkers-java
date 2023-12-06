@@ -12,10 +12,10 @@ public class HostMenu extends Menu {
 
         addActor(white);
         addActor(black);
-        addActor(new MyButton(100, 350, "host", "light_tile", new MyListener() {
+        addActor(new MyTextButton(100, 350, "HOST", new MyListener() {
             public void onClick() { Game.machine.hostOnlineGame(white.isChecked()); }
         }));
-        addActor(new MyButton(100, 50, "back", "light_tile", new MyListener() {
+        addActor(new MyTextButton(100, 50, "BACK", new MyListener() {
 	        public void onClick() { Game.machine.toMenu(OnlineMenu.class); }
         }));
     }

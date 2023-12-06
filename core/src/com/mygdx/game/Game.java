@@ -4,7 +4,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.mygdx.game.StateMachine.GameState;
 
 public class Game extends ApplicationAdapter {
@@ -17,6 +19,9 @@ public class Game extends ApplicationAdapter {
 	public void create() {
 		skin = new Skin();
 		loadTextures("assets/");
+
+		skin.add("default", new TextButtonStyle(skin.getDrawable("buttonblank"), skin.getDrawable("buttonblank"), skin.getDrawable("buttonblank"), new BitmapFont()));
+
 		machine = new StateMachine();
 	}
 

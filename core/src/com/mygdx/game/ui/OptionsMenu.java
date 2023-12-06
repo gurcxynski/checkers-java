@@ -10,7 +10,7 @@ public class OptionsMenu extends Menu {
         LinkedList<MyButtonCheck> buttons = new LinkedList<MyButtonCheck>();
         for (int i = 1; i <= Gdx.files.internal("assets/skins/").list().length; i++) {
             final int a = i;
-            buttons.add(new MyButtonCheck((i % 3) * 200 + 150, (i / 3) * 200 + 300, "chessboard" + i, "overlay", i == 1,
+            buttons.add(new MyButtonCheck(i * 150 + 50, 500, "chessboard" + i, "overlay", i == 1,
                     new MyListener() {
                         public void onClick() {
                             Game.style = a;
@@ -27,7 +27,7 @@ public class OptionsMenu extends Menu {
         }
         addActor(new MyButton(100, 50, "back", "light_tile", new MyListener() {
             public void onClick() {
-                Game.machine.toMenu(NewGameMenu.class);
+                Game.machine.toMenu(StartMenu.class);
             }
         }));
     }
