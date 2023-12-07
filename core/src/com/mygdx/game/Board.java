@@ -103,10 +103,16 @@ public class Board extends Stage {
         for (Actor piece : pieces) {
             addActor(piece);
         }
-        if (Game.machine.onlineGame) addActor(new MyTextButton(0, WindowConfig.OUTSIDE_SQUARE - 100, "FORFEIT", new MyListener() {
+        addActor(new MyTextButton(
+            -WindowConfig.MARGIN, (int)(WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN), 
+            (int)(WindowConfig.OUTSIDE_SQUARE * 0.1), (int)(WindowConfig.OUTSIDE_SQUARE * 0.1),
+             "FORFEIT", new MyListener() {
 	       public void onClick() { Game.machine.toMenu(NewGameMenu.class); }
         }));
-        addActor(new MyTextButton(WindowConfig.OUTSIDE_SQUARE - 100, WindowConfig.OUTSIDE_SQUARE - 100, "MENU", new MyListener() {
+        addActor(new MyTextButton(
+            (int)(WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN), (int)(WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN), 
+            (int)(WindowConfig.OUTSIDE_SQUARE * 0.1), (int)(WindowConfig.OUTSIDE_SQUARE * 0.1),
+             "MENU", new MyListener() {
             public void onClick() { Game.machine.toMenu(StartMenu.class); }
         }));
     }
