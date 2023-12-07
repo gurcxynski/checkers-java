@@ -7,7 +7,7 @@ import com.mygdx.game.Game;
 public class MyTextButton extends TextButton {
     public MyTextButton(int x, int y, String text, final MyListener listener) {
         super(text, Game.skin);
-        setBounds(x, y, getBackgroundDrawable().getMinWidth(), getBackgroundDrawable().getMinHeight());
+        setBounds(x + Game.marginX, y + Game.marginY, getBackgroundDrawable().getMinWidth(), getBackgroundDrawable().getMinHeight());
         
         InputListener inputListener = new InputListener() {
             public boolean touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y, int pointer, int button) {

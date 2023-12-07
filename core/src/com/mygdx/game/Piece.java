@@ -15,8 +15,8 @@ public class Piece extends Actor {
         isKing = false;
         this.x = x;
         this.y = y;
-        setBounds(Game.machine.drawBlackDown() ? 700 - (x * 100) : x * 100,
-                Game.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
+        setBounds(Game.machine.drawBlackDown() ? 700 - (x * 100) : x * 100 + Game.marginX,
+                Game.machine.drawBlackDown() ? 700 - (y * 100) : y * 100 + Game.marginY, 100, 100);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class Piece extends Actor {
         }
         this.x = x;
         this.y = y;
-        setBounds(Game.machine.drawBlackDown() ? 700 - (x * 100) : x * 100,
-                Game.machine.drawBlackDown() ? 700 - (y * 100) : y * 100, 100, 100);
+        setBounds(Game.machine.drawBlackDown() ? 780 - (x * 100) : x * 100 + Game.marginX,
+                Game.machine.drawBlackDown() ? 780 - (y * 100) : y * 100 + Game.marginY, 100, 100);
     }
 
     public void moveTo(int[] field) {

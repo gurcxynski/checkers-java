@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.mygdx.game.ui.MyButton;
 import com.mygdx.game.ui.MyListener;
+import com.mygdx.game.ui.MyTextButton;
 import com.mygdx.game.ui.NewGameMenu;
 import com.mygdx.game.ui.StartMenu;
 
@@ -20,8 +20,8 @@ public class Board extends Stage {
         initialize();
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                int gridX = (int) (Game.machine.drawBlackDown() ? ((800 - x) / 100) : (x / 100));
-                int gridY = (int) (Game.machine.drawBlackDown() ? ((800 - y) / 100) : (y / 100));
+                int gridX = (int) (Game.machine.drawBlackDown() ? ((880 - x) / 100) : ((x - 40) / 100));
+                int gridY = (int) (Game.machine.drawBlackDown() ? ((880 - y) / 100) : ((y - 40) / 100));
                 
                 if (gridX < 0 || gridX > 7 || gridY < 0 || gridY > 7) return true;
 
@@ -105,10 +105,10 @@ public class Board extends Stage {
         for (Actor piece : pieces) {
             addActor(piece);
         }
-        if (Game.machine.onlineGame) addActor(new MyButton(0, 800, "forfeit", "light_tile", new MyListener() {
+        if (Game.machine.onlineGame) addActor(new MyTextButton(0, 800, "FORFEIT", new MyListener() {
 	       public void onClick() { Game.machine.toMenu(NewGameMenu.class); }
         }));
-        addActor(new MyButton(300, 800, "menu", "light_tile", new MyListener() {
+        addActor(new MyTextButton(300, 800, "MENU", new MyListener() {
             public void onClick() { Game.machine.toMenu(StartMenu.class); }
         }));
     }
@@ -119,10 +119,10 @@ public class Board extends Stage {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 getBatch().draw(Game.skin.get("chessboard" + Game.style, Texture.class),
-                        i * 200, j * 200, 200, 200);
+                        i * 200 + Game.marginX, j * 200 + Game.marginY, 200, 200);
             }
         }
-        getBatch().draw(Game.skin.get("light_tile", Texture.class), 0, 800, 800, 100);
+        getBatch().draw(Game.skin.get("light_tile", Texture.class), 0 + Game.marginX, 800 + Game.marginY, 800, 100);
         getBatch().end();
         super.draw();
     }
