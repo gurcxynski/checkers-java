@@ -8,8 +8,8 @@ public class DesktopLauncher {
 	public static void main(String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setTitle("Checkers");
-		config.setWindowedMode(880, 880);
+		config.setTitle(WindowConfig.TITLE);
+		config.setWindowedMode(WindowConfig.OUTSIDE_SQUARE, WindowConfig.OUTSIDE_SQUARE);
 		config.setResizable(false);
 		config.setWindowIcon("assets/blackking.png");
 

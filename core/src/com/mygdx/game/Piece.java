@@ -15,15 +15,15 @@ public class Piece extends Actor {
         isKing = false;
         this.x = x;
         this.y = y;
-        setBounds(Game.machine.drawBlackDown() ? 700 - (x * 100) : x * 100 + Game.marginX,
-                Game.machine.drawBlackDown() ? 700 - (y * 100) : y * 100 + Game.marginY, 100, 100);
     }
 
     @Override
     public void draw(Batch batch, float p_alpha) {
+        int size = WindowConfig.SIZE;
         Texture texture = Game.skin
                 .get(isKing ? (white ? "whiteking" : "blackking") : (white ? "white" : "black"), Texture.class);
-        batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+        batch.draw(texture, Game.machine.drawBlackDown() ? (7 * size) - (x * size - WindowConfig.MARGIN) : x * size + WindowConfig.MARGIN,
+                Game.machine.drawBlackDown() ? (7 * size) - (y * size - WindowConfig.MARGIN) : y * size + WindowConfig.MARGIN, size, size);
     }
 
     public int[] getGrid() {
@@ -51,13 +51,11 @@ public class Piece extends Actor {
     }
 
     public void moveTo(int x, int y) {
-        if (x < 0 || x > 7 || y < 0 || y > 7) {
+        if (!Helpers.inBoard(new int[] { x, y })) {
             return;
         }
         this.x = x;
         this.y = y;
-        setBounds(Game.machine.drawBlackDown() ? 780 - (x * 100) : x * 100 + Game.marginX,
-                Game.machine.drawBlackDown() ? 780 - (y * 100) : y * 100 + Game.marginY, 100, 100);
     }
 
     public void moveTo(int[] field) {

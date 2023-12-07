@@ -14,8 +14,6 @@ public class Game extends ApplicationAdapter {
 	public static Skin skin;
 	public static StateMachine machine;
 	public static int style = 1;
-    public static final int marginX = 40;
-    public static final int marginY = 40;
 
 	@Override
 	public void create() {

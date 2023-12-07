@@ -20,15 +20,13 @@ public class Board extends Stage {
         initialize();
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                int gridX = (int) (Game.machine.drawBlackDown() ? ((880 - x) / 100) : ((x - 40) / 100));
-                int gridY = (int) (Game.machine.drawBlackDown() ? ((880 - y) / 100) : ((y - 40) / 100));
+                int gridX = (int) (Game.machine.drawBlackDown() ? ((WindowConfig.OUTSIDE_SQUARE - x - WindowConfig.MARGIN) / WindowConfig.SIZE) : ((x - WindowConfig.MARGIN) / WindowConfig.SIZE));
+                int gridY = (int) (Game.machine.drawBlackDown() ? ((WindowConfig.OUTSIDE_SQUARE - y - WindowConfig.MARGIN) / WindowConfig.SIZE) : ((y - WindowConfig.MARGIN) / WindowConfig.SIZE));
                 
-                if (gridX < 0 || gridX > 7 || gridY < 0 || gridY > 7) return true;
+                if (!Helpers.inBoard(new int[] {gridX, gridY})) return true;
 
                 String clickedField = Helpers.convertCords(gridX, gridY);
                 Piece clickedPiece = getPiece(gridX, gridY);
-
-                System.out.println(clickedField);
 
                 // pick up a piece
                 if (clickedPiece != null && clickedPiece.isWhite() == Game.machine.isTurnOf()) {
@@ -105,10 +103,10 @@ public class Board extends Stage {
         for (Actor piece : pieces) {
             addActor(piece);
         }
-        if (Game.machine.onlineGame) addActor(new MyTextButton(0, 800, "FORFEIT", new MyListener() {
+        if (Game.machine.onlineGame) addActor(new MyTextButton(0, WindowConfig.OUTSIDE_SQUARE - 100, "FORFEIT", new MyListener() {
 	       public void onClick() { Game.machine.toMenu(NewGameMenu.class); }
         }));
-        addActor(new MyTextButton(300, 800, "MENU", new MyListener() {
+        addActor(new MyTextButton(WindowConfig.OUTSIDE_SQUARE - 100, WindowConfig.OUTSIDE_SQUARE - 100, "MENU", new MyListener() {
             public void onClick() { Game.machine.toMenu(StartMenu.class); }
         }));
     }
@@ -116,13 +114,13 @@ public class Board extends Stage {
     @Override
     public void draw() {
         getBatch().begin();
+        getBatch().draw(Game.skin.get("dark_tile", Texture.class), 0, 0, WindowConfig.OUTSIDE_SQUARE, WindowConfig.OUTSIDE_SQUARE);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 getBatch().draw(Game.skin.get("chessboard" + Game.style, Texture.class),
-                        i * 200 + Game.marginX, j * 200 + Game.marginY, 200, 200);
+                        i * (WindowConfig.SIZE * 2) + WindowConfig.MARGIN, j * (WindowConfig.SIZE * 2) + WindowConfig.MARGIN, (WindowConfig.SIZE * 2), (WindowConfig.SIZE * 2));
             }
         }
-        getBatch().draw(Game.skin.get("light_tile", Texture.class), 0 + Game.marginX, 800 + Game.marginY, 800, 100);
         getBatch().end();
         super.draw();
     }

@@ -6,16 +6,17 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.mygdx.game.Game;
+import com.mygdx.game.WindowConfig;
 
 public class MyButtonCheck extends Button {
     LinkedList<MyButtonCheck> disable = new LinkedList<MyButtonCheck>();
 
-    public MyButtonCheck(int x, int y, String texture_up, String texture_checked, boolean startChecked,
+    public MyButtonCheck(int x, int y, int width, int height, String texture_up, String texture_checked, boolean startChecked,
             final MyListener listener) {
         Drawable up = Game.skin.getDrawable(texture_up);
         Drawable checked = Game.skin.getDrawable(texture_checked);
 
-        setBounds(x, y, up.getMinWidth(), up.getMinHeight());
+        setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, width, height);
         ButtonStyle style = new ButtonStyle();
         style.checked = checked;
         style.up = up;

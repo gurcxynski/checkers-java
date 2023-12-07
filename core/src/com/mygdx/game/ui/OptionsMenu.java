@@ -4,13 +4,20 @@ import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Game;
+import com.mygdx.game.WindowConfig;
 
 public class OptionsMenu extends Menu {
     public OptionsMenu() {
         LinkedList<MyButtonCheck> buttons = new LinkedList<MyButtonCheck>();
-        for (int i = 1; i <= Gdx.files.internal("assets/skins/").list().length; i++) {
+        int n = Gdx.files.internal("assets/skins/").list().length;
+        for (int i = 1; i <= n; i++) {
             final int a = i;
-            buttons.add(new MyButtonCheck(i * 150 + 50, 500, "chessboard" + i, "overlay", i == 1,
+            buttons.add(new MyButtonCheck(
+                (WindowConfig.INSIDE_SQUARE / n) * (i - 1) + (int)((WindowConfig.INSIDE_SQUARE / n) * 0.1), 
+                (int)(WindowConfig.INSIDE_SQUARE * 0.6), 
+                (int)((WindowConfig.INSIDE_SQUARE / n) * 0.8), 
+                (int)((WindowConfig.INSIDE_SQUARE / n) * 0.8), 
+                "chessboard" + i, "overlay", i == 1,
                     new MyListener() {
                         public void onClick() {
                             Game.style = a;
@@ -25,7 +32,7 @@ public class OptionsMenu extends Menu {
             }
             addActor(button);
         }
-        addActor(new MyTextButton(100, 50, "BACK", new MyListener() {
+        addActor(new MyTextButton(0, "BACK", new MyListener() {
             public void onClick() {
                 Game.machine.toMenu(StartMenu.class);
             }
