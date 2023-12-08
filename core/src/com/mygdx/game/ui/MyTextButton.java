@@ -18,12 +18,12 @@ public class MyTextButton extends TextButton {
             public void touchUp(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y, int pointer, int button) {
                 if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
                     listener.onClick();
-                    if (!isChecked()) setChecked(true);
                     if (disable != null) {
+                        if (!isChecked()) setChecked(true);
                         for (MyTextButton other : disable) {
                             other.setChecked(false);
                         }
-                    }
+                    } else { setChecked(false); }
                 }
             }
         };

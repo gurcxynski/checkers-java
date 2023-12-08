@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.EndGameMenu;
+import com.mygdx.game.ui.PauseMenu;
 import com.mygdx.game.ui.StartMenu;
 
 public class StateMachine {
@@ -25,6 +26,9 @@ public class StateMachine {
     boolean turnWhiteLocal;
 
     public Stage activeStage;
+
+    Board ret_board = null;
+    GameState ret_state = null;
 
     ArrayList<Move> moveList;
 
@@ -130,6 +134,21 @@ public class StateMachine {
             e.printStackTrace();
         }
     }
+    
+    public void pause() {
+        ret_board = (Board) activeStage;
+        ret_state = state;
+        toMenu(PauseMenu.class);
+    }
+
+    public void resume() {
+        activeStage = ret_board;
+        state = ret_state;
+        ret_board = null;
+        ret_state = null;
+        Gdx.input.setInputProcessor(activeStage);
+    }
+
     public void endGame() {
         activeStage.draw();
         activeStage = new EndGameMenu(((Board) activeStage).getWinner());

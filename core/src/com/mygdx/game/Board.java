@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.MyListener;
 import com.mygdx.game.ui.MyTextButton;
-import com.mygdx.game.ui.NewGameMenu;
 import com.mygdx.game.ui.StartMenu;
 
 public class Board extends Stage {
@@ -103,17 +102,17 @@ public class Board extends Stage {
         for (Actor piece : pieces) {
             addActor(piece);
         }
-        addActor(new MyTextButton(
+        if (Game.machine.onlineGame) addActor(new MyTextButton(
             -WindowConfig.MARGIN, (int)(WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN), 
             (int)(WindowConfig.OUTSIDE_SQUARE * 0.1), (int)(WindowConfig.OUTSIDE_SQUARE * 0.1),
              "FORFEIT", new MyListener() {
-	       public void onClick() { Game.machine.toMenu(NewGameMenu.class); }
+	       public void onClick() { Game.machine.toMenu(StartMenu.class); }
         }));
         addActor(new MyTextButton(
             (int)(WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN), (int)(WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN), 
             (int)(WindowConfig.OUTSIDE_SQUARE * 0.1), (int)(WindowConfig.OUTSIDE_SQUARE * 0.1),
-             "MENU", new MyListener() {
-            public void onClick() { Game.machine.toMenu(StartMenu.class); }
+             "OPTIONS", new MyListener() {
+            public void onClick() { Game.machine.pause(); }
         }));
     }
 

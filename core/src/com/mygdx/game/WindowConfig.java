@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-public final class WindowConfig {
+public abstract class WindowConfig {
     public static final String TITLE = "Checkers";
     public static final int INSIDE_SQUARE = 600;
     public static final int MARGIN = (int)(0.05 * INSIDE_SQUARE);
