@@ -9,6 +9,10 @@ import com.mygdx.game.ui.EndGameMenu;
 import com.mygdx.game.ui.PauseMenu;
 import com.mygdx.game.ui.StartMenu;
 
+/**
+ * The StateMachine class represents the state machine for the game.
+ * It manages the game state, player turns, network communication, and stage transitions.
+ */
 public class StateMachine {
     enum GameState {
         MENU,
@@ -43,6 +47,13 @@ public class StateMachine {
         Gdx.input.setInputProcessor(activeStage);
     }
 
+    /**
+     * Checks for incoming moves from the network.
+     * If there is a connected socket, it receives a move from the network.
+     * If the received move is not null, it executes the move on the active stage.
+     * If there is no forced capture, it sets the game state to AWAITING_LOCAL.
+     * If the active stage is game over, it ends the game.
+     */
     void checkForIncoming() {
         if (network.connectedSocket == null)
             return;
@@ -125,6 +136,13 @@ public class StateMachine {
 
         initializeGame();
     }
+    /**
+     * Sets the active stage to the specified menu class and changes the game state to MENU.
+     * Also sets the input processor to the active stage.
+     *
+     * @param menuClass the class of the menu stage to set as the active stage
+     * @param <T>       the type of the menu stage
+     */
     public <T extends Stage> void toMenu(Class<T> menuClass) {
         try {
             activeStage = menuClass.getDeclaredConstructor().newInstance();

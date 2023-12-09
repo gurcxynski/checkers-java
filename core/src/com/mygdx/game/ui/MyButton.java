@@ -42,6 +42,7 @@ public class MyButton extends Button {
         style.down = down;
         style.up = up;
         style.checked = checked;
+        setStyle(style);
         addListener(listenerFactory(listener));
     }
 

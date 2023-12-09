@@ -11,6 +11,11 @@ import com.mygdx.game.ui.MyListener;
 import com.mygdx.game.ui.MyTextButton;
 import com.mygdx.game.ui.StartMenu;
 
+/**
+ * The Board class represents the game board in a checkers game.
+ * It extends the Stage class and contains methods for initializing the board,
+ * executing moves, capturing pieces, checking for game over conditions, and more.
+ */
 public class Board extends Stage {
     ArrayList<Piece> pieces;
     Piece held;
@@ -89,6 +94,10 @@ public class Board extends Stage {
         return true;
     }
 
+    /**
+     * Initializes the board by creating and adding pieces to the board.
+     * Also adds buttons for forfeiting and accessing options.
+     */
     public void initialize() {
         pieces = new ArrayList<Piece>();
         for (int i = 0; i < 4; i++) {
@@ -172,6 +181,12 @@ public class Board extends Stage {
 
     // return true if executed move
 
+    /**
+     * Checks if a given move is valid on the board.
+     *
+     * @param move the move to be checked
+     * @return true if the move is valid, false otherwise
+     */
     private boolean isValid(Move move) {
         // move object internally invalid
         if (move.from == null || move.to == null)
