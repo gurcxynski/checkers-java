@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.mygdx.game.Game;
+import com.mygdx.game.WindowConfig;
 
 public class JoinMenu extends Menu {
     TextField field;
+
     public JoinMenu() {
         TextFieldStyle style = new TextFieldStyle();
         style.font = new BitmapFont();
@@ -16,11 +18,19 @@ public class JoinMenu extends Menu {
         field = new TextField("127.0.0.1", style);
         field.setBounds(200, 600, 100, 50);
         addActor(field);
-        addActor(new MyTextButton(1, "JOIN", new MyListener() {
-	        public void onClick() { Game.machine.joinOnlineGame(field.getText()); }
-        }));
-        addActor(new MyTextButton(0, "BACK", new MyListener() {
-	        public void onClick() { Game.machine.toMenu(OnlineMenu.class); }
-        }));
+
+        super.addTextButton(new MyTextButton("JOIN", new MyListener() {
+            public void onClick() {
+                Game.machine.joinOnlineGame(field.getText());
+            }
+        }), 20, WindowConfig.BUTTON_DEFAULT_WIDTH);
+
+        super.addTextButton(new MyTextButton("BACK", new MyListener() {
+            public void onClick() {
+                Game.machine.toMenu(OnlineMenu.class);
+            }
+        }), 20, WindowConfig.BUTTON_DEFAULT_WIDTH);
+
+        addActor(super.table);
     }
 }

@@ -5,23 +5,27 @@ import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Game;
+import com.mygdx.game.WindowConfig;
 
 public class OptionsMenu extends Menu {
     public OptionsMenu() {
+        super();
+
         LinkedList<MyTextButton> buttons = new LinkedList<MyTextButton>();
         int n = Gdx.files.internal("assets/skins/").list().length;
         String[] names = { "gray", "wooden", "black and white" };
         for (int i = 1; i <= n; i++) {
             final int a = i;
             MyTextButton btn = new MyTextButton(
-                i, names[i - 1].toUpperCase(),
+                    names[i - 1].toUpperCase(),
                     new MyListener() {
                         public void onClick() {
                             Game.style = a;
                         }
                     });
             btn.disable = new ArrayList<>();
-            if (i == 1) btn.setChecked(true);
+            if (i == 1)
+                btn.setChecked(true);
             buttons.add(btn);
         }
         for (MyTextButton button : buttons) {
@@ -30,12 +34,15 @@ public class OptionsMenu extends Menu {
                     button.disable.add(other);
                 }
             }
-            addActor(button);
+            super.addTextButton(button, 5, WindowConfig.BUTTON_DEFAULT_WIDTH);
         }
-        addActor(new MyTextButton(0, "BACK", new MyListener() {
+
+        super.table.add(new MyTextButton("BACK", new MyListener() {
             public void onClick() {
                 Game.machine.toMenu(StartMenu.class);
             }
-        }));
+        })).pad(5).padTop(35).width(WindowConfig.BUTTON_DEFAULT_WIDTH).row();
+
+        addActor(super.table);
     }
 }

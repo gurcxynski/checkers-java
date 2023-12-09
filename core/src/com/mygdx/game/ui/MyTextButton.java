@@ -35,11 +35,9 @@ public class MyTextButton extends TextButton {
         };
     }
 
-    public MyTextButton(int tier, String text, final MyListener listener) {
+    public MyTextButton(String text, final MyListener listener) {
         super(text, Game.skin);
-        setBounds(WindowConfig.BUTTON_DEFAULT_X + WindowConfig.MARGIN,
-                (WindowConfig.BUTTON_DEFAULT_STEP * tier) + WindowConfig.MARGIN, WindowConfig.BUTTON_DEFAULT_WIDTH,
-                WindowConfig.BUTTON_DEFAULT_HEIGHT);
+
         addListener(listenerFactory(listener));
     }
 

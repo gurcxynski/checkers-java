@@ -7,14 +7,14 @@ import com.mygdx.game.WindowConfig;
 
 public class HostMenu extends Menu {
     public HostMenu() {
-        final MyButton white = 
-        new MyButton( (int)(WindowConfig.INSIDE_SQUARE * 0.1), (int)(WindowConfig.INSIDE_SQUARE * 0.75), 
-        (int)(WindowConfig.INSIDE_SQUARE * 0.3), (int)(WindowConfig.INSIDE_SQUARE * 0.3), 
-        "white_unchecked","white_checked", "white_checked", new MyListener());
-        final MyButton black = 
-        new MyButton( (int)(WindowConfig.INSIDE_SQUARE * 0.6), (int)(WindowConfig.INSIDE_SQUARE * 0.75), 
-        (int)(WindowConfig.INSIDE_SQUARE * 0.3), (int)(WindowConfig.INSIDE_SQUARE * 0.3), 
-        "black_unchecked","black_checked", "black_checked", new MyListener());
+        final MyButton white = new MyButton((int) (WindowConfig.INSIDE_SQUARE * 0.1),
+                (int) (WindowConfig.INSIDE_SQUARE * 0.75),
+                (int) (WindowConfig.INSIDE_SQUARE * 0.3), (int) (WindowConfig.INSIDE_SQUARE * 0.3),
+                "white_unchecked", "white_checked", "white_checked", new MyListener());
+        final MyButton black = new MyButton((int) (WindowConfig.INSIDE_SQUARE * 0.6),
+                (int) (WindowConfig.INSIDE_SQUARE * 0.75),
+                (int) (WindowConfig.INSIDE_SQUARE * 0.3), (int) (WindowConfig.INSIDE_SQUARE * 0.3),
+                "black_unchecked", "black_checked", "black_checked", new MyListener());
 
         white.setChecked(true);
 
@@ -25,11 +25,19 @@ public class HostMenu extends Menu {
 
         addActor(white);
         addActor(black);
-        addActor(new MyTextButton(2, "HOST", new MyListener() {
-            public void onClick() { Game.machine.hostOnlineGame(white.isChecked()); }
-        }));
-        addActor(new MyTextButton(0, "BACK", new MyListener() {
-	        public void onClick() { Game.machine.toMenu(OnlineMenu.class); }
-        }));
+
+        super.addTextButton(new MyTextButton("HOST", new MyListener() {
+            public void onClick() {
+                Game.machine.hostOnlineGame(white.isChecked());
+            }
+        }), 20, WindowConfig.BUTTON_DEFAULT_WIDTH);
+
+        super.addTextButton(new MyTextButton("BACK", new MyListener() {
+            public void onClick() {
+                Game.machine.toMenu(OnlineMenu.class);
+            }
+        }), 20, WindowConfig.BUTTON_DEFAULT_WIDTH);
+
+        addActor(super.table);
     }
 }
