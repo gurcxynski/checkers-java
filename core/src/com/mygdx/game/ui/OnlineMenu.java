@@ -4,6 +4,8 @@ import com.mygdx.game.Game;
 
 public class OnlineMenu extends Menu {
     public OnlineMenu() {
+        super();
+
         super.addTextButton(new MyTextButton("HOST", new MyListener() {
             public void onClick() {
                 Game.machine.toMenu(HostMenu.class);

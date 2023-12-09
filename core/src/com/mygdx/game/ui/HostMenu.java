@@ -7,6 +7,8 @@ import com.mygdx.game.WindowConfig;
 
 public class HostMenu extends Menu {
     public HostMenu() {
+        super();
+
         final MyButton white = new MyButton((int) (WindowConfig.INSIDE_SQUARE * 0.1),
                 (int) (WindowConfig.INSIDE_SQUARE * 0.75),
                 (int) (WindowConfig.INSIDE_SQUARE * 0.3), (int) (WindowConfig.INSIDE_SQUARE * 0.3),

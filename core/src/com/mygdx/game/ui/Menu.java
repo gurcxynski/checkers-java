@@ -21,19 +21,22 @@ public class Menu extends Stage {
     }
 
     protected void addTextButton(TextButton button) {
-        this.table.add(button).pad(WindowConfig.BUTTON_DEFAULT_PAD).width(WindowConfig.BUTTON_DEFAULT_WIDTH).row();
+        this.table.add(button).pad(WindowConfig.BUTTON_DEFAULT_PAD).width(WindowConfig.BUTTON_DEFAULT_WIDTH)
+                .height(WindowConfig.BUTTON_DEFAULT_HEIGHT).row();
     }
 
     protected void addTextButton(TextButton button, float pad) {
-        this.table.add(button).pad(pad).width(WindowConfig.BUTTON_DEFAULT_WIDTH).row();
+        this.table.add(button).pad(pad).width(WindowConfig.BUTTON_DEFAULT_WIDTH)
+                .height(WindowConfig.BUTTON_DEFAULT_HEIGHT).row();
     }
 
     protected void addTextButton(TextButton button, int width) {
-        this.table.add(button).pad(WindowConfig.BUTTON_DEFAULT_PAD).width(width).row();
+        this.table.add(button).pad(WindowConfig.BUTTON_DEFAULT_PAD).width(width)
+                .height(WindowConfig.BUTTON_DEFAULT_HEIGHT).row();
     }
 
     protected void addTextButton(TextButton button, int pad, int width) {
-        this.table.add(button).pad(pad).width(width).row();
+        this.table.add(button).pad(pad).width(width).height(WindowConfig.BUTTON_DEFAULT_HEIGHT).row();
     }
 
     public Menu() {

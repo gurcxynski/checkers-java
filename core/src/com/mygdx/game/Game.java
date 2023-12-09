@@ -14,6 +14,7 @@ import com.mygdx.game.StateMachine.GameState;
 public class Game extends ApplicationAdapter {
 
 	public static Skin skin;
+
 	public static StateMachine machine;
 	public static int style = 1;
 
@@ -64,6 +65,7 @@ public class Game extends ApplicationAdapter {
 		parameter.size = 32;
 		parameter.shadowOffsetY = 3;
 		parameter.shadowOffsetX = 3;
+		parameter.color = Color.WHITE;
 		parameter.shadowColor = Color.BLACK;
 
 		BitmapFont customFont = generator.generateFont(parameter);
@@ -75,6 +77,9 @@ public class Game extends ApplicationAdapter {
 		buttonStyle.checked = skin.getDrawable("buttonchecked");
 		buttonStyle.font = customFont;
 
+		System.out.println(customFont.getColor());
+
 		skin.add("default", buttonStyle);
+		skin.add("font", customFont, BitmapFont.class);
 	}
 }
