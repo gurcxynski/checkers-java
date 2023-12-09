@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.ui.MyButton;
 import com.mygdx.game.ui.MyListener;
-import com.mygdx.game.ui.MyTextButton;
 
 /**
  * The Board class represents the game board in a checkers game.
@@ -116,11 +116,12 @@ public class Board extends Stage {
         for (Actor piece : pieces) {
             addActor(piece);
         }
-        addActor(new MyTextButton(
+        addActor(new MyButton(
                 (int) (WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN),
                 (int) (WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN),
                 (int) (WindowConfig.OUTSIDE_SQUARE * 0.1), (int) (WindowConfig.OUTSIDE_SQUARE * 0.1),
-                "OPTIONS", new MyListener() {
+                "settings_icon_transparent", "settings_icon_transparent", "settings_icon_transparent",
+                new MyListener() {
                     public void onClick() {
                         Game.machine.pause();
                     }

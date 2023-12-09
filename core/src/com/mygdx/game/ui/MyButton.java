@@ -46,6 +46,15 @@ public class MyButton extends Button {
         addListener(listenerFactory(listener));
     }
 
+    public MyButton(int tier, String texture_up, String texture_down, String texture_checked,
+            final MyListener listener) {
+        setBounds(
+                WindowConfig.BUTTON_DEFAULT_X + WindowConfig.MARGIN,
+                (WindowConfig.BUTTON_DEFAULT_STEP * tier) + WindowConfig.MARGIN,
+                Game.skin.getDrawable(texture_up).getMinWidth(), Game.skin.getDrawable(texture_up).getMinHeight());
+        init(texture_up, texture_down, texture_checked, listener);
+    }
+
     public MyButton(int x, int y, String texture_up, String texture_down, String texture_checked,
             final MyListener listener) {
         setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, Game.skin.getDrawable(texture_up).getMinWidth(),
@@ -56,12 +65,6 @@ public class MyButton extends Button {
     public MyButton(int x, int y, int width, int height, String texture_up, String texture_down, String texture_checked,
             final MyListener listener) {
         setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, width, height);
-        init(texture_up, texture_down, texture_checked, listener);
-    }
-
-    public MyButton(int width, String texture_up, String texture_down, String texture_checked,
-            final MyListener listener) {
-        setBounds(0, 0, width, width);
         init(texture_up, texture_down, texture_checked, listener);
     }
 }
