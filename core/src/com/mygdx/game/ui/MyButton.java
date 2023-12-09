@@ -46,6 +46,16 @@ public class MyButton extends Button {
         addListener(listenerFactory(listener));
     }
 
+    public void init(String textureName, MyListener listener) {
+        Drawable texture = Game.skin.getDrawable(textureName);
+        ButtonStyle style = new ButtonStyle();
+        style.down = texture;
+        style.up = texture;
+        style.checked = texture;
+        setStyle(style);
+        addListener(listenerFactory(listener));
+    }
+
     public MyButton(int tier, String texture_up, String texture_down, String texture_checked,
             final MyListener listener) {
         setBounds(
@@ -66,5 +76,11 @@ public class MyButton extends Button {
             final MyListener listener) {
         setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, width, height);
         init(texture_up, texture_down, texture_checked, listener);
+    }
+
+    public MyButton(int x, int y, int size, String texture,
+            final MyListener listener) {
+        setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, size, size);
+        init(texture, listener);
     }
 }

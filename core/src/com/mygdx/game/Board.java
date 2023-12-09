@@ -119,8 +119,7 @@ public class Board extends Stage {
         addActor(new MyButton(
                 (int) (WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN),
                 (int) (WindowConfig.OUTSIDE_SQUARE * 0.9 - WindowConfig.MARGIN),
-                (int) (WindowConfig.OUTSIDE_SQUARE * 0.1), (int) (WindowConfig.OUTSIDE_SQUARE * 0.1),
-                "settings_icon_transparent", "settings_icon_transparent", "settings_icon_transparent",
+                (WindowConfig.OUTSIDE_SQUARE / 10), "settings_icon_transparent",
                 new MyListener() {
                     public void onClick() {
                         Game.machine.pause();
