@@ -10,16 +10,20 @@ import com.mygdx.game.WindowConfig;
 
 public class MyButton extends Button {
     List<MyButton> disable;
-    InputListener listenerFactory(MyListener listener) {
+
+    InputListener listenerFactory(final MyListener listener) {
         return new InputListener() {
-            public boolean touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y, int pointer,
+                    int button) {
                 return true;
             }
 
-            public void touchUp(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y, int pointer, int button) {
+            public void touchUp(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y, int pointer,
+                    int button) {
                 if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
                     listener.onClick();
-                    if (!isChecked()) setChecked(true);
+                    if (!isChecked())
+                        setChecked(true);
                     if (disable != null) {
                         for (MyButton other : disable) {
                             other.setChecked(false);
@@ -29,6 +33,7 @@ public class MyButton extends Button {
             }
         };
     }
+
     public void init(String texture_up, String texture_down, String texture_checked, MyListener listener) {
         Drawable up = Game.skin.getDrawable(texture_up);
         Drawable down = Game.skin.getDrawable(texture_down);
@@ -37,20 +42,27 @@ public class MyButton extends Button {
         style.down = down;
         style.up = up;
         style.checked = checked;
-        setStyle(style);
         addListener(listenerFactory(listener));
     }
-    public MyButton(int tier, String texture_up, String texture_down, String texture_checked, final MyListener listener) {
+
+    public MyButton(int tier, String texture_up, String texture_down, String texture_checked,
+            final MyListener listener) {
         setBounds(
-            WindowConfig.BUTTON_DEFAULT_X + WindowConfig.MARGIN, (WindowConfig.BUTTON_DEFAULT_STEP * tier) + WindowConfig.MARGIN, 
-            Game.skin.getDrawable(texture_up).getMinWidth(), Game.skin.getDrawable(texture_up).getMinHeight());
+                WindowConfig.BUTTON_DEFAULT_X + WindowConfig.MARGIN,
+                (WindowConfig.BUTTON_DEFAULT_STEP * tier) + WindowConfig.MARGIN,
+                Game.skin.getDrawable(texture_up).getMinWidth(), Game.skin.getDrawable(texture_up).getMinHeight());
         init(texture_up, texture_down, texture_checked, listener);
     }
-    public MyButton(int x, int y, String texture_up, String texture_down, String texture_checked, final MyListener listener) {
-        setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, Game.skin.getDrawable(texture_up).getMinWidth(), Game.skin.getDrawable(texture_up).getMinHeight());
+
+    public MyButton(int x, int y, String texture_up, String texture_down, String texture_checked,
+            final MyListener listener) {
+        setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, Game.skin.getDrawable(texture_up).getMinWidth(),
+                Game.skin.getDrawable(texture_up).getMinHeight());
         init(texture_up, texture_down, texture_checked, listener);
     }
-    public MyButton(int x, int y, int width, int height, String texture_up, String texture_down, String texture_checked, final MyListener listener) {
+
+    public MyButton(int x, int y, int width, int height, String texture_up, String texture_down, String texture_checked,
+            final MyListener listener) {
         setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, width, height);
         init(texture_up, texture_down, texture_checked, listener);
     }
