@@ -42,6 +42,14 @@ public class Move implements Serializable {
         return Math.abs(from[1] - to[1]);
     }
 
+    /**
+     * Sets the captured flag for the move if the conditions are met.
+     * The captured flag indicates whether a piece was captured during the move.
+     * The conditions for capturing a piece are:
+     * - The move length in both X and Y directions is 2.
+     * - The destination field is empty.
+     * - There is a piece of the opposite color in the field jumped over.
+     */
     private void setCaptured() {
         if (lengthX() != 2 || lengthY() != 2)
             return;

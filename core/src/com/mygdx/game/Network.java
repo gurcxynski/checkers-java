@@ -36,6 +36,13 @@ public class Network {
         }
     }
 
+    /**
+     * Initializes the network connection by creating a socket and establishing a connection to the specified IP address and port.
+     * Retrieves the input stream from the socket and reads the boolean value indicating whether the player is white or not.
+     *
+     * @param port the port number to connect to
+     * @param ip the IP address to connect to
+     */
     public void initialize(int port, InetAddress ip) {
         try {
             connectedSocket = new Socket(ip, port);
@@ -50,6 +57,12 @@ public class Network {
         }
     }
 
+    /**
+     * Initializes the network connection on the specified port.
+     * Waits for a client to connect and sends a message indicating whether the server is white or not.
+     *
+     * @param port the port number to listen on
+     */
     public void initialize(int port) {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
@@ -69,6 +82,11 @@ public class Network {
         }
     }
 
+    /**
+     * Sends a move object over the network.
+     *
+     * @param move the move object to be sent
+     */
     public void sendMove(Move move) {
         try {
             ObjectOutputStream out = new ObjectOutputStream(this.connectedSocket.getOutputStream());
@@ -79,6 +97,11 @@ public class Network {
         }
     }
 
+    /**
+     * Receives a Move object from the connected socket's input stream.
+     *
+     * @return the received Move object, or null if no move is available
+     */
     public Move recieveMove() {
         Move move = null;
         try {
