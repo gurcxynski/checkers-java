@@ -34,7 +34,7 @@ public class OptionsMenu extends Menu {
                     button.disable.add(other);
                 }
             }
-            super.addTextButton(button, 5);
+            super.addTextButton(button, 5f);
         }
 
         super.table.add(new MyTextButton("BACK", new MyListener() {
