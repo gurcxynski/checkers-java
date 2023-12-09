@@ -10,4 +10,5 @@ public abstract class WindowConfig {
     public static final int BUTTON_DEFAULT_HEIGHT = (int) (WindowConfig.INSIDE_SQUARE * 0.2);
     public static final int BUTTON_DEFAULT_X = (int) (WindowConfig.INSIDE_SQUARE * 0.2);
     public static final int BUTTON_DEFAULT_STEP = (int) (WindowConfig.INSIDE_SQUARE * 0.25);
+    public static final int BUTTON_DEFAULT_PAD = 20;
 }

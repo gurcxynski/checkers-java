@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Game;
+import com.mygdx.game.WindowConfig;
 
 public class Menu extends Stage {
     protected Table table;
@@ -17,6 +18,18 @@ public class Menu extends Stage {
                 Gdx.graphics.getHeight());
         getBatch().end();
         super.draw();
+    }
+
+    protected void addTextButton(TextButton button) {
+        this.table.add(button).pad(WindowConfig.BUTTON_DEFAULT_PAD).width(WindowConfig.BUTTON_DEFAULT_WIDTH).row();
+    }
+
+    protected void addTextButton(TextButton button, float pad) {
+        this.table.add(button).pad(pad).width(WindowConfig.BUTTON_DEFAULT_WIDTH).row();
+    }
+
+    protected void addTextButton(TextButton button, int width) {
+        this.table.add(button).pad(WindowConfig.BUTTON_DEFAULT_PAD).width(width).row();
     }
 
     protected void addTextButton(TextButton button, int pad, int width) {
