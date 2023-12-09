@@ -25,6 +25,11 @@ public class Menu extends Stage {
                 .height(WindowConfig.BUTTON_DEFAULT_HEIGHT).row();
     }
 
+    protected void addTextButton(int span, TextButton button) {
+        this.table.add(button).pad(WindowConfig.BUTTON_DEFAULT_PAD).width(WindowConfig.BUTTON_DEFAULT_WIDTH)
+                .height(WindowConfig.BUTTON_DEFAULT_HEIGHT).colspan(span).row();
+    }
+
     protected void addTextButton(TextButton button, float pad) {
         this.table.add(button).pad(pad).width(WindowConfig.BUTTON_DEFAULT_WIDTH)
                 .height(WindowConfig.BUTTON_DEFAULT_HEIGHT).row();

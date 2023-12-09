@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.StateMachine.GameState;
@@ -77,9 +78,13 @@ public class Game extends ApplicationAdapter {
 		buttonStyle.checked = skin.getDrawable("buttonchecked");
 		buttonStyle.font = customFont;
 
+		Label.LabelStyle labelStyle = new Label.LabelStyle();
+		labelStyle.font = customFont;
+
 		System.out.println(customFont.getColor());
 
 		skin.add("default", buttonStyle);
+		skin.add("default", labelStyle);
 		skin.add("font", customFont, BitmapFont.class);
 	}
 }
