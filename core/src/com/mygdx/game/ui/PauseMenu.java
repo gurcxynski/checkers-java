@@ -1,20 +1,14 @@
 package com.mygdx.game.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Game;
 
 public class PauseMenu extends Menu {
     public PauseMenu() {
-        super();
+        super(false);
 
-        super.addTextButton(new MyTextButton("NEW GAME", new MyListener() {
+        super.addTextButton(new MyTextButton("EXIT TO MENU", new MyListener() {
             public void onClick() {
-                Game.machine.toMenu(NewGameMenu.class);
-            }
-        }));
-        super.addTextButton(new MyTextButton("QUIT", new MyListener() {
-            public void onClick() {
-                Gdx.app.exit();
+                Game.machine.toMenu(StartMenu.class);
             }
         }));
 

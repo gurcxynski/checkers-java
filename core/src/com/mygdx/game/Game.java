@@ -52,15 +52,6 @@ public class Game extends ApplicationAdapter {
 	}
 
 	private void loadFont() {
-		// // param.size = 13;
-		// // param.gamma = 2f;
-		// // param.shadowOffsetY = 1;
-		// // param.renderCount = 3;
-
-		// // param.characters = Hiero.EXTENDED_CHARS;
-		// // param.packer = new PixmapPacker(512, 512, Format.RGBA8888, 2, false, new
-		// // SkylineStrategy());
-
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = 32;
@@ -80,8 +71,6 @@ public class Game extends ApplicationAdapter {
 
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = customFont;
-
-		System.out.println(customFont.getColor());
 
 		skin.add("default", buttonStyle);
 		skin.add("default", labelStyle);
