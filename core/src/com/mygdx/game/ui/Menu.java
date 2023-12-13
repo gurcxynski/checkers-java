@@ -19,7 +19,6 @@ public class Menu extends Stage {
                 Gdx.graphics.getWidth(),
                 Gdx.graphics.getHeight());
         getBatch().end();
-        super.draw();
     }
 
     @Override

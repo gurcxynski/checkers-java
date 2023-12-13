@@ -92,6 +92,7 @@ public class StateMachine {
     }
 
     void draw() {
+        if (ret_board != null) ret_board.draw();
         activeStage.draw();
     }
 
@@ -153,10 +154,9 @@ public class StateMachine {
         }
     }
     
-    public void pause() {
+    public void hold_board() {
         ret_board = (Board) activeStage;
         ret_state = state;
-        toMenu(PauseMenu.class);
     }
 
     public void resume() {
@@ -168,7 +168,7 @@ public class StateMachine {
     }
 
     public void endGame() {
-        activeStage.draw();
+        hold_board();
         activeStage = new EndGameMenu(((Board) activeStage).getWinner());
         state = GameState.MENU;
         Gdx.input.setInputProcessor(activeStage);

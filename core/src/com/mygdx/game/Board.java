@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.MyButton;
 import com.mygdx.game.ui.MyListener;
+import com.mygdx.game.ui.PauseMenu;
 
 /**
  * The Board class represents the game board in a checkers game.
@@ -105,14 +106,16 @@ public class Board extends Stage {
      */
     public void initialize() {
         pieces = new ArrayList<Piece>();
-        for (int i = 0; i < 4; i++) {
-            pieces.add(new Piece(i * 2, 0, true));
-            pieces.add(new Piece(i * 2 + 1, 1, true));
-            pieces.add(new Piece(i * 2, 2, true));
-            pieces.add(new Piece(i * 2 + 1, 7, false));
-            pieces.add(new Piece(i * 2, 6, false));
-            pieces.add(new Piece(i * 2 + 1, 5, false));
-        }
+        //for (int i = 0; i < 4; i++) {
+        //    pieces.add(new Piece(i * 2, 0, true));
+        //    pieces.add(new Piece(i * 2 + 1, 1, true));
+        //    pieces.add(new Piece(i * 2, 2, true));
+        //    pieces.add(new Piece(i * 2 + 1, 7, false));
+        //    pieces.add(new Piece(i * 2, 6, false));
+        //    pieces.add(new Piece(i * 2 + 1, 5, false));
+        //}
+        pieces.add(new Piece(0, 0, true));
+        pieces.add(new Piece(2, 2, false));
         for (Actor piece : pieces) {
             addActor(piece);
         }
@@ -122,7 +125,8 @@ public class Board extends Stage {
                 (WindowConfig.OUTSIDE_SQUARE / 10), "settings_icon_transparent",
                 new MyListener() {
                     public void onClick() {
-                        Game.machine.pause();
+                        Game.machine.hold_board();
+                        Game.machine.toMenu(PauseMenu.class);
                     }
                 }));
     }

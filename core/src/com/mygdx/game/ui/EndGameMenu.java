@@ -1,14 +1,19 @@
 package com.mygdx.game.ui;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.Game;
 
-public class EndGameMenu extends Stage {
+public class EndGameMenu extends Menu {
     public EndGameMenu(boolean winner) {
-        addActor(new MyTextButton(250, 350, (winner ? "WHITE" : "BLACK") + " WON", new MyListener() {
+        super(false);
+        Label label = new Label((winner ? "WHITE" : "BLACK") + " WON!", Game.skin);
+        super.table.add(label);
+        super.table.row();
+        super.table.add(new MyTextButton("MAIN MENU", new MyListener() {
             public void onClick() {
                 Game.machine.toMenu(StartMenu.class);
             }
         }));
+        addActor(super.table);
     }
 }
