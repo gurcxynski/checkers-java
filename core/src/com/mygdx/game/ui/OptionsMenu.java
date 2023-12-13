@@ -24,7 +24,7 @@ public class OptionsMenu extends Menu {
                         }
                     });
             btn.disable = new ArrayList<>();
-            if (i == 1)
+            if (i == Game.style)
                 btn.setChecked(true);
             buttons.add(btn);
         }

@@ -31,7 +31,7 @@ public class StateMachine {
 
     public Stage activeStage;
 
-    Board ret_board = null;
+    public Board ret_board = null;
     GameState ret_state = null;
 
     ArrayList<Move> moveList;
