@@ -64,8 +64,8 @@ public class Game extends ApplicationAdapter {
 		generator.dispose();
 
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-		buttonStyle.up = skin.getDrawable("buttonblank");
-		buttonStyle.down = skin.getDrawable("buttonblankdown");
+		buttonStyle.up = skin.getDrawable("buttonup");
+		buttonStyle.down = skin.getDrawable("buttondown");
 		buttonStyle.checked = skin.getDrawable("buttonchecked");
 		buttonStyle.font = customFont;
 

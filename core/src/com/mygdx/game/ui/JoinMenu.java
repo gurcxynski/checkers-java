@@ -3,6 +3,7 @@ package com.mygdx.game.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.Align;
@@ -17,7 +18,7 @@ public class JoinMenu extends Menu {
         TextFieldStyle style = new TextFieldStyle();
         style.font = Game.skin.getFont("font");
         style.fontColor = Color.LIGHT_GRAY;
-        style.background = Game.skin.getDrawable("buttonblank");
+        style.background = Game.skin.get("default", TextButtonStyle.class).up;
 
         field = new TextField("Click here to input IP", style);
         field.setAlignment(Align.center);
@@ -31,7 +32,7 @@ public class JoinMenu extends Menu {
 
                     newStyle.font = Game.skin.getFont("font");
                     newStyle.fontColor = Color.WHITE;
-                    newStyle.background = Game.skin.getDrawable("buttonblankdown");
+                    newStyle.background = Game.skin.get("default", TextButtonStyle.class).down;
                     field.setStyle(newStyle);
                 }
             }

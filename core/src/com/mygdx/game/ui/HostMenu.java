@@ -1,5 +1,7 @@
 package com.mygdx.game.ui;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -7,7 +9,7 @@ import com.mygdx.game.Game;
 import com.mygdx.game.WindowConfig;
 
 public class HostMenu extends Menu {
-    public HostMenu() {
+    public HostMenu() throws UnknownHostException {
         super();
 
         final MyButton white = new MyButton(WindowConfig.BUTTON_DEFAULT_HEIGHT,
@@ -36,6 +38,8 @@ public class HostMenu extends Menu {
                 Game.machine.hostOnlineGame(white.isChecked());
             }
         }));
+
+        super.addTextButton(3, new MyTextButton("Game will be hosted at:\n" + InetAddress.getLocalHost().getHostAddress(), new MyListener()));
 
         super.addTextButton(3, new MyTextButton("BACK", new MyListener() {
             public void onClick() {
