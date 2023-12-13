@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.EndGameMenu;
-import com.mygdx.game.ui.PauseMenu;
 import com.mygdx.game.ui.StartMenu;
 
 /**
