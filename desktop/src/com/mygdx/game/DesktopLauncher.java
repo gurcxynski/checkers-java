@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		config.setTitle(WindowConfig.TITLE);
 		config.setWindowedMode(WindowConfig.OUTSIDE_SQUARE, WindowConfig.OUTSIDE_SQUARE);
 		config.setResizable(false);
-		config.setWindowIcon("assets/blackking.png");
+		config.setWindowIcon("assets/whiteking.png");
 
 		new Lwjgl3Application(new Game(), config);
 	}
