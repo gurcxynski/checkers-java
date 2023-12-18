@@ -2,6 +2,7 @@ package com.mygdx.game.ui;
 
 import java.util.List;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Game;
@@ -12,12 +13,12 @@ public class MyTextButton extends TextButton {
 
     InputListener listenerFactory(final MyListener listener) {
         return new InputListener() {
-            public boolean touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y, int pointer,
+            public boolean touchDown(InputEvent event, float x, float y, int pointer,
                     int button) {
                 return true;
             }
 
-            public void touchUp(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y, int pointer,
+            public void touchUp(InputEvent event, float x, float y, int pointer,
                     int button) {
                 if (x > 0 && x < getWidth() && y > 0 && y < getHeight()) {
                     listener.onClick();

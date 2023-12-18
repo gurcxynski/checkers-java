@@ -15,7 +15,7 @@ public class Menu extends Stage {
 
     public void drawBackground() {
         getBatch().begin();
-        getBatch().draw(Game.skin.get("light_tile", Texture.class), 0, 0,
+        getBatch().draw(Game.skin.get("background", Texture.class), 0, 0,
                 Gdx.graphics.getWidth(),
                 Gdx.graphics.getHeight());
         getBatch().end();

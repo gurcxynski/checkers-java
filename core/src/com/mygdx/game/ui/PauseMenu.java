@@ -47,7 +47,7 @@ public class PauseMenu extends Menu {
             super.addTextButton(button, 5f);
         }
 
-        super.addTextButton(new MyTextButton("EXIT TO MENU", new MyListener() {
+        super.addTextButton(new MyTextButton("EXIT GAME", new MyListener() {
             public void onClick() {
                 Game.machine.toMenu(StartMenu.class);
             }

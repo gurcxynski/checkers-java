@@ -134,7 +134,7 @@ public class Board extends Stage {
     @Override
     public void draw() {
         getBatch().begin();
-        getBatch().draw(Game.skin.get("dark_tile", Texture.class), 0, 0, WindowConfig.OUTSIDE_SQUARE,
+        getBatch().draw(Game.skin.get("background", Texture.class), 0, 0, WindowConfig.OUTSIDE_SQUARE,
                 WindowConfig.OUTSIDE_SQUARE);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {

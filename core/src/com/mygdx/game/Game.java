@@ -54,26 +54,30 @@ public class Game extends ApplicationAdapter {
 	private void loadFont() {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 32;
+		parameter.size = WindowConfig.FONT_SIZE_NORMAL;
 		parameter.shadowOffsetY = 3;
 		parameter.shadowOffsetX = 3;
 		parameter.color = Color.WHITE;
 		parameter.shadowColor = Color.BLACK;
 
-		BitmapFont customFont = generator.generateFont(parameter);
+		BitmapFont normalFont = generator.generateFont(parameter);
+		parameter.size = WindowConfig.FONT_SIZE_HEADER;
+		BitmapFont headerFont = generator.generateFont(parameter);
+
 		generator.dispose();
 
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
 		buttonStyle.up = skin.getDrawable("buttonup");
 		buttonStyle.down = skin.getDrawable("buttondown");
 		buttonStyle.checked = skin.getDrawable("buttonchecked");
-		buttonStyle.font = customFont;
+		buttonStyle.font = normalFont;
 
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = customFont;
+		labelStyle.font = normalFont;
 
 		skin.add("default", buttonStyle);
 		skin.add("default", labelStyle);
-		skin.add("font", customFont, BitmapFont.class);
+		skin.add("font", normalFont, BitmapFont.class);
+		skin.add("h_font", headerFont, BitmapFont.class);
 	}
 }
