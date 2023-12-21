@@ -9,19 +9,18 @@ public class Piece extends Actor {
     private boolean white;
     private int x;
     private int y;
-
+    private Texture texture;
     public Piece(int x, int y, boolean white) {
         this.white = white;
         isKing = false;
         this.x = x;
         this.y = y;
+        texture = Game.skin.get(white ? "white" : (Game.style == 2 ? "red" : "black"), Texture.class);
     }
 
     @Override
     public void draw(Batch batch, float p_alpha) {
         int size = WindowConfig.SIZE;
-        Texture texture = Game.skin
-                .get(isKing ? (white ? "whiteking" : "blackking") : (white ? "white" : "black"), Texture.class);
         batch.draw(texture, Game.machine.drawBlackDown() ? (7 * size) - (x * size - WindowConfig.MARGIN) : x * size + WindowConfig.MARGIN,
                 Game.machine.drawBlackDown() ? (7 * size) - (y * size - WindowConfig.MARGIN) : y * size + WindowConfig.MARGIN, size, size);
     }
@@ -47,7 +46,13 @@ public class Piece extends Actor {
     }
 
     public void kingMe() {
+        texture = Game.skin.get(white ? "white_king" : (Game.style == 2 ? "red_king" : "black_king"), Texture.class);
         isKing = true;
+    }
+
+    public void updateColor() {
+        texture = Game.skin.get(white ? "white" : (Game.style == 2 ? "red" : "black"), Texture.class);
+        if (isKing) texture = Game.skin.get(white ? "white_king" : (Game.style == 2 ? "red_king" : "black_king"), Texture.class);
     }
 
     public void moveTo(int x, int y) {

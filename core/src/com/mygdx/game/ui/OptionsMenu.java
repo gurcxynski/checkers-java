@@ -21,6 +21,7 @@ public class OptionsMenu extends Menu {
                     new MyListener() {
                         public void onClick() {
                             Game.style = a;
+                            Game.machine.ret_board.updateColor();
                         }
                     });
             btn.disable = new ArrayList<>();

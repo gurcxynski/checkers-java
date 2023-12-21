@@ -246,4 +246,10 @@ public class Board extends Stage {
     public void pickUp(Piece piece) {
         held = piece;
     }
+
+    public void updateColor() {
+        for (Piece piece : pieces) {
+            piece.updateColor();
+        }
+    }
 }
