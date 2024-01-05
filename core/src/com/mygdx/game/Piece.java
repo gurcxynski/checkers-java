@@ -10,6 +10,7 @@ public class Piece extends Actor {
     private int x;
     private int y;
     private Texture texture;
+
     public Piece(int x, int y, boolean white) {
         this.white = white;
         isKing = false;
@@ -21,8 +22,12 @@ public class Piece extends Actor {
     @Override
     public void draw(Batch batch, float p_alpha) {
         int size = WindowConfig.SIZE;
-        batch.draw(texture, Game.machine.drawBlackDown() ? (7 * size) - (x * size - WindowConfig.MARGIN) : x * size + WindowConfig.MARGIN,
-                Game.machine.drawBlackDown() ? (7 * size) - (y * size - WindowConfig.MARGIN) : y * size + WindowConfig.MARGIN, size, size);
+        batch.draw(texture,
+                Game.machine.drawBlackDown() ? (7 * size) - (x * size - WindowConfig.MARGIN)
+                        : x * size + WindowConfig.MARGIN,
+                Game.machine.drawBlackDown() ? (7 * size) - (y * size - WindowConfig.MARGIN)
+                        : y * size + WindowConfig.MARGIN,
+                size, size);
     }
 
     public int[] getGrid() {
@@ -46,13 +51,15 @@ public class Piece extends Actor {
     }
 
     public void kingMe() {
-        texture = Game.skin.get(white ? "white_king" : (Game.style == 2 ? "red_king" : "black_king"), Texture.class);
+        texture = Game.skin.get(white ? "whiteking" : (Game.style == 2 ? "redking" : "blackking"), Texture.class);
         isKing = true;
     }
 
     public void updateColor() {
         texture = Game.skin.get(white ? "white" : (Game.style == 2 ? "red" : "black"), Texture.class);
-        if (isKing) texture = Game.skin.get(white ? "white_king" : (Game.style == 2 ? "red_king" : "black_king"), Texture.class);
+        if (isKing)
+            texture = Game.skin.get(white ? "white_king" : (Game.style == 2 ? "red_king" : "black_king"),
+                    Texture.class);
     }
 
     public void moveTo(int x, int y) {
