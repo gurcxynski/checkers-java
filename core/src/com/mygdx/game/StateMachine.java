@@ -24,7 +24,7 @@ public class StateMachine {
     }
 
     Network network;
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    ScheduledExecutorService scheduler;
     final Object pingLock = new Object();
 
     GameState state;
@@ -146,6 +146,7 @@ public class StateMachine {
         network.connect(white);
         playingWhiteOnline = white;
 
+        this.scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(this::startPinging, 0, 100, TimeUnit.MILLISECONDS);
         initializeGame();
     }
@@ -155,6 +156,7 @@ public class StateMachine {
         network.connect(ip);
         playingWhiteOnline = network.isWhite;
 
+        this.scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(this::startPinging, 0, 100, TimeUnit.MILLISECONDS);
         initializeGame();
     }
