@@ -21,7 +21,7 @@ public class OptionsMenu extends Menu {
                     new MyListener() {
                         public void onClick() {
                             Game.style = a;
-                            if (!(Game.machine.ret_board == null))
+                            if (Game.machine.ret_board != null)
                                 Game.machine.ret_board.updateColor();
                         }
                     });

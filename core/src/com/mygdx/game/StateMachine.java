@@ -2,6 +2,9 @@ package com.mygdx.game;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,7 +13,8 @@ import com.mygdx.game.ui.StartMenu;
 
 /**
  * The StateMachine class represents the state machine for the game.
- * It manages the game state, player turns, network communication, and stage transitions.
+ * It manages the game state, player turns, network communication, and stage
+ * transitions.
  */
 public class StateMachine {
     enum GameState {
@@ -20,11 +24,13 @@ public class StateMachine {
     }
 
     Network network;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    final Object pingLock = new Object();
 
     GameState state;
 
     boolean playingWhiteOnline;
-    boolean onlineGame;
+    public boolean onlineGame;
 
     boolean turnWhiteLocal;
 
@@ -56,7 +62,7 @@ public class StateMachine {
     void checkForIncoming() {
         if (network.connectedSocket == null)
             return;
-        
+
         Move enemyMove = network.recieveMove();
         if (enemyMove == null)
             return;
@@ -74,6 +80,19 @@ public class StateMachine {
         return;
     }
 
+    private void startPinging() {
+        if (network.isDisconnected()) {
+            disconnectOnline();
+            Gdx.app.postRunnable(() -> endGameDisconnected());
+        }
+    }
+
+    public void disconnectOnline() {
+        scheduler.shutdown();
+        this.onlineGame = false;
+        this.network.disconnect();
+    }
+
     public void onMoveExecuted() {
         if (onlineGame)
             network.sendMove(lastMove());
@@ -85,13 +104,14 @@ public class StateMachine {
             state = GameState.AWATING_NETWORK;
         else
             turnWhiteLocal = !turnWhiteLocal;
-        
+
         if (((Board) activeStage).isGameOver())
             endGame();
     }
 
     void draw() {
-        if (ret_board != null) ret_board.draw();
+        if (ret_board != null)
+            ret_board.draw();
         activeStage.draw();
     }
 
@@ -126,6 +146,7 @@ public class StateMachine {
         network.connect(white);
         playingWhiteOnline = white;
 
+        scheduler.scheduleAtFixedRate(this::startPinging, 0, 100, TimeUnit.MILLISECONDS);
         initializeGame();
     }
 
@@ -134,10 +155,13 @@ public class StateMachine {
         network.connect(ip);
         playingWhiteOnline = network.isWhite;
 
+        scheduler.scheduleAtFixedRate(this::startPinging, 0, 100, TimeUnit.MILLISECONDS);
         initializeGame();
     }
+
     /**
-     * Sets the active stage to the specified menu class and changes the game state to MENU.
+     * Sets the active stage to the specified menu class and changes the game state
+     * to MENU.
      * Also sets the input processor to the active stage.
      *
      * @param menuClass the class of the menu stage to set as the active stage
@@ -148,11 +172,12 @@ public class StateMachine {
             activeStage = menuClass.getDeclaredConstructor().newInstance();
             state = GameState.MENU;
             Gdx.input.setInputProcessor(activeStage);
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException
+                | InvocationTargetException e) {
             e.printStackTrace();
         }
     }
-    
+
     public void hold_board() {
         ret_board = (Board) activeStage;
         ret_state = state;
@@ -168,7 +193,14 @@ public class StateMachine {
 
     public void endGame() {
         hold_board();
-        activeStage = new EndGameMenu(((Board) activeStage).getWinner());
+        activeStage = new EndGameMenu(((Board) activeStage).getWinner(), false);
+        state = GameState.MENU;
+        Gdx.input.setInputProcessor(activeStage);
+    }
+
+    public void endGameDisconnected() {
+        hold_board();
+        activeStage = new EndGameMenu(true, true);
         state = GameState.MENU;
         Gdx.input.setInputProcessor(activeStage);
     }

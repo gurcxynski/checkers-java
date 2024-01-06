@@ -50,6 +50,9 @@ public class PauseMenu extends Menu {
 
         super.addTextButton(new MyTextButton("EXIT GAME", new MyListener() {
             public void onClick() {
+                if (Game.machine.onlineGame) {
+                    Game.machine.disconnectOnline();
+                }
                 Game.machine.toMenu(StartMenu.class);
             }
         }));

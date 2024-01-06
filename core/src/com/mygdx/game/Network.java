@@ -37,11 +37,13 @@ public class Network {
     }
 
     /**
-     * Initializes the network connection by creating a socket and establishing a connection to the specified IP address and port.
-     * Retrieves the input stream from the socket and reads the boolean value indicating whether the player is white or not.
+     * Initializes the network connection by creating a socket and establishing a
+     * connection to the specified IP address and port.
+     * Retrieves the input stream from the socket and reads the boolean value
+     * indicating whether the player is white or not.
      *
      * @param port the port number to connect to
-     * @param ip the IP address to connect to
+     * @param ip   the IP address to connect to
      */
     public void initialize(int port, InetAddress ip) {
         try {
@@ -59,7 +61,8 @@ public class Network {
 
     /**
      * Initializes the network connection on the specified port.
-     * Waits for a client to connect and sends a message indicating whether the server is white or not.
+     * Waits for a client to connect and sends a message indicating whether the
+     * server is white or not.
      *
      * @param port the port number to listen on
      */
@@ -75,7 +78,7 @@ public class Network {
             PrintWriter out = new PrintWriter(outputStream, true);
 
             out.println(!isWhite);
-
+            System.out.flush();
             serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,7 +92,9 @@ public class Network {
      */
     public void sendMove(Move move) {
         try {
+            String header = "move";
             ObjectOutputStream out = new ObjectOutputStream(this.connectedSocket.getOutputStream());
+            out.writeObject(header);
             out.writeObject(move);
             out.flush();
         } catch (IOException e) {
@@ -107,11 +112,40 @@ public class Network {
         try {
             if (this.connectedSocket.getInputStream().available() > 0) {
                 ObjectInputStream in = new ObjectInputStream(this.connectedSocket.getInputStream());
-                move = (Move) in.readObject();
+                String header = (String) in.readObject();
+                if (header.equals("move"))
+                    move = (Move) in.readObject();
+                else
+                    // discard the ping
+                    in.readObject();
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return move;
+    }
+
+    public boolean isDisconnected() {
+        try {
+            // send a ping
+            String header = "ping";
+
+            // Synchronize on pingLock to avoid potential concurrency issues
+            ObjectOutputStream out = new ObjectOutputStream(connectedSocket.getOutputStream());
+            out.writeObject(header);
+            out.writeObject(header);
+            System.out.flush();
+            return false;
+        } catch (IOException e) {
+            return true;
+        }
+    }
+
+    public void disconnect() {
+        try {
+            connectedSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
