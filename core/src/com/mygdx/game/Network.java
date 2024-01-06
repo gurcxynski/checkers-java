@@ -31,6 +31,9 @@ public class Network {
         isServer = false;
         try {
             initialize(12345, InetAddress.getByName(ip));
+
+            if (connectedSocket == null)
+                return false;
         } catch (UnknownHostException e) {
             return false;
         }

@@ -1,7 +1,10 @@
 package com.mygdx.game.ui;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
@@ -34,6 +37,17 @@ public class JoinMenu extends Menu {
                     newStyle.fontColor = Color.WHITE;
                     newStyle.background = Game.skin.get("default", TextButtonStyle.class).down;
                     field.setStyle(newStyle);
+
+                    field.addListener(new InputListener() {
+                        @Override
+                        public boolean keyDown(InputEvent event, int keycode) {
+                            if (keycode == Input.Keys.ENTER) {
+                                Game.machine.joinOnlineGame(field.getText());
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
                 }
             }
         });
