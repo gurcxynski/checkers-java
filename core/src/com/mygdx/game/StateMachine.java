@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.ui.ConnectingMenu;
 import com.mygdx.game.ui.EndGameMenu;
 import com.mygdx.game.ui.StartMenu;
 import com.mygdx.game.ui.WrongIPMenu;
@@ -142,14 +143,29 @@ public class StateMachine {
         initializeGame();
     }
 
-    public void hostOnlineGame(boolean white) {
-        onlineGame = true;
-        network.connect(white);
-        playingWhiteOnline = white;
+    public void hostOnlineGame(final boolean white) {
+        activeStage = new ConnectingMenu();
+        Gdx.input.setInputProcessor(activeStage);
+        Thread serverThread = new Thread(() -> {
+            onlineGame = true;
+            network.connect(white);
+            if (!onlineGame) {
+                return;
+            }
 
-        this.scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(this::startPinging, 0, 100, TimeUnit.MILLISECONDS);
-        initializeGame();
+            playingWhiteOnline = white;
+
+            this.scheduler = Executors.newScheduledThreadPool(1);
+            scheduler.scheduleAtFixedRate(this::startPinging, 0, 100, TimeUnit.MILLISECONDS);
+            Gdx.app.postRunnable(() -> initializeGame());
+        });
+
+        serverThread.start();
+    }
+
+    public void cancelHosting() {
+        this.onlineGame = false;
+        this.network.cancelHosting();
     }
 
     public void joinOnlineGame(String ip) {

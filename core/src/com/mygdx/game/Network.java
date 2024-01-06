@@ -18,6 +18,7 @@ public class Network {
 
     public boolean isWhite;
     public boolean isServer;
+    private ServerSocket serverSocket;
 
     public void connect(boolean isWhite) {
         isServer = true;
@@ -32,7 +33,7 @@ public class Network {
         try {
             initialize(12345, InetAddress.getByName(ip));
 
-            if (connectedSocket == null)
+            if (connectedSocket == null || connectedSocket.isClosed())
                 return false;
         } catch (UnknownHostException e) {
             return false;
@@ -72,18 +73,37 @@ public class Network {
      */
     public void initialize(int port) {
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
+            this.serverSocket = new ServerSocket(port);
             System.out.println("Server waiting for clients at port " + port);
+            try {
+                connectedSocket = serverSocket.accept();
+                System.out.println("Client connected.");
 
-            connectedSocket = serverSocket.accept();
-            System.out.println("Client connected.");
+                OutputStream outputStream = connectedSocket.getOutputStream();
+                PrintWriter out = new PrintWriter(outputStream, true);
 
-            OutputStream outputStream = connectedSocket.getOutputStream();
-            PrintWriter out = new PrintWriter(outputStream, true);
+                out.println(!isWhite);
+                System.out.flush();
+                serverSocket.close();
 
-            out.println(!isWhite);
-            System.out.flush();
-            serverSocket.close();
+            } catch (IOException e) {
+            } finally {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cancelHosting() {
+        try {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,7 +144,6 @@ public class Network {
                     in.readObject();
             }
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
         }
         return move;
     }
