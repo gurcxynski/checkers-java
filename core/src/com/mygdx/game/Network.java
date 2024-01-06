@@ -27,13 +27,14 @@ public class Network {
 
     }
 
-    public void connect(String ip) {
+    public boolean connect(String ip) {
         isServer = false;
         try {
             initialize(12345, InetAddress.getByName(ip));
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -55,7 +56,7 @@ public class Network {
 
             this.isWhite = Boolean.parseBoolean(in.readLine());
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 

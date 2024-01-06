@@ -10,6 +10,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.EndGameMenu;
 import com.mygdx.game.ui.StartMenu;
+import com.mygdx.game.ui.WrongIPMenu;
 
 /**
  * The StateMachine class represents the state machine for the game.
@@ -152,8 +153,12 @@ public class StateMachine {
     }
 
     public void joinOnlineGame(String ip) {
+        if (!network.connect(ip)) {
+            activeStage = new WrongIPMenu();
+            Gdx.input.setInputProcessor(activeStage);
+            return;
+        }
         onlineGame = true;
-        network.connect(ip);
         playingWhiteOnline = network.isWhite;
 
         this.scheduler = Executors.newScheduledThreadPool(1);
