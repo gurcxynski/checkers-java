@@ -38,25 +38,28 @@ public class Board extends Stage {
                 String clickedField = Helpers.convertCords(gridX, gridY);
                 Piece clickedPiece = getPiece(gridX, gridY);
 
+                if (Game.machine.onlineGame && Game.machine.turnWhiteLocal != Game.machine.playingOnlineWhite)
+                    return true;
+
                 // pick up a piece
-                if (clickedPiece != null && clickedPiece.isWhite() == Game.machine.isTurnOf()) {
+                if (clickedPiece != null && clickedPiece.isWhite() == Game.machine.isWhiteTurn()) {
                     held = getPiece(gridX, gridY);
                     return true;
                 }
                 // execute a move
                 if (!(held != null && clickedPiece == null))
                     return true;
-                Move move = new Move(held.getFieldString() + clickedField, Game.machine.isTurnOf());
+                Move move = new Move(held.getFieldString() + clickedField, Game.machine.isWhiteTurn());
 
                 if (!isValid(move))
                     return true;
 
                 // force captures
                 Move last = Game.machine.lastMove();
-                if (last != null && !last.hasKinged && last.ofWhite == Game.machine.isTurnOf()
+                if (last != null && !last.hasKinged && last.ofWhite == Game.machine.isWhiteTurn()
                         && !(sameField(move.from, last.to) && move.isCapture())) {
                     return true;
-                } else if (hasToCapture(Game.machine.isTurnOf()) && !move.isCapture())
+                } else if (hasToCapture(Game.machine.isWhiteTurn()) && !move.isCapture())
                     return true;
 
                 executeMove(move);
@@ -114,8 +117,8 @@ public class Board extends Stage {
             pieces.add(new Piece(i * 2, 6, false));
             pieces.add(new Piece(i * 2 + 1, 5, false));
         }
-        //pieces.add(new Piece(0, 0, true));
-        //pieces.add(new Piece(2, 2, false));
+        // pieces.add(new Piece(0, 0, true));
+        // pieces.add(new Piece(2, 2, false));
         for (Actor piece : pieces) {
             addActor(piece);
         }

@@ -31,9 +31,9 @@ public class StateMachine {
 
     GameState state;
 
-    boolean playingWhiteOnline;
     public boolean onlineGame;
 
+    boolean playingOnlineWhite;
     boolean turnWhiteLocal;
 
     public Stage activeStage;
@@ -75,6 +75,7 @@ public class StateMachine {
             return;
 
         Game.machine.state = GameState.AWAITING_LOCAL;
+        turnWhiteLocal = !turnWhiteLocal;
 
         if (((Board) activeStage).isGameOver())
             endGame();
@@ -104,8 +105,8 @@ public class StateMachine {
 
         if (onlineGame)
             state = GameState.AWATING_NETWORK;
-        else
-            turnWhiteLocal = !turnWhiteLocal;
+
+        turnWhiteLocal = !turnWhiteLocal;
 
         if (((Board) activeStage).isGameOver())
             endGame();
@@ -123,15 +124,16 @@ public class StateMachine {
         return moveList.get(moveList.size() - 1);
     }
 
-    boolean isTurnOf() {
-        if (onlineGame)
-            return playingWhiteOnline;
+    boolean isWhiteTurn() {
         return turnWhiteLocal;
     }
 
     private void initializeGame() {
         activeStage = new Board();
-        state = (onlineGame ? playingWhiteOnline : true) ? GameState.AWAITING_LOCAL : GameState.AWATING_NETWORK;
+        if (onlineGame)
+            state = playingOnlineWhite ? GameState.AWAITING_LOCAL : GameState.AWATING_NETWORK;
+        else
+            state = GameState.AWAITING_LOCAL;
         Gdx.input.setInputProcessor(activeStage);
         moveList = new ArrayList<Move>();
     }
@@ -153,7 +155,8 @@ public class StateMachine {
                 return;
             }
 
-            playingWhiteOnline = white;
+            turnWhiteLocal = true;
+            playingOnlineWhite = white;
 
             this.scheduler = Executors.newScheduledThreadPool(1);
             scheduler.scheduleAtFixedRate(this::startPinging, 0, 100, TimeUnit.MILLISECONDS);
@@ -174,8 +177,10 @@ public class StateMachine {
             Gdx.input.setInputProcessor(activeStage);
             return;
         }
+
         onlineGame = true;
-        playingWhiteOnline = network.isWhite;
+        turnWhiteLocal = true;
+        playingOnlineWhite = network.isWhite;
 
         this.scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(this::startPinging, 0, 100, TimeUnit.MILLISECONDS);
@@ -238,7 +243,7 @@ public class StateMachine {
     }
 
     boolean drawBlackDown() {
-        if (onlineGame && !playingWhiteOnline)
+        if (onlineGame && !playingOnlineWhite)
             return true;
         return false;
     }
