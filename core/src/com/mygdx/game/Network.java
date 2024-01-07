@@ -9,9 +9,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Network {
     Socket connectedSocket;
@@ -35,7 +35,7 @@ public class Network {
 
             if (connectedSocket == null || connectedSocket.isClosed())
                 return false;
-        } catch (UnknownHostException e) {
+        } catch (IOException e) {
             return false;
         }
         return true;
@@ -49,19 +49,17 @@ public class Network {
      *
      * @param port the port number to connect to
      * @param ip   the IP address to connect to
+     * @throws IOException
      */
-    public void initialize(int port, InetAddress ip) {
-        try {
-            connectedSocket = new Socket(ip, port);
-            System.out.println("connnected");
+    public void initialize(int port, InetAddress ip) throws IOException {
+        connectedSocket = new Socket();
+        connectedSocket.connect(new InetSocketAddress(ip, port), 100);
+        System.out.println("connnected");
 
-            InputStream inputStream = connectedSocket.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        InputStream inputStream = connectedSocket.getInputStream();
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
 
-            this.isWhite = Boolean.parseBoolean(in.readLine());
-        } catch (IOException e) {
-
-        }
+        this.isWhite = Boolean.parseBoolean(in.readLine());
     }
 
     /**
