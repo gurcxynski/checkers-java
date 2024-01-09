@@ -23,7 +23,7 @@ public class JoinMenu extends Menu {
         style.fontColor = Color.LIGHT_GRAY;
         style.background = Game.skin.get("default", TextButtonStyle.class).up;
 
-        field = new TextField("Click here to input IP", style);
+        field = new TextField("Enter host IP adress", style);
         field.setAlignment(Align.center);
 
         field.addListener(new FocusListener() {
@@ -53,7 +53,7 @@ public class JoinMenu extends Menu {
         });
 
         super.table.add(field).pad(30).padBottom(70).width(WindowConfig.BUTTON_DEFAULT_WIDTH)
-                .height(WindowConfig.BUTTON_DEFAULT_HEIGHT / 2).row();
+                .height((int)(WindowConfig.BUTTON_DEFAULT_HEIGHT / 1.5)).row();
 
         super.addTextButton(new MyTextButton("CONNECT", new MyListener() {
             public void onClick() {

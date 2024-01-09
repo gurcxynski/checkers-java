@@ -21,8 +21,8 @@ public class OptionsMenu extends Menu {
                     new MyListener() {
                         public void onClick() {
                             Game.style = a;
-                            if (Game.machine.ret_board != null)
-                                Game.machine.ret_board.updateColor();
+                            if (Game.machine.getBoard() != null)
+                                Game.machine.getBoard().updateColor();
                         }
                     });
             btn.disable = new ArrayList<>();
@@ -43,7 +43,7 @@ public class OptionsMenu extends Menu {
             public void onClick() {
                 Game.machine.toMenu(StartMenu.class);
             }
-        })).pad(5).padTop(35).width(WindowConfig.BUTTON_DEFAULT_WIDTH).row();
+        })).pad(10).padTop(35).width(WindowConfig.BUTTON_DEFAULT_WIDTH).row();
 
         addActor(super.table);
     }

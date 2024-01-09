@@ -13,7 +13,7 @@ public class ConnectingMenu extends Menu {
         Label label;
         try {
             label = new Label("Hosting on " + InetAddress.getLocalHost().getHostAddress() + "...", Game.skin);
-            super.table.add(label);
+            super.table.add(label).padBottom(20);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

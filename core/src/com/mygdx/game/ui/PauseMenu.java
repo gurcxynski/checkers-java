@@ -31,7 +31,7 @@ public class PauseMenu extends Menu {
                     new MyListener() {
                         public void onClick() {
                             Game.style = a;
-                            Game.machine.ret_board.updateColor();
+                            Game.machine.getBoard().updateColor();
                         }
                     });
             btn.disable = new ArrayList<>();

@@ -22,13 +22,15 @@ public class Piece extends Actor {
     @Override
     public void draw(Batch batch, float p_alpha) {
         int size = WindowConfig.SIZE;
-        batch.draw(texture,
-                Game.machine.drawBlackDown() ? (7 * size) - (x * size - WindowConfig.MARGIN)
-                        : x * size + WindowConfig.MARGIN,
-                Game.machine.drawBlackDown() ? (7 * size) - (y * size - WindowConfig.MARGIN)
-                        : y * size + WindowConfig.MARGIN,
-                size, size);
-    }
+        final int [] pos = {Game.machine.drawBlackDown() ? (7 * size) - (x * size - WindowConfig.MARGIN)
+                    : x * size + WindowConfig.MARGIN,
+            Game.machine.drawBlackDown() ? (7 * size) - (y * size - WindowConfig.MARGIN)
+                    : y * size + WindowConfig.MARGIN};
+        if (Game.machine.getBoard().held == this) {
+            batch.draw(Game.skin.get("hint", Texture.class), pos[0], pos[1], size, size);
+        }
+        batch.draw(texture, pos[0], pos[1], size, size);
+        }
 
     public int[] getGrid() {
         return new int[] { x, y };

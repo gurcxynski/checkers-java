@@ -144,7 +144,7 @@ public class Board extends Stage {
                 getBatch().draw(Game.skin.get("chessboard" + Game.style, Texture.class),
                         i * (WindowConfig.SIZE * 2) + WindowConfig.MARGIN,
                         j * (WindowConfig.SIZE * 2) + WindowConfig.MARGIN, (WindowConfig.SIZE * 2),
-                        (WindowConfig.SIZE * 2));
+                        (WindowConfig.SIZE * 2));                
             }
         }
         getBatch().end();

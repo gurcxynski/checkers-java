@@ -7,7 +7,7 @@ public class WrongIPMenu extends Menu {
     public WrongIPMenu() {
         super();
 
-        Label label = new Label("Wrong IP", Game.skin);
+        Label label = new Label("IP is incorrect", Game.skin);
         super.table.add(label);
         super.table.row();
         super.addTextButton(new MyTextButton("BACK", new MyListener() {

@@ -36,9 +36,9 @@ public class StateMachine {
     boolean playingOnlineWhite;
     boolean turnWhiteLocal;
 
-    public Stage activeStage;
+    private Stage activeStage;
 
-    public Board ret_board = null;
+    private Board ret_board = null;
     GameState ret_state = null;
 
     ArrayList<Move> moveList;
@@ -126,6 +126,13 @@ public class StateMachine {
 
     boolean isWhiteTurn() {
         return turnWhiteLocal;
+    }
+
+    public Board getBoard() {
+        if (ret_board != null) return ret_board;
+        if (activeStage instanceof Board)
+            return (Board) activeStage;
+        return null;
     }
 
     private void initializeGame() {

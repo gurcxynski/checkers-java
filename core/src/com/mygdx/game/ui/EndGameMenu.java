@@ -8,9 +8,9 @@ public class EndGameMenu extends Menu {
         super(false);
         Label label = new Label(
                 hasDisconnected ? "OPPONENT DISCONNECTED" : (winner ? "WHITE" : "BLACK") + " WON!", Game.skin);
-        super.table.add(label);
+        super.table.add(label).pad(30);
         super.table.row();
-        super.table.add(new MyTextButton("MAIN MENU", new MyListener() {
+        super.addTextButton(new MyTextButton("BACK TO MAIN MENU", new MyListener() {
             public void onClick() {
                 Game.machine.toMenu(StartMenu.class);
             }

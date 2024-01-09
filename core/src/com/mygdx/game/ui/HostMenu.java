@@ -1,6 +1,5 @@
 package com.mygdx.game.ui;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ public class HostMenu extends Menu {
         white.disable.add(black);
         black.disable.add(white);
 
-        Label label1 = new Label("Choose \na color!", Game.skin);
+        Label label1 = new Label("Choose your\n piece color!", Game.skin);
         super.table.add(white).width(WindowConfig.BUTTON_DEFAULT_HEIGHT)
                 .height(WindowConfig.BUTTON_DEFAULT_HEIGHT).pad(20);
         super.table.add(label1);
@@ -32,10 +31,6 @@ public class HostMenu extends Menu {
                 .height(WindowConfig.BUTTON_DEFAULT_HEIGHT).pad(20);
         super.table.row();
 
-        Label label2 = new Label("Game will be hosted at:\n" + InetAddress.getLocalHost().getHostAddress(), Game.skin);
-        label2.setAlignment(1);
-
-        super.table.add(label2).colspan(3).pad(20).row();
         super.addTextButton(3, new MyTextButton("HOST", new MyListener() {
             public void onClick() {
                 Game.machine.hostOnlineGame(white.isChecked());
