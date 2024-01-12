@@ -137,6 +137,7 @@ public class StateMachine {
 
     private void initializeGame() {
         activeStage = new Board();
+        ret_board = null;
         if (onlineGame)
             state = playingOnlineWhite ? GameState.AWAITING_LOCAL : GameState.AWATING_NETWORK;
         else
