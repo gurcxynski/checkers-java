@@ -2,6 +2,9 @@ package com.mygdx.game;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -137,8 +140,9 @@ public class Board extends Stage {
     @Override
     public void draw() {
         getBatch().begin();
-        getBatch().draw(Game.skin.get("background", Texture.class), 0, 0, WindowConfig.OUTSIDE_SQUARE,
-                WindowConfig.OUTSIDE_SQUARE);
+        Color color = Styles.getBackgroundColor(Game.style);
+        Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 getBatch().draw(Game.skin.get("chessboard" + Game.style, Texture.class),
