@@ -83,4 +83,7 @@ public class MyButton extends Button {
         setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, size, size);
         init(texture, listener);
     }
+    public void updateStyle() {
+        setStyle(Game.skin.get("default", ButtonStyle.class));
+    }
 }

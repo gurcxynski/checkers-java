@@ -54,4 +54,7 @@ public class MyTextButton extends TextButton {
         setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, width, height);
         addListener(listenerFactory(listener));
     }
+    public void updateStyle() {
+        setStyle(Game.skin.get("default", TextButtonStyle.class));
+    }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.ui.ConnectingMenu;
 import com.mygdx.game.ui.EndGameMenu;
+import com.mygdx.game.ui.Menu;
 import com.mygdx.game.ui.StartMenu;
 import com.mygdx.game.ui.WrongIPMenu;
 
@@ -256,4 +257,9 @@ public class StateMachine {
         return false;
     }
 
+    public void updateStyles() {
+        System.out.println("Updating styles," + (activeStage instanceof Menu));
+        if (activeStage instanceof Menu)
+            ((Menu) activeStage).updateStyles();
+    }
 }

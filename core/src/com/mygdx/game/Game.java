@@ -80,5 +80,6 @@ public class Game extends ApplicationAdapter {
 		style = i;
 		skin.remove("default", TextButtonStyle.class);
 		skin.add("default", Styles.buttonStyles[style - 1]);
+		machine.updateStyles();
 	}
 }

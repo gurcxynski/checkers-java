@@ -2,6 +2,7 @@ package com.mygdx.game.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -67,5 +68,10 @@ public class Menu extends Stage {
 
         this.drawBackground = false;
         init();
+    }
+    public void updateStyles(){
+        for (Actor button : table.getChildren()) {
+            if (button instanceof MyTextButton) ((MyTextButton)button).updateStyle();
+        }
     }
 }
