@@ -42,7 +42,8 @@ public class OptionsMenu extends Menu {
             public void onClick() {
                 Game.machine.toMenu(StartMenu.class);
             }
-        })).pad(10).padTop(35).width(WindowConfig.BUTTON_DEFAULT_WIDTH).row();
+        })).pad(10).padTop(35).width(WindowConfig.BUTTON_DEFAULT_WIDTH)
+        .height((int)(WindowConfig.BUTTON_DEFAULT_HEIGHT * 0.75)).row();
 
         addActor(super.table);
     }

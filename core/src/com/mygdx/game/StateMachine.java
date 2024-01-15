@@ -258,7 +258,6 @@ public class StateMachine {
     }
 
     public void updateStyles() {
-        System.out.println("Updating styles," + (activeStage instanceof Menu));
         if (activeStage instanceof Menu)
             ((Menu) activeStage).updateStyles();
     }
