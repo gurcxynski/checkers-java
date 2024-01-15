@@ -3,8 +3,8 @@ package com.mygdx.game.ui;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Game;
+import com.mygdx.game.Styles;
 import com.mygdx.game.WindowConfig;
 
 public class PauseMenu extends Menu {
@@ -22,16 +22,16 @@ public class PauseMenu extends Menu {
                 }));
 
         LinkedList<MyTextButton> buttons = new LinkedList<MyTextButton>();
-        int n = Gdx.files.internal("assets/skins/").list().length;
-        String[] names = { "gray", "wooden", "black and white" };
+        int n = Styles.buttonStyles.length;
         for (int i = 1; i <= n; i++) {
-            final int a = i;
+            int a = i;
             MyTextButton btn = new MyTextButton(
-                    names[i - 1].toUpperCase(),
+                    Styles.styles[i - 1].toUpperCase(),
                     new MyListener() {
                         public void onClick() {
-                            Game.style = a;
-                            Game.machine.getBoard().updateColor();
+                            Game.changeStyle(a);
+                            if (Game.machine.getBoard() != null)
+                                Game.machine.getBoard().updateColor();
                         }
                     });
             btn.disable = new ArrayList<>();

@@ -68,5 +68,4 @@ public class Menu extends Stage {
         this.drawBackground = false;
         init();
     }
-
 }

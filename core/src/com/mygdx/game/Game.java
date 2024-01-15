@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.mygdx.game.StateMachine.GameState;
 
 public class Game extends ApplicationAdapter {
@@ -25,7 +25,8 @@ public class Game extends ApplicationAdapter {
 
 		loadTextures("assets/");
 		loadFont();
-
+		Styles.loadStyles();
+		skin.add("default", Styles.buttonStyles[style - 1]);
 		machine = new StateMachine();
 	}
 
@@ -66,18 +67,18 @@ public class Game extends ApplicationAdapter {
 
 		generator.dispose();
 
-		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-		buttonStyle.up = skin.getDrawable("buttonup");
-		buttonStyle.down = skin.getDrawable("buttondown");
-		buttonStyle.checked = skin.getDrawable("buttonchecked");
-		buttonStyle.font = normalFont;
 
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = normalFont;
 
-		skin.add("default", buttonStyle);
 		skin.add("default", labelStyle);
 		skin.add("font", normalFont, BitmapFont.class);
 		skin.add("h_font", headerFont, BitmapFont.class);
+	}
+
+	public static void changeStyle(int i) {
+		style = i;
+		skin.remove("default", TextButtonStyle.class);
+		skin.add("default", Styles.buttonStyles[style - 1]);
 	}
 }
