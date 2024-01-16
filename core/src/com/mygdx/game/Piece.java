@@ -53,8 +53,8 @@ public class Piece extends Actor {
     }
 
     public void kingMe() {
-        texture = Game.skin.get(white ? "whiteking" : (Game.style == 2 ? "redking" : "blackking"), Texture.class);
         isKing = true;
+        updateColor();
     }
 
     public void updateColor() {
