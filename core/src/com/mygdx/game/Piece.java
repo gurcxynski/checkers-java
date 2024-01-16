@@ -16,7 +16,7 @@ public class Piece extends Actor {
         isKing = false;
         this.x = x;
         this.y = y;
-        texture = Game.skin.get(white ? "white" : (Game.style == 2 ? "red" : "black"), Texture.class);
+        texture = Styles.getPieceTexture(white);
     }
 
     @Override
@@ -58,10 +58,7 @@ public class Piece extends Actor {
     }
 
     public void updateColor() {
-        texture = Game.skin.get(white ? "white" : (Game.style == 2 ? "red" : "black"), Texture.class);
-        if (isKing)
-            texture = Game.skin.get(white ? "white_king" : (Game.style == 2 ? "red_king" : "black_king"),
-                    Texture.class);
+        texture = (isKing) ? Styles.getKingTexture(white) : Styles.getPieceTexture(white);
     }
 
     public void moveTo(int x, int y) {

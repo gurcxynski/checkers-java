@@ -260,5 +260,7 @@ public class StateMachine {
     public void updateStyles() {
         if (activeStage instanceof Menu)
             ((Menu) activeStage).updateStyles();
+        if (activeStage instanceof Board)
+            ((Board) activeStage).updateColor();
     }
 }

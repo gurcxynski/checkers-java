@@ -17,16 +17,16 @@ public class Game extends ApplicationAdapter {
 	public static Skin skin;
 
 	public static StateMachine machine;
-	public static int style = 1;
+	public static int style = 0;
 
 	@Override
 	public void create() {
 		skin = new Skin();
 
-		loadTextures("assets/");
+		loadTextures();
 		loadFont();
 		Styles.loadStyles();
-		skin.add("default", Styles.buttonStyles[style - 1]);
+		skin.add("default", Styles.buttonStyles[style]);
 		machine = new StateMachine();
 	}
 
@@ -36,17 +36,19 @@ public class Game extends ApplicationAdapter {
 			machine.checkForIncoming();
 		machine.draw();
 	}
-
+	private void loadTextures() {
+		loadTextures("assets/");
+	}
 	private void loadTextures(String path) {
 		FileHandle[] files = Gdx.files.internal(path).list();
-
+		
 		for (FileHandle file : files) {
 			if (file.isDirectory()) {
 				this.loadTextures(path + file.name() + "/");
 			} else {
 				if (file.extension().equals("png")) {
 					String textureName = file.nameWithoutExtension();
-					skin.add(textureName, new Texture(path + file.name()));
+					skin.add(path.replace("assets/", "").replace("skins/", "").replace("/", "_") + textureName, new Texture(path + file.name()));
 				}
 			}
 		}
@@ -79,7 +81,7 @@ public class Game extends ApplicationAdapter {
 	public static void changeStyle(int i) {
 		style = i;
 		skin.remove("default", TextButtonStyle.class);
-		skin.add("default", Styles.buttonStyles[style - 1]);
+		skin.add("default", Styles.buttonStyles[style]);
 		machine.updateStyles();
 	}
 }

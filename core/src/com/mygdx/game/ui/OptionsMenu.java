@@ -13,10 +13,10 @@ public class OptionsMenu extends Menu {
 
         LinkedList<MyTextButton> buttons = new LinkedList<MyTextButton>();
         int n = Styles.buttonStyles.length;
-        for (int i = 1; i <= n; i++) {
+        for (int i = 0; i < n; i++) {
             int a = i;
             MyTextButton btn = new MyTextButton(
-                    Styles.styles[i - 1].toUpperCase(),
+                    Styles.styles[i].toUpperCase(),
                     new MyListener() {
                         public void onClick() {
                             Game.changeStyle(a);

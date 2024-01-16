@@ -23,8 +23,9 @@ import com.mygdx.game.ui.PauseMenu;
 public class Board extends Stage {
     ArrayList<Piece> pieces;
     Piece held;
-
+    Texture texture;
     public Board() {
+        texture = Styles.getBoardTexture();
         initialize();
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -120,8 +121,6 @@ public class Board extends Stage {
             pieces.add(new Piece(i * 2, 6, false));
             pieces.add(new Piece(i * 2 + 1, 5, false));
         }
-        // pieces.add(new Piece(0, 0, true));
-        // pieces.add(new Piece(2, 2, false));
         for (Actor piece : pieces) {
             addActor(piece);
         }
@@ -145,14 +144,17 @@ public class Board extends Stage {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                getBatch().draw(Game.skin.get("chessboard" + Game.style, Texture.class),
-                        i * (WindowConfig.SIZE * 2) + WindowConfig.MARGIN,
+                getBatch().draw(texture, i * (WindowConfig.SIZE * 2) + WindowConfig.MARGIN,
                         j * (WindowConfig.SIZE * 2) + WindowConfig.MARGIN, (WindowConfig.SIZE * 2),
                         (WindowConfig.SIZE * 2));                
             }
         }
         getBatch().end();
         super.draw();
+    }
+
+    public void updateTexture() {
+        texture = Styles.getBoardTexture();
     }
 
     public boolean isDraw() {
@@ -256,6 +258,7 @@ public class Board extends Stage {
 
     public void updateColor() {
         for (Piece piece : pieces) {
+            updateTexture();
             piece.updateColor();
         }
     }
