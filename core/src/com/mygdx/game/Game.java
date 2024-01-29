@@ -31,6 +31,12 @@ public class Game extends ApplicationAdapter {
 	}
 
 	@Override
+    public void dispose() {
+        StateMachine.network.disconnect();
+        super.dispose();
+    }
+
+	@Override
 	public void render() {
 		if (machine.state == GameState.AWATING_NETWORK)
 			machine.checkForIncoming();
