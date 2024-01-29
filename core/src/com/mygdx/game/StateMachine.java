@@ -26,7 +26,7 @@ public class StateMachine {
         AWATING_NETWORK
     }
 
-    Network network;
+    static Network network;
     ScheduledExecutorService scheduler;
     final Object pingLock = new Object();
 
