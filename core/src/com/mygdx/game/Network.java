@@ -163,6 +163,8 @@ public class Network {
     }
 
     public void disconnect() {
+        if (connectedSocket == null || connectedSocket.isClosed())
+            return;
         try {
             connectedSocket.close();
         } catch (IOException e) {
