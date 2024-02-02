@@ -2,6 +2,10 @@ package com.mygdx.game.ui;
 
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -35,9 +39,10 @@ public class MyButton extends Button {
     }
 
     public void init(String texture_up, String texture_down, String texture_checked, MyListener listener) {
-        Drawable up = Game.skin.getDrawable(texture_up);
-        Drawable down = Game.skin.getDrawable(texture_down);
-        Drawable checked = Game.skin.getDrawable(texture_checked);
+        Drawable up = createFilteredDrawable(texture_up);
+        Drawable down = createFilteredDrawable(texture_down);
+        Drawable checked = createFilteredDrawable(texture_checked);
+
         ButtonStyle style = new ButtonStyle();
         style.down = down;
         style.up = up;
@@ -47,13 +52,23 @@ public class MyButton extends Button {
     }
 
     public void init(String textureName, MyListener listener) {
-        Drawable texture = Game.skin.getDrawable(textureName);
+        Drawable texture = createFilteredDrawable(textureName);
+
         ButtonStyle style = new ButtonStyle();
         style.down = texture;
         style.up = texture;
         style.checked = texture;
         setStyle(style);
         addListener(listenerFactory(listener));
+    }
+
+    // for smoothing out the edges
+    private Drawable createFilteredDrawable(String texturePath) {
+        Texture texture = new Texture(Gdx.files.internal(texturePath + ".png"));
+
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
     public MyButton(int tier, String texture_up, String texture_down, String texture_checked,
@@ -83,6 +98,7 @@ public class MyButton extends Button {
         setBounds(x + WindowConfig.MARGIN, y + WindowConfig.MARGIN, size, size);
         init(texture, listener);
     }
+
     public void updateStyle() {
         setStyle(Game.skin.get("default", ButtonStyle.class));
     }
