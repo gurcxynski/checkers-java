@@ -94,7 +94,7 @@ public class StateMachine {
     public void disconnectOnline() {
         scheduler.shutdown();
         this.onlineGame = false;
-        this.network.disconnect();
+        network.disconnect();
     }
 
     public void onMoveExecuted() {
@@ -177,7 +177,7 @@ public class StateMachine {
 
     public void cancelHosting() {
         this.onlineGame = false;
-        this.network.cancelHosting();
+        network.cancelHosting();
     }
 
     public void joinOnlineGame(String ip) {
